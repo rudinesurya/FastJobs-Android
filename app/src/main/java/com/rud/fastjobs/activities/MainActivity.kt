@@ -1,10 +1,11 @@
-package com.rud.fastjobs
+package com.rud.fastjobs.activities
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import com.rud.fastjobs.R
+
 
 class MainActivity : AppCompatActivity() {
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
