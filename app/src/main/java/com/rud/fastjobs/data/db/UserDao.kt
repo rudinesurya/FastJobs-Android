@@ -1,10 +1,12 @@
 package com.rud.fastjobs.data.db
 
+import androidx.lifecycle.LiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.kiwimob.firestore.livedata.livedata
 import com.rud.fastjobs.data.model.User
 import java.util.*
 
@@ -18,10 +20,8 @@ class UserDao {
         get() = storageInstance.reference.child(FirebaseAuth.getInstance().currentUser?.uid!!)
 
 
-    fun getCurrentUser(onComplete: (User) -> Unit) {
-        currentUserDocRef.get().addOnSuccessListener {
-            onComplete(it.toObject(User::class.java)!!)
-        }
+    fun getCurrentUserLiveData(): LiveData<User> {
+        return currentUserDocRef.livedata(User::class.java)
     }
 
     fun initCurrentUserIfNew(onComplete: () -> Unit) {

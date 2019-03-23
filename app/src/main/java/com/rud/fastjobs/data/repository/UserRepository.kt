@@ -1,12 +1,13 @@
 package com.rud.fastjobs.data.repository
 
+import androidx.lifecycle.LiveData
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.model.User
 
 
 class UserRepository(private val userDao: UserDao) {
-    fun getCurrentUser(onComplete: (User) -> Unit) {
-        userDao.getCurrentUser(onComplete)
+    fun getCurrentUserLiveData(): LiveData<User> {
+        return userDao.getCurrentUserLiveData()
     }
 
     fun initCurrentUserIfNew(onComplete: () -> Unit) {
