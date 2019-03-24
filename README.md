@@ -31,6 +31,39 @@ It has some form of social networking feature, eg. the ability to view user's pr
 ## UI Design
 
 
+## Model View ViewModel(MVVM) with Clean Architecture
+
+Architecture components help you structure your app in a way that is robust, testable, and maintainable with less boilerplate code.
+
+This diagram shows a basic form of this architecture:
+
+<img src="readme_img/mvvm_arch.png" width="400">
+
+
+#### LiveData: A data holder class that can be observed. The UI that is observing the livedata will react when data changes.
+
+#### ViewModel: Provides data to the UI. Acts as a communication center between the Repository and the UI. Hides where the data originates from the UI. ViewModel instances survive Activity/Fragment recreation.
+<img src="readme_img/viewmodel_lifecycle.png" width="200">
+
+#### Repository: A Repository class abstracts access to multiple data sources.
+
+#### DAO: Data access object. Interface between Repository and the database.
+
+#### Firestore: cloud persistence database which also supports caching for offline data.
+
+#### Model: The model data class.
+
+
+### Advantages of MVVM with Clean Architecture
++ MVVM separates your view (i.e. Activitys and Fragments) from your business logic.
++ Your code is further decoupled.
++ The package structure gets easier to navigate.
++ The project is easier to maintain.
++ Your team can add new features more quickly.
+
+
+
+
 ## Third party libraries
 
 + android arch
@@ -52,3 +85,5 @@ It has some form of social networking feature, eg. the ability to view user's pr
 
 
 ## References
+
+
