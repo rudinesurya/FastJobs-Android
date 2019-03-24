@@ -1,17 +1,19 @@
 package com.rud.fastjobs.viewmodel
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.ptrbrynt.firestorelivedata.FirestoreResource
+import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.UserRepository
-import com.rud.fastjobs.utils.lazyDeferred
 
 
 class AccountViewModel(private val userRepository: UserRepository) : ViewModel() {
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
 
-    val currentUser by lazyDeferred {
-        userRepository.getCurrentUserLiveData()
+    fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
+        userRepository.getCurrentUser(onSuccess)
     }
 
     fun updateCurrentUser(name: String = "", bio: String = "", avatarUrl: String? = null) {

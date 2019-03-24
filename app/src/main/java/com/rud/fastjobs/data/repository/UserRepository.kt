@@ -1,17 +1,18 @@
 package com.rud.fastjobs.data.repository
 
 import androidx.lifecycle.LiveData
+import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.model.User
 
 
 class UserRepository(private val userDao: UserDao) {
-    fun getCurrentUserLiveData(): LiveData<User> {
-        return userDao.getCurrentUserLiveData()
+    fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
+        userDao.getCurrentUser(onSuccess)
     }
 
-    fun initCurrentUserIfNew(onComplete: () -> Unit) {
-        userDao.initCurrentUserIfNew(onComplete)
+    fun initCurrentUserIfNew(onSuccess: () -> Unit) {
+        userDao.initCurrentUserIfNew(onSuccess)
     }
 
     fun updateCurrentUser(name: String = "", bio: String = "", avatarUrl: String? = null) {

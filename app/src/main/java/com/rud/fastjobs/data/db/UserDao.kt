@@ -6,7 +6,8 @@ import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-import com.kiwimob.firestore.livedata.livedata
+import com.ptrbrynt.firestorelivedata.FirestoreResource
+import com.ptrbrynt.firestorelivedata.asLiveData
 import com.rud.fastjobs.data.model.User
 import java.util.*
 
@@ -20,11 +21,12 @@ class UserDao {
         get() = storageInstance.reference.child(FirebaseAuth.getInstance().currentUser?.uid!!)
 
 
-    fun getCurrentUserLiveData(): LiveData<User> {
-        return currentUserDocRef.livedata(User::class.java)
+    fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
+        val result = currentUserDocRef.asLiveData<User>()
+        onSuccess(result)
     }
 
-    fun initCurrentUserIfNew(onComplete: () -> Unit) {
+    fun initCurrentUserIfNew(onSuccess: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener {
             if (!it.exists()) {
                 val currentUser = FirebaseAuth.getInstance().currentUser
@@ -34,9 +36,9 @@ class UserDao {
                     null
                 )
 
-                currentUserDocRef.set(newUser).addOnSuccessListener { onComplete() }
+                currentUserDocRef.set(newUser).addOnSuccessListener { onSuccess() }
             } else
-                onComplete()
+                onSuccess()
         }
     }
 

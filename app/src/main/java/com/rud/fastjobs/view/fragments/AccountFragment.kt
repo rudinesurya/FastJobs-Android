@@ -9,18 +9,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.lifecycle.Observer
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.firebase.ui.auth.AuthUI
-import com.rud.coffeemate.ui.fragments.ScopedFragment
+import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
+import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.view.activities.SignInActivity
 import com.rud.fastjobs.view.glide.GlideApp
 import com.rud.fastjobs.viewmodel.AccountViewModel
 import com.rud.fastjobs.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
-import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -29,7 +29,7 @@ import timber.log.Timber
 import java.io.ByteArrayOutputStream
 
 
-class AccountFragment : ScopedFragment(), KodeinAware {
+class AccountFragment : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: AccountViewModelFactory by instance()
     private lateinit var viewModel: AccountViewModel
@@ -44,15 +44,28 @@ class AccountFragment : ScopedFragment(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(AccountViewModel::class.java)
 
-        launch {
-            viewModel.currentUser.await().observe(this@AccountFragment, Observer { user ->
-                Timber.d("currentUser changes observed")
+        viewModel.getCurrentUser { user ->
+            user.observe(this@AccountFragment, object : ResourceObserver<User> {
+                override fun onSuccess(user: User?) {
+                    // Handle successful result here
+                    Timber.d("currentUser changes observed")
+                    editText_displayName.setText(user!!.name)
+                    editText_bio.setText(user.bio)
 
-                editText_displayName.setText(user.name)
-                editText_bio.setText(user.bio)
-                if (!viewModel.pictureJustChanged && user.avatarUrl != null) {
-                    GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
-                        .into(imageView_avatar)
+                    if (!viewModel.pictureJustChanged && user.avatarUrl != null) {
+                        GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
+                            .into(imageView_avatar)
+                    }
+                }
+
+                override fun onError(throwable: Throwable?, errorMessage: String?) {
+                    // Handle errors here
+                    Timber.e(errorMessage)
+                }
+
+                override fun onLoading() {
+                    // Handle loading state e.g. display a loading animation
+                    Timber.d("loading current user observer")
                 }
             })
         }
