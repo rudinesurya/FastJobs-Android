@@ -11,11 +11,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
-import com.firebase.ui.auth.AuthUI
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.data.model.User
-import com.rud.fastjobs.view.activities.SignInActivity
 import com.rud.fastjobs.view.glide.GlideApp
 import com.rud.fastjobs.viewmodel.AccountViewModel
 import com.rud.fastjobs.viewmodel.AccountViewModelFactory
@@ -83,16 +81,6 @@ class AccountFragment : Fragment(), KodeinAware {
             btn_save.setOnClickListener {
                 viewModel.handleSave(editText_displayName.text.toString(), editText_bio.text.toString())
                 Toast.makeText(this@AccountFragment.context!!, "Saved!", Toast.LENGTH_SHORT).show()
-            }
-
-            btn_sign_out.setOnClickListener {
-                AuthUI.getInstance().signOut(this@AccountFragment.context!!)
-                    .addOnCompleteListener {
-                        val intent = Intent(this@AccountFragment.context!!, SignInActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                        Toast.makeText(this@AccountFragment.context!!, "Signed out!", Toast.LENGTH_SHORT).show()
-                    }
             }
         }
 

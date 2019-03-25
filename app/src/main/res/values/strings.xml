@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">FastJobs</string>
-
+    <string name="title_jobDashboard">Job Dashboard</string>
+    <string name="title_account">Account</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_signOut">Sign Out</string>
 </resources>
