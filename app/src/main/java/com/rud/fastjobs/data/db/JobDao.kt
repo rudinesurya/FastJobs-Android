@@ -7,10 +7,7 @@ import com.ptrbrynt.firestorelivedata.asLiveData
 import com.rud.fastjobs.data.model.Job
 
 
-class JobDao {
-    private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
-
-
+class JobDao(private val firestoreInstance: FirebaseFirestore) {
     fun getAllJobs(onSuccess: (jobs: LiveData<FirestoreResource<List<Job>>>) -> Unit) {
         val result = firestoreInstance.collection("jobs").asLiveData<Job>()
         onSuccess(result)

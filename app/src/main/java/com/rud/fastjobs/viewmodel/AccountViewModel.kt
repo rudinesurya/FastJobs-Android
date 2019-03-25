@@ -5,26 +5,26 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.data.model.User
-import com.rud.fastjobs.data.repository.UserRepository
+import com.rud.fastjobs.data.repository.MyRepository
 
 
-class AccountViewModel(private val userRepository: UserRepository) : ViewModel() {
+class AccountViewModel(private val myRepository: MyRepository) : ViewModel() {
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
 
     fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
-        userRepository.getCurrentUser(onSuccess)
+        myRepository.getCurrentUser(onSuccess)
     }
 
     fun updateCurrentUser(name: String = "", bio: String = "", avatarUrl: String? = null) {
-        userRepository.updateCurrentUser(name, bio, avatarUrl)
+        myRepository.updateCurrentUser(name, bio, avatarUrl)
     }
 
     fun uploadAvatar(imageBytes: ByteArray, onSuccess: (imagePath: String) -> Unit) {
-        userRepository.uploadAvatar(imageBytes, onSuccess)
+        myRepository.uploadAvatar(imageBytes, onSuccess)
     }
 
-    fun pathToReference(path: String) = userRepository.pathToReference(path)
+    fun pathToReference(path: String) = myRepository.pathToReference(path)
 
     fun handleSave(displayName: String, bio: String) {
         if (selectedImageBytes != null) {
@@ -37,11 +37,11 @@ class AccountViewModel(private val userRepository: UserRepository) : ViewModel()
     }
 }
 
-class AccountViewModelFactory(private val userRepository: UserRepository) :
+class AccountViewModelFactory(private val myRepository: MyRepository) :
     ViewModelProvider.NewInstanceFactory() {
 
     @SuppressWarnings("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return AccountViewModel(userRepository) as T
+        return AccountViewModel(myRepository) as T
     }
 }

@@ -12,13 +12,15 @@ import com.rud.fastjobs.data.model.User
 import java.util.*
 
 
-class UserDao {
-    private val firestoreInstance: FirebaseFirestore by lazy { FirebaseFirestore.getInstance() }
-    private val storageInstance: FirebaseStorage by lazy { FirebaseStorage.getInstance() }
+class UserDao(
+    private val firestoreInstance: FirebaseFirestore,
+    private val storageInstance: FirebaseStorage,
+    private val firebaseAuth: FirebaseAuth
+) {
     private val currentUserDocRef: DocumentReference
-        get() = firestoreInstance.document("users/${FirebaseAuth.getInstance().currentUser?.uid!!}")
+        get() = firestoreInstance.document("users/${firebaseAuth.currentUser?.uid!!}")
     private val currentUserStorageRef: StorageReference
-        get() = storageInstance.reference.child(FirebaseAuth.getInstance().currentUser?.uid!!)
+        get() = storageInstance.reference.child(firebaseAuth.currentUser?.uid!!)
 
 
     fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
@@ -29,7 +31,7 @@ class UserDao {
     fun initCurrentUserIfNew(onSuccess: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener {
             if (!it.exists()) {
-                val currentUser = FirebaseAuth.getInstance().currentUser
+                val currentUser = firebaseAuth.currentUser
                 val newUser = User(
                     currentUser?.displayName ?: "John Doe",
                     "",

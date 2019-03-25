@@ -8,7 +8,7 @@ import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.User
 
 
-class UserRepository(private val userDao: UserDao, private val jobDao: JobDao) {
+class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
     fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
         userDao.getCurrentUser(onSuccess)
     }

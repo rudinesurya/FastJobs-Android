@@ -8,7 +8,7 @@ import com.firebase.ui.auth.AuthUI
 import com.firebase.ui.auth.ErrorCodes
 import com.firebase.ui.auth.IdpResponse
 import com.rud.fastjobs.R
-import com.rud.fastjobs.data.repository.UserRepository
+import com.rud.fastjobs.data.repository.MyRepository
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
@@ -18,7 +18,7 @@ import timber.log.Timber
 
 class SignInActivity : AppCompatActivity(), KodeinAware {
     override val kodein: Kodein by closestKodein()
-    private val userRepository: UserRepository by instance()
+    private val myRepository: MyRepository by instance()
     private val RC_SIGN_IN = 1;
 
     // Choose authentication providers
@@ -53,7 +53,7 @@ class SignInActivity : AppCompatActivity(), KodeinAware {
 
             if (resultCode == Activity.RESULT_OK) {
                 // Successfully signed in
-                userRepository.initCurrentUserIfNew {
+                myRepository.initCurrentUserIfNew {
                     Timber.d("Successfully signed in")
                     val intent = Intent(this, MainActivity::class.java)
                     intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
