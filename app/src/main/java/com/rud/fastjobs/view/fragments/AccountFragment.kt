@@ -56,14 +56,14 @@ class AccountFragment : Fragment(), KodeinAware {
                     }
                 }
 
-                override fun onError(throwable: Throwable?, errorMessage: String?) {
-                    // Handle errors here
-                    Timber.e(errorMessage)
-                }
-
                 override fun onLoading() {
                     // Handle loading state e.g. display a loading animation
                     Timber.d("loading current user observer")
+                }
+
+                override fun onError(throwable: Throwable?, errorMessage: String?) {
+                    // Handle errors here
+                    Timber.e(errorMessage)
                 }
             })
         }

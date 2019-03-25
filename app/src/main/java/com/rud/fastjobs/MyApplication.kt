@@ -1,9 +1,11 @@
 package com.rud.fastjobs
 
 import android.app.Application
+import com.rud.fastjobs.data.db.JobDao
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.repository.UserRepository
 import com.rud.fastjobs.viewmodel.AccountViewModelFactory
+import com.rud.fastjobs.viewmodel.JobListViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -23,8 +25,11 @@ class MyApplication : Application(), KodeinAware {
     override val kodein = Kodein.lazy {
         import(androidXModule(this@MyApplication))
 
+//        bind() from singleton {  }
         bind() from singleton { UserDao() }
-        bind() from singleton { UserRepository(instance()) }
+        bind() from singleton { JobDao() }
+        bind() from singleton { UserRepository(instance(), instance()) }
         bind() from provider { AccountViewModelFactory(instance()) }
+        bind() from provider { JobListViewModelFactory(instance()) }
     }
 }
