@@ -43,7 +43,7 @@ This diagram shows a basic form of this architecture:
 #### LiveData: A data holder class that can be observed. The UI that is observing the livedata will react when data changes.
 
 #### ViewModel: Provides data to the UI. Acts as a communication center between the Repository and the UI. Hides where the data originates from the UI. ViewModel instances survive Activity/Fragment recreation.
-<img src="readme_img/viewmodel_lifecycle.png" width="200">
+<img src="readme_img/viewmodel_lifecycle.png" width="400">
 
 #### Repository: A Repository class abstracts access to multiple data sources.
 
