@@ -38,7 +38,11 @@ class AccountFragment : Fragment(), KodeinAware {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_account, container, false)
+        return inflater.inflate(R.layout.fragment_account, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(AccountViewModel::class.java)
 
@@ -83,8 +87,6 @@ class AccountFragment : Fragment(), KodeinAware {
                 Toast.makeText(this@AccountFragment.context!!, "Saved!", Toast.LENGTH_SHORT).show()
             }
         }
-
-        return view
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

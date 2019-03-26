@@ -5,13 +5,9 @@
              android:layout_height="match_parent"
              tools:context=".view.fragments.JobListFragment">
 
-    <TextView android:id="@+id/jobList"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"/>
-
-    <!--<com.airbnb.epoxy.EpoxyRecyclerView-->
-    <!--android:id="@+id/recyclerView"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="match_parent" />-->
+    <com.airbnb.epoxy.EpoxyRecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
 
 </FrameLayout>
