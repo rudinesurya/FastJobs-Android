@@ -35,6 +35,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:16.2.0'
     implementation 'com.firebaseui:firebase-ui-auth:4.3.1'
 
+    //Google Map
+    implementation 'com.google.android.libraries.places:places:1.0.0'
+
     //Google Firestore
     implementation 'com.google.firebase:firebase-firestore:18.1.0'
 
@@ -98,6 +101,8 @@ dependencies {
     // junit 4
     testImplementation 'junit:junit:4.12'
     testImplementation "org.assertj:assertj-core:3.11.1"
+    androidTestImplementation 'androidx.test:core:1.1.0'
+    androidTestImplementation 'androidx.test.ext:junit:1.1.0'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
     androidTestImplementation 'androidx.test:rules:1.1.2-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
