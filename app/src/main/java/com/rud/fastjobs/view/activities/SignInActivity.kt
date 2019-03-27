@@ -51,25 +51,29 @@ class SignInActivity : AppCompatActivity(), KodeinAware {
         if (requestCode == RC_SIGN_IN) {
             val response = IdpResponse.fromResultIntent(data)
 
-            if (resultCode == Activity.RESULT_OK) {
-                // Successfully signed in
-                myRepository.initCurrentUserIfNew {
-                    Timber.d("Successfully signed in")
-                    val intent = Intent(this, MainActivity::class.java)
-                    intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                    startActivity(intent)
-                }
-            } else {
-                // Sign in failed. If response is null the user canceled the
-                // sign-in flow using the back button. Otherwise check
-                // response.getError().getErrorCode() and handle the error.
-                if (response != null) {
-                    when (response.error?.errorCode) {
-                        ErrorCodes.NO_NETWORK -> Timber.e("No Network")
-                        else -> Timber.e("Unknown Error")
+            when (resultCode) {
+                Activity.RESULT_OK -> {
+                    // Successfully signed in
+                    myRepository.initCurrentUserIfNew {
+                        Timber.d("Successfully signed in")
+                        val intent = Intent(this, MainActivity::class.java)
+                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                        startActivity(intent)
                     }
-                } else {
-                    Timber.e("User cancelled the sign in")
+                }
+
+                else -> {
+                    // Sign in failed. If response is null the user canceled the
+                    // sign-in flow using the back button. Otherwise check
+                    // response.getError().getErrorCode() and handle the error.
+                    if (response != null) {
+                        when (response.error?.errorCode) {
+                            ErrorCodes.NO_NETWORK -> Timber.e("No Network")
+                            else -> Timber.e("Unknown Error")
+                        }
+                    } else {
+                        Timber.e("User cancelled the sign in")
+                    }
                 }
             }
         }

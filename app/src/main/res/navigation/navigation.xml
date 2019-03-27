@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:app="http://schemas.android.com/apk/res-auto" xmlns:tools="http://schemas.android.com/tools"
-            android:id="@+id/navigation" app:startDestination="@id/jobDashboardFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation"
+    app:startDestination="@id/jobDashboardFragment">
 
-    <fragment android:id="@+id/jobDashboardFragment"
-              android:name="com.rud.fastjobs.view.fragments.JobDashboardFragment" android:label="fragment_job_dashboard"
-              tools:layout="@layout/fragment_job_dashboard"/>
-    <fragment android:id="@+id/accountFragment" android:name="com.rud.fastjobs.view.fragments.AccountFragment"
-              android:label="fragment_account" tools:layout="@layout/fragment_account"/>
+    <fragment
+        android:id="@+id/jobDashboardFragment"
+        android:name="com.rud.fastjobs.view.fragments.JobDashboardFragment"
+        android:label="fragment_job_dashboard"
+        tools:layout="@layout/fragment_job_dashboard" />
+    <fragment
+        android:id="@+id/accountFragment"
+        android:name="com.rud.fastjobs.view.fragments.AccountFragment"
+        android:label="fragment_account"
+        tools:layout="@layout/fragment_account" />
+    <fragment
+        android:id="@+id/jobRegistrationFragment"
+        android:name="com.rud.fastjobs.view.fragments.JobRegistrationFragment"
+        android:label="fragment_job_registration"
+        tools:layout="@layout/fragment_job_registration" />
 </navigation>

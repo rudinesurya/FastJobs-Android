@@ -8,10 +8,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
+import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.view.recyclerView.JobListController
 import com.rud.fastjobs.viewmodel.JobListViewModel
-import com.rud.fastjobs.viewmodel.JobListViewModelFactory
 import kotlinx.android.synthetic.main.fragment_job_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -22,7 +22,7 @@ import timber.log.Timber
 
 class JobListFragment : Fragment(), KodeinAware, JobListController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
-    private val viewModelFactory: JobListViewModelFactory by instance()
+    private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobListViewModel
     private val controller: JobListController = JobListController(this)
 

@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
-        <item android:id="@+id/jobDashboardFragment"
-              android:title="@string/title_jobDashboard"/>
+        <item
+            android:id="@+id/jobDashboardFragment"
+            android:title="@string/title_jobDashboard" />
 
-        <item android:id="@+id/accountFragment"
-              android:title="@string/title_account"/>
+        <item
+            android:id="@+id/accountFragment"
+            android:title="@string/title_account" />
 
-        <item android:id="@+id/signOut"
-              android:title="@string/title_signOut"/>
+        <item
+            android:id="@+id/jobRegistrationFragment"
+            android:title="@string/title_jobRegistration" />
+
+        <item
+            android:id="@+id/signOut"
+            android:title="@string/title_signOut" />
     </group>
 </menu>

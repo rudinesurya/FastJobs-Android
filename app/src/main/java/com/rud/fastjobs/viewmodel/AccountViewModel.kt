@@ -2,7 +2,6 @@ package com.rud.fastjobs.viewmodel
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.ViewModelProvider
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
@@ -34,14 +33,5 @@ class AccountViewModel(private val myRepository: MyRepository) : ViewModel() {
         } else {
             updateCurrentUser(displayName, bio)
         }
-    }
-}
-
-class AccountViewModelFactory(private val myRepository: MyRepository) :
-    ViewModelProvider.NewInstanceFactory() {
-
-    @SuppressWarnings("UNCHECKED_CAST")
-    override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return AccountViewModel(myRepository) as T
     }
 }

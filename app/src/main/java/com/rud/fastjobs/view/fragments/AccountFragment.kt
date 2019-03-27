@@ -13,10 +13,10 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
+import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.view.glide.GlideApp
 import com.rud.fastjobs.viewmodel.AccountViewModel
-import com.rud.fastjobs.viewmodel.AccountViewModelFactory
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import org.kodein.di.Kodein
@@ -29,7 +29,7 @@ import java.io.ByteArrayOutputStream
 
 class AccountFragment : Fragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
-    private val viewModelFactory: AccountViewModelFactory by instance()
+    private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: AccountViewModel
     private val RC_SELECT_IMAGE = 2
 

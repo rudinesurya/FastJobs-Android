@@ -7,8 +7,6 @@ import com.google.firebase.storage.FirebaseStorage
 import com.rud.fastjobs.data.db.JobDao
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.repository.MyRepository
-import com.rud.fastjobs.viewmodel.AccountViewModelFactory
-import com.rud.fastjobs.viewmodel.JobListViewModelFactory
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -34,7 +32,6 @@ class MyApplication : Application(), KodeinAware {
         bind() from singleton { UserDao(instance(), instance(), instance()) }
         bind() from singleton { JobDao(instance()) }
         bind() from singleton { MyRepository(instance(), instance()) }
-        bind() from provider { AccountViewModelFactory(instance()) }
-        bind() from provider { JobListViewModelFactory(instance()) }
+        bind() from provider { ViewModelFactory(instance()) }
     }
 }

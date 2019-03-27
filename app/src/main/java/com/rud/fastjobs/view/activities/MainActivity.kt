@@ -10,8 +10,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.firebase.ui.auth.AuthUI
+import com.google.android.libraries.places.api.Places
 import com.google.android.material.navigation.NavigationView
 import com.rud.fastjobs.R
+import com.rud.fastjobs.utils.Config
 import kotlinx.android.synthetic.main.activity_main.*
 import timber.log.Timber
 
@@ -27,6 +29,12 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.setDisplayShowHomeEnabled(true)
         setupNavigation()
+
+        // Initialize Places.
+        val apiKey = Config.googleApiKey
+        Places.initialize(this, apiKey)
+        // Create a new Places client instance.
+        Places.createClient(this)
     }
 
     private fun setupNavigation() {
@@ -53,7 +61,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (menuItem.itemId) {
             R.id.jobDashboardFragment,
-            R.id.accountFragment -> navController.navigate(menuItem.itemId)
+            R.id.accountFragment,
+            R.id.jobRegistrationFragment
+            -> navController.navigate(menuItem.itemId)
 
             R.id.signOut -> {
                 AuthUI.getInstance().signOut(this@MainActivity)
