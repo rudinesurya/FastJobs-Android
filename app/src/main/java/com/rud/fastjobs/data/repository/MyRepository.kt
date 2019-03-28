@@ -29,11 +29,19 @@ class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
 
     fun pathToReference(path: String) = userDao.pathToReference(path)
 
-    fun getAllJobs(onComplete: (jobs: LiveData<FirestoreResource<List<Job>>>) -> Unit) {
-        jobDao.getAllJobs(onComplete)
+    fun getAllJobsLiveData(onComplete: (jobs: LiveData<FirestoreResource<List<Job>>>) -> Unit) {
+        jobDao.getAllJobsLiveData(onComplete)
     }
 
     fun addJob(job: Job, onComplete: (Task<DocumentReference>) -> Unit) {
         jobDao.addJob(job, onComplete)
+    }
+
+    fun updateJob(id: String, jobFieldMap: Map<String, Any>) {
+        jobDao.updateJob(id, jobFieldMap)
+    }
+
+    fun getJobById(id: String, onSuccess: (job: Job?) -> Unit) {
+        jobDao.getJobById(id, onSuccess)
     }
 }

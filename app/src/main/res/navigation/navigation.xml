@@ -9,7 +9,11 @@
         android:id="@+id/jobDashboardFragment"
         android:name="com.rud.fastjobs.view.fragments.JobDashboardFragment"
         android:label="fragment_job_dashboard"
-        tools:layout="@layout/fragment_job_dashboard" />
+        tools:layout="@layout/fragment_job_dashboard">
+        <action
+            android:id="@+id/action_onItemClick"
+            app:destination="@id/jobDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/accountFragment"
         android:name="com.rud.fastjobs.view.fragments.AccountFragment"
@@ -19,5 +23,21 @@
         android:id="@+id/jobRegistrationFragment"
         android:name="com.rud.fastjobs.view.fragments.JobRegistrationFragment"
         android:label="fragment_job_registration"
-        tools:layout="@layout/fragment_job_registration" />
+        tools:layout="@layout/fragment_job_registration">
+        <argument
+            android:name="jobId"
+            app:argType="string"
+            app:nullable="true" />
+    </fragment>
+    <fragment
+        android:id="@+id/jobDetailFragment"
+        android:name="com.rud.fastjobs.view.fragments.JobDetailFragment"
+        android:label="JobDetailFragment">
+        <action
+            android:id="@+id/action_edit"
+            app:destination="@id/jobRegistrationFragment" />
+        <argument
+            android:name="jobId"
+            app:argType="string" />
+    </fragment>
 </navigation>

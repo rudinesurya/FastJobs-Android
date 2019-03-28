@@ -6,7 +6,7 @@ import com.rud.fastjobs.data.model.Job
 
 class JobListController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
     interface AdapterCallbacks {
-        fun onItemClick(id: Long)
+        fun onItemClick(id: String)
     }
 
     var filter: String = ""
@@ -16,7 +16,7 @@ class JobListController(private val callbacks: AdapterCallbacks) : TypedEpoxyCon
             jobItem {
                 id(it.id)
                 job(it)
-                onClick { model, _, _, _ -> callbacks.onItemClick(model.id()) }
+                onClick { model, modelview, _, _ -> callbacks.onItemClick(modelview.job.id!!) }
             }
         }
     }

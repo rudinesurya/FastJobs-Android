@@ -43,6 +43,24 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobRegistrationViewModel::class.java)
 
+        arguments?.let {
+            val safeArgs = JobRegistrationFragmentArgs.fromBundle(it)
+            safeArgs.jobId?.let { id ->
+                viewModel.getJobById(id) { job ->
+                    if (job != null) {
+                        viewModel.currentJob = job
+
+                        editText_title.setText(job.title)
+                        editText_payout.setText(job.payout.toString())
+                        editText_description.setText(job.description)
+                        checkBox_urgency.isChecked = job.urgency
+
+                        btn_save.text = "Update Job"
+                    }
+                }
+            }
+        }
+
         editText_venue.setOnClickListener {
             // Set the fields to specify which types of place data to
             // return after the user has made a selection.
@@ -56,17 +74,29 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
         }
 
         btn_save.setOnClickListener {
-            val newJob = Job(
-                title = editText_title.text.toString(),
-                hostName = "host",
-                hostUid = "123",
-                hostAvatarUrl = "123",
-                description = editText_description.text.toString(),
-                payout = editText_payout.text.toString().toDouble(),
-                urgency = checkBox_urgency.isChecked
-            )
-            viewModel.addJob(newJob)
-            Toast.makeText(this@JobRegistrationFragment.context!!, "Saved!", Toast.LENGTH_SHORT).show()
+            if (viewModel.currentJob != null) {
+                //updating current job
+                viewModel.handleSave(
+                    title = editText_title.text.toString(),
+                    description = editText_description.text.toString(),
+                    payout = editText_payout.text.toString().toDouble(),
+                    urgency = checkBox_urgency.isChecked
+                )
+
+                Toast.makeText(this@JobRegistrationFragment.context!!, "Updated!", Toast.LENGTH_SHORT).show()
+            } else {
+                val newJob = Job(
+                    title = editText_title.text.toString(),
+                    hostName = "host",
+                    hostUid = "123",
+                    hostAvatarUrl = "123",
+                    description = editText_description.text.toString(),
+                    payout = editText_payout.text.toString().toDouble(),
+                    urgency = checkBox_urgency.isChecked
+                )
+                viewModel.addJob(newJob)
+                Toast.makeText(this@JobRegistrationFragment.context!!, "Saved!", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 

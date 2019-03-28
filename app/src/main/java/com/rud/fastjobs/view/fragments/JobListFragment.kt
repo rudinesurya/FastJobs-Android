@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.fragment.findNavController
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
@@ -40,7 +41,7 @@ class JobListFragment : Fragment(), KodeinAware, JobListController.AdapterCallba
             .get(JobListViewModel::class.java)
 
         initRecyclerView(view)
-        viewModel.getAllJobs { jobs ->
+        viewModel.getAllJobsLiveData { jobs ->
             jobs.observe(this, object : ResourceObserver<List<Job>> {
                 override fun onSuccess(jobs: List<Job>?) {
                     Timber.d("jobs changes observed")
@@ -64,7 +65,9 @@ class JobListFragment : Fragment(), KodeinAware, JobListController.AdapterCallba
         recycler_view.setController(controller)
     }
 
-    override fun onItemClick(id: Long) {
+    override fun onItemClick(id: String) {
         Timber.d("job [%s] clicked!", id)
+        val action = JobDashboardFragmentDirections.actionOnItemClick(id)
+        findNavController().navigate(action)
     }
 }
