@@ -8,7 +8,7 @@ import com.rud.fastjobs.data.repository.MyRepository
 
 
 class JobListViewModel(private val myRepository: MyRepository) : ViewModel() {
-    fun getAllJobs(onSuccess: (jobs: LiveData<FirestoreResource<List<Job>>>) -> Unit) {
-        myRepository.getAllJobs(onSuccess)
+    fun getAllJobs(onComplete: (jobs: LiveData<FirestoreResource<List<Job>>>) -> Unit) {
+        myRepository.getAllJobs(onComplete)
     }
 }

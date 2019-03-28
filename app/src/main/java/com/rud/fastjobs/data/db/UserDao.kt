@@ -23,9 +23,9 @@ class UserDao(
         get() = storageInstance.reference.child(firebaseAuth.currentUser?.uid!!)
 
 
-    fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
+    fun getCurrentUserLiveData(onComplete: (user: LiveData<FirestoreResource<User>>) -> Unit) {
         val result = currentUserDocRef.asLiveData<User>()
-        onSuccess(result)
+        onComplete(result)
     }
 
     fun initCurrentUserIfNew(onSuccess: () -> Unit) {
@@ -33,9 +33,9 @@ class UserDao(
             if (!it.exists()) {
                 val currentUser = firebaseAuth.currentUser
                 val newUser = User(
-                    currentUser?.displayName ?: "John Doe",
-                    "",
-                    null
+                    name = currentUser?.displayName ?: "John Doe",
+                    bio = "",
+                    avatarUrl = null
                 )
 
                 currentUserDocRef.set(newUser).addOnSuccessListener { onSuccess() }
@@ -44,18 +44,9 @@ class UserDao(
         }
     }
 
-    fun updateCurrentUser(name: String = "", bio: String = "", avatarUrl: String? = null) {
-        val userFieldMap = mutableMapOf<String, Any>()
-
-        if (name.isNotBlank())
-            userFieldMap["name"] = name
-        if (bio.isNotBlank())
-            userFieldMap["bio"] = bio
-
-        avatarUrl?.let { userFieldMap["avatarUrl"] = it }
+    fun updateCurrentUser(userFieldMap: Map<String, Any>) {
         currentUserDocRef.update(userFieldMap)
     }
-
 
     fun uploadAvatar(imageBytes: ByteArray, onSuccess: (imagePath: String) -> Unit) {
         val ref = currentUserStorageRef.child("avatars/${UUID.nameUUIDFromBytes(imageBytes)}")

@@ -46,12 +46,13 @@ class AccountFragment : Fragment(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(AccountViewModel::class.java)
 
-        viewModel.getCurrentUser { user ->
+        viewModel.getCurrentUserLiveData { user ->
             user.observe(this@AccountFragment, object : ResourceObserver<User> {
                 override fun onSuccess(user: User?) {
                     // Handle successful result here
                     Timber.d("currentUser changes observed")
-                    editText_displayName.setText(user!!.name)
+                    viewModel.currentUser = user!!
+                    editText_displayName.setText(user.name)
                     editText_bio.setText(user.bio)
 
                     if (!viewModel.pictureJustChanged && user.avatarUrl != null) {

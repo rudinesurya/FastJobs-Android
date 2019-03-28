@@ -39,7 +39,7 @@ dependencies {
     implementation 'com.google.android.libraries.places:places:1.0.0'
 
     //Google Firestore
-    implementation 'com.google.firebase:firebase-firestore:18.1.0'
+    implementation 'com.google.firebase:firebase-firestore:18.2.0'
 
     //Google Firebase Storage
     implementation 'com.google.firebase:firebase-storage:16.1.0'
@@ -75,7 +75,7 @@ dependencies {
 
     // Kotlin Android Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.0'
-    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.0.0'
 
     // Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.4.0"

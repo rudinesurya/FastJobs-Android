@@ -8,15 +8,12 @@ import com.rud.fastjobs.data.repository.MyRepository
 
 
 class AccountViewModel(private val myRepository: MyRepository) : ViewModel() {
+    lateinit var currentUser: User
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
 
-    fun getCurrentUser(onSuccess: (user: LiveData<FirestoreResource<User>>) -> Unit) {
-        myRepository.getCurrentUser(onSuccess)
-    }
-
-    fun updateCurrentUser(name: String = "", bio: String = "", avatarUrl: String? = null) {
-        myRepository.updateCurrentUser(name, bio, avatarUrl)
+    fun getCurrentUserLiveData(onComplete: (user: LiveData<FirestoreResource<User>>) -> Unit) {
+        myRepository.getCurrentUserLiveData(onComplete)
     }
 
     fun uploadAvatar(imageBytes: ByteArray, onSuccess: (imagePath: String) -> Unit) {
@@ -26,12 +23,18 @@ class AccountViewModel(private val myRepository: MyRepository) : ViewModel() {
     fun pathToReference(path: String) = myRepository.pathToReference(path)
 
     fun handleSave(displayName: String, bio: String) {
+        val userFieldMap = mutableMapOf<String, Any>()
+
+        if (displayName.isNotBlank() && displayName != currentUser.name)
+            userFieldMap["name"] = displayName
+        if (bio != currentUser.bio)
+            userFieldMap["bio"] = bio
+
         if (selectedImageBytes != null) {
             uploadAvatar(selectedImageBytes!!) { imagePath ->
-                updateCurrentUser(displayName, bio, imagePath)
+                userFieldMap["avatarUrl"] = imagePath
             }
-        } else {
-            updateCurrentUser(displayName, bio)
         }
+        myRepository.updateCurrentUser(userFieldMap)
     }
 }
