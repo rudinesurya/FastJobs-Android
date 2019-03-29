@@ -1,26 +1,38 @@
 package com.rud.fastjobs.viewmodel
 
+import android.app.Application
+import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.ViewModel
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 
 
-class AccountViewModel(private val myRepository: MyRepository) : ViewModel() {
+class AccountViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
     lateinit var currentUser: User
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
 
-    fun getCurrentUserLiveData(onComplete: (user: LiveData<FirestoreResource<User>>) -> Unit) {
+    fun getCurrentUserLiveData(onComplete: (LiveData<FirestoreResource<User>>) -> Unit) {
         myRepository.getCurrentUserLiveData(onComplete)
     }
 
-    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (imagePath: String) -> Unit) {
-        myRepository.uploadAvatar(imageBytes, onSuccess)
+    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        myRepository.uploadAvatar(imageBytes, onSuccess = {
+            onSuccess(it)
+        }, onFailure = {
+            onFailure(it)
+        })
     }
 
     fun pathToReference(path: String) = myRepository.pathToReference(path)
+
+    fun updateCurrentUser(userFieldMap: Map<String, Any>) {
+        myRepository.updateCurrentUser(userFieldMap, onSuccess = {
+            Toast.makeText(getApplication(), "Saved!", Toast.LENGTH_SHORT).show()
+        }, onFailure = {})
+    }
 
     fun handleSave(displayName: String, bio: String) {
         val userFieldMap = mutableMapOf<String, Any>()
@@ -30,11 +42,20 @@ class AccountViewModel(private val myRepository: MyRepository) : ViewModel() {
         if (bio != currentUser.bio)
             userFieldMap["bio"] = bio
 
+        //if no new image is selected, or
+        //if image fails to be uploaded,
+        //update user without uploading image to storage
+        //else upload user data with the avatarurl to the storage path
         if (selectedImageBytes != null) {
-            uploadAvatar(selectedImageBytes!!) { imagePath ->
-                userFieldMap["avatarUrl"] = imagePath
-            }
-        }
-        myRepository.updateCurrentUser(userFieldMap)
+            uploadAvatar(selectedImageBytes!!,
+                onSuccess = { imagePath ->
+                    userFieldMap["avatarUrl"] = imagePath
+                    updateCurrentUser(userFieldMap)
+                },
+                onFailure = {
+                    updateCurrentUser(userFieldMap)
+                })
+        } else
+            updateCurrentUser(userFieldMap)
     }
 }

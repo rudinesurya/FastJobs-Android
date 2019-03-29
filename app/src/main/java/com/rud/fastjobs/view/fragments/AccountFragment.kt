@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.ptrbrynt.firestorelivedata.ResourceObserver
@@ -84,8 +83,10 @@ class AccountFragment : Fragment(), KodeinAware {
             }
 
             btn_save.setOnClickListener {
-                viewModel.handleSave(editText_displayName.text.toString(), editText_bio.text.toString())
-                Toast.makeText(this@AccountFragment.context!!, "Saved!", Toast.LENGTH_SHORT).show()
+                viewModel.handleSave(
+                    displayName = editText_displayName.text.toString(),
+                    bio = editText_bio.text.toString()
+                )
             }
         }
     }

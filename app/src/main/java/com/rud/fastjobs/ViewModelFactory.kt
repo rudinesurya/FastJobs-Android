@@ -16,7 +16,7 @@ class ViewModelFactory(private val myRepository: MyRepository, private val app: 
     @SuppressWarnings("UNCHECKED_CAST")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when (modelClass) {
-            AccountViewModel::class.java -> AccountViewModel(myRepository) as T
+            AccountViewModel::class.java -> AccountViewModel(myRepository, app) as T
             JobListViewModel::class.java -> JobListViewModel(myRepository) as T
             JobRegistrationViewModel::class.java -> JobRegistrationViewModel(myRepository, app) as T
             JobDetailViewModel::class.java -> JobDetailViewModel(myRepository) as T

@@ -44,14 +44,20 @@ class UserDao(
         }
     }
 
-    fun updateCurrentUser(userFieldMap: Map<String, Any>) {
-        currentUserDocRef.update(userFieldMap)
+    fun updateCurrentUser(userFieldMap: Map<String, Any>, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        currentUserDocRef.update(userFieldMap).addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener {
+            onFailure(it)
+        }
     }
 
-    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (imagePath: String) -> Unit) {
+    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
         val ref = currentUserStorageRef.child("avatars/${UUID.nameUUIDFromBytes(imageBytes)}")
         ref.putBytes(imageBytes).addOnSuccessListener {
             onSuccess(ref.path)
+        }.addOnFailureListener {
+            onFailure(it)
         }
     }
 

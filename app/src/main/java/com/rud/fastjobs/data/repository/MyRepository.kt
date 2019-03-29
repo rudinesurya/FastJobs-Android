@@ -9,7 +9,7 @@ import com.rud.fastjobs.data.model.User
 
 
 class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
-    fun getCurrentUserLiveData(onComplete: (user: LiveData<FirestoreResource<User>>) -> Unit) {
+    fun getCurrentUserLiveData(onComplete: (LiveData<FirestoreResource<User>>) -> Unit) {
         userDao.getCurrentUserLiveData(onComplete)
     }
 
@@ -17,12 +17,12 @@ class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
         userDao.initCurrentUserIfNew(onSuccess)
     }
 
-    fun updateCurrentUser(userFieldMap: Map<String, Any>) {
-        userDao.updateCurrentUser(userFieldMap)
+    fun updateCurrentUser(userFieldMap: Map<String, Any>, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+        userDao.updateCurrentUser(userFieldMap, onSuccess, onFailure)
     }
 
-    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (imagePath: String) -> Unit) {
-        userDao.uploadAvatar(imageBytes, onSuccess)
+    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
+        userDao.uploadAvatar(imageBytes, onSuccess, onFailure)
     }
 
     fun pathToReference(path: String) = userDao.pathToReference(path)
