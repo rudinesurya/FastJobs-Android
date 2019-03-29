@@ -1,42 +1,59 @@
 package com.rud.fastjobs.viewmodel
 
-import androidx.lifecycle.ViewModel
+import android.app.Application
+import android.widget.Toast
+import androidx.lifecycle.AndroidViewModel
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.repository.MyRepository
-import timber.log.Timber
 
 
-class JobRegistrationViewModel(private val myRepository: MyRepository) : ViewModel() {
+class JobRegistrationViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
     var currentJob: Job? = null
 
-    fun getJobById(id: String, onSuccess: (job: Job?) -> Unit) {
-        myRepository.getJobById(id, onSuccess)
+    fun getJobById(id: String, onSuccess: (Job) -> Unit) {
+        myRepository.getJobById(id, onSuccess = {
+            currentJob = it
+            onSuccess(it)
+        }, onFailure = {})
     }
 
     fun addJob(job: Job) {
-        myRepository.addJob(job) {
-            if (it.isSuccessful) {
-                Timber.d("Job added")
-            }
-        }
-    }
-
-    fun handleSave(title: String, payout: Double, description: String, urgency: Boolean) {
-        val jobFieldMap = mutableMapOf<String, Any>()
-
-        if (title.isNotBlank() && title != currentJob!!.title)
-            jobFieldMap["title"] = title
-        if (description.isNotBlank() && description != currentJob!!.description)
-            jobFieldMap["description"] = description
-        if (payout != currentJob!!.payout)
-            jobFieldMap["payout"] = payout
-        if (urgency != currentJob!!.urgency)
-            jobFieldMap["urgency"] = urgency
-
-        myRepository.updateJob(currentJob!!.id!!, jobFieldMap)
+        myRepository.addJob(job, onSuccess = {
+            Toast.makeText(getApplication(), "Saved!", Toast.LENGTH_SHORT).show()
+        }, onFailure = {})
     }
 
     fun updateJob(id: String, jobFieldMap: Map<String, Any>) {
-        myRepository.updateJob(id, jobFieldMap)
+        myRepository.updateJob(id, jobFieldMap, onSuccess = {
+            Toast.makeText(getApplication(), "Updated!", Toast.LENGTH_SHORT).show()
+        }, onFailure = {})
+    }
+
+    fun handleSave(title: String, payout: Double, description: String, urgency: Boolean) {
+        if (currentJob != null) {
+            val jobFieldMap = mutableMapOf<String, Any>()
+
+            if (title.isNotBlank() && title != currentJob!!.title)
+                jobFieldMap["title"] = title
+            if (description.isNotBlank() && description != currentJob!!.description)
+                jobFieldMap["description"] = description
+            if (payout != currentJob!!.payout)
+                jobFieldMap["payout"] = payout
+            if (urgency != currentJob!!.urgency)
+                jobFieldMap["urgency"] = urgency
+
+            updateJob(currentJob!!.id!!, jobFieldMap)
+        } else {
+            val newJob = Job(
+                title = title,
+                hostName = "host",
+                hostUid = "123",
+                hostAvatarUrl = "123",
+                description = description,
+                payout = payout,
+                urgency = urgency
+            )
+            addJob(newJob)
+        }
     }
 }

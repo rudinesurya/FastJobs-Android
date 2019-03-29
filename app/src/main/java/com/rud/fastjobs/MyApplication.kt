@@ -26,12 +26,13 @@ class MyApplication : Application(), KodeinAware {
     override val kodein = Kodein.lazy {
         import(androidXModule(this@MyApplication))
 
+        bind() from singleton { this@MyApplication }
         bind() from singleton { FirebaseAuth.getInstance() }
         bind() from singleton { FirebaseFirestore.getInstance() }
         bind() from singleton { FirebaseStorage.getInstance() }
         bind() from singleton { UserDao(instance(), instance(), instance()) }
         bind() from singleton { JobDao(instance()) }
         bind() from singleton { MyRepository(instance(), instance()) }
-        bind() from provider { ViewModelFactory(instance()) }
+        bind() from provider { ViewModelFactory(instance(), instance()) }
     }
 }
