@@ -1,5 +1,6 @@
 package com.rud.fastjobs.view.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -9,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.view.activities.MapsActivity
 import com.rud.fastjobs.viewmodel.JobDetailViewModel
 import kotlinx.android.synthetic.main.fragment_job_detail.*
 import org.kodein.di.Kodein
@@ -43,7 +45,12 @@ class JobDetailFragment : Fragment(), KodeinAware {
         }
 
         btn_openMap.setOnClickListener {
-
+            val intent = Intent(this@JobDetailFragment.context, MapsActivity::class.java)
+            val venue = viewModel.currentJob.venue
+            intent.putExtra("VENUE_NAME", venue?.name)
+            intent.putExtra("VENUE_LAT", venue?.geoPoint?.latitude)
+            intent.putExtra("VENUE_LNG", venue?.geoPoint?.longitude)
+            startActivity(intent)
         }
 
         btn_edit.setOnClickListener {
