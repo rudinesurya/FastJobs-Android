@@ -42,6 +42,10 @@ class JobDetailFragment : Fragment(), KodeinAware {
             }
         }
 
+        btn_openMap.setOnClickListener {
+
+        }
+
         btn_edit.setOnClickListener {
             val action = JobDetailFragmentDirections.actionEdit(viewModel.currentJob.id)
             findNavController().navigate(action)

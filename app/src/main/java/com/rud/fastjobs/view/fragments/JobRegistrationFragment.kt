@@ -11,8 +11,10 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.firebase.firestore.GeoPoint
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import kotlinx.android.synthetic.main.job_registration_form.*
 import org.kodein.di.Kodein
@@ -50,6 +52,7 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
                         editText_payout.setText(job.payout.toString())
                         editText_description.setText(job.description)
                         checkBox_urgency.isChecked = job.urgency
+                        editText_venue.setText(job.venue?.name)
 
                         btn_save.text = "Update Job"
                     })
@@ -59,7 +62,12 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
         editText_venue.setOnClickListener {
             // Set the fields to specify which types of place data to
             // return after the user has made a selection.
-            val fields = Arrays.asList(Place.Field.ID, Place.Field.NAME)
+            val fields = Arrays.asList(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.LAT_LNG,
+                Place.Field.ADDRESS
+            )
 
             // Start the autocomplete intent.
             val intent = Autocomplete.IntentBuilder(
@@ -84,8 +92,14 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
             when (resultCode) {
                 AutocompleteActivity.RESULT_OK -> {
                     val place = Autocomplete.getPlaceFromIntent(data!!)
-                    Timber.d("Place: " + place.name + ", " + place.id)
+                    viewModel.currentSelectedVenue =
+                        Venue(
+                            name = place.name!!,
+                            address = place.address!!,
+                            geoPoint = GeoPoint(place.latLng?.latitude!!, place.latLng?.longitude!!)
+                        )
                     editText_venue.setText(place.name)
+                    Timber.d("Place: " + place.name + ", " + place.latLng)
                 }
 
                 AutocompleteActivity.RESULT_ERROR -> {

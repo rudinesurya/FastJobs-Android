@@ -10,5 +10,6 @@ data class Job(
     val hostAvatarUrl: String = "",
     val description: String = "",
     val payout: Double = 0.0,
-    val urgency: Boolean = false
+    val urgency: Boolean = false,
+    val venue: Venue? = null
 ) : FirestoreModel()

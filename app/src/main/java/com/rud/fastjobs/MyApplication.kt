@@ -1,6 +1,7 @@
 package com.rud.fastjobs
 
 import android.app.Application
+import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
@@ -18,6 +19,8 @@ import timber.log.Timber
 
 
 class MyApplication : Application(), KodeinAware {
+    private lateinit var placesClient: PlacesClient
+
     init {
         Timber.plant(Timber.DebugTree())
         Timber.d("Timber planted")

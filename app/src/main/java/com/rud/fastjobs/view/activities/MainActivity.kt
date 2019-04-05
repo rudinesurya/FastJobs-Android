@@ -33,7 +33,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Initialize Places.
         val apiKey = Config.googleApiKey
         Places.initialize(this, apiKey)
-        // Create a new Places client instance.
         Places.createClient(this)
     }
 
