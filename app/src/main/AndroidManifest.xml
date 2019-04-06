@@ -33,9 +33,6 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".view.activities.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
-        <activity
             android:name=".view.activities.SplashActivity"
             android:noHistory="true"
             android:theme="@style/SplashTheme">

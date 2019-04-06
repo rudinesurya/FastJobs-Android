@@ -9,16 +9,29 @@ import androidx.core.view.GravityCompat
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.firebase.ui.auth.AuthUI
 import com.google.android.libraries.places.api.Places
 import com.google.android.material.navigation.NavigationView
+import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
+import com.rud.fastjobs.data.model.User
+import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.utils.Config
+import com.rud.fastjobs.view.glide.GlideApp
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.nav_drawer_header.view.*
+import org.kodein.di.Kodein
+import org.kodein.di.KodeinAware
+import org.kodein.di.android.closestKodein
+import org.kodein.di.generic.instance
 import timber.log.Timber
 
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigationItemSelectedListener {
+    override val kodein: Kodein by closestKodein()
+    private val myRepository: MyRepository by instance()
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -41,6 +54,36 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
         NavigationUI.setupWithNavController(nav_view, navController)
         nav_view.setNavigationItemSelectedListener(this)
+
+        nav_view.getHeaderView(0)?.apply {
+            myRepository.getCurrentUserLiveData { user ->
+                user.observe(this@MainActivity, object : ResourceObserver<User> {
+                    override fun onSuccess(user: User?) {
+                        user?.let { user ->
+                            user.avatarUrl?.let { avatarUrl ->
+                                GlideApp.with(this@MainActivity).load(myRepository.pathToReference(avatarUrl))
+                                    .transforms(CenterCrop(), RoundedCorners(100))
+                                    .into(imageView_avatar)
+                            }
+
+                            displayName.text = user.name
+                            email.text = user.email
+                        }
+                    }
+
+                    override fun onLoading() {
+                    }
+
+                    override fun onError(throwable: Throwable?, errorMessage: String?) {
+                    }
+                })
+            }
+
+            setOnClickListener {
+                navController.navigate(R.id.accountFragment)
+                drawer_layout.closeDrawers()
+            }
+        }
     }
 
     override fun onSupportNavigateUp(): Boolean {

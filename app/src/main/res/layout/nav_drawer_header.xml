@@ -8,10 +8,25 @@
     android:padding="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
+    <ImageView
+        android:id="@+id/imageView_avatar"
+        android:layout_width="80dp"
+        android:layout_height="80dp"
+        android:paddingTop="5dp"
+        android:scaleType="fitCenter" />
+
     <TextView
+        android:id="@+id/displayName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="My header title"
+        android:text="John Doe"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
+
+    <TextView
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="johndoe@gmail.com"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
 </LinearLayout>

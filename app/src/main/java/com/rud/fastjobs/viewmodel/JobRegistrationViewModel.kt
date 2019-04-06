@@ -12,7 +12,7 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, app: Appl
     var currentJob: Job? = null
     var currentSelectedVenue: Venue? = null
 
-    fun getJobById(id: String, onSuccess: (Job) -> Unit) {
+    fun getJobById(id: String, onSuccess: (Job?) -> Unit) {
         myRepository.getJobById(id, onSuccess = {
             currentJob = it
             onSuccess(it)

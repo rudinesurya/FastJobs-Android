@@ -28,12 +28,19 @@ class UserDao(
         onComplete(result)
     }
 
+    fun getCurrentUser(onSuccess: (User?) -> Unit) {
+        currentUserDocRef.get().addOnSuccessListener {
+            onSuccess(it.toObject(User::class.java))
+        }
+    }
+
     fun initCurrentUserIfNew(onSuccess: () -> Unit) {
         currentUserDocRef.get().addOnSuccessListener {
             if (!it.exists()) {
                 val currentUser = firebaseAuth.currentUser
                 val newUser = User(
                     name = currentUser?.displayName ?: "John Doe",
+                    email = currentUser?.email ?: "johndoe@gmail.com",
                     bio = "",
                     avatarUrl = null
                 )

@@ -40,10 +40,10 @@ class JobDao(private val firestoreInstance: FirebaseFirestore) {
         }
     }
 
-    fun getJobById(id: String, onSuccess: (Job) -> Unit, onFailure: (Exception) -> Unit) {
+    fun getJobById(id: String, onSuccess: (Job?) -> Unit, onFailure: (Exception) -> Unit) {
         jobsRef.document(id).get().addOnSuccessListener {
-            val job = it.toObject(Job::class.java)!!
-            job.id = id
+            val job = it.toObject(Job::class.java)
+            job?.id = id
             onSuccess(job)
         }.addOnFailureListener {
             onFailure(it)

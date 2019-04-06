@@ -48,7 +48,7 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
             safeArgs.jobId?.let { id ->
                 viewModel.getJobById(id,
                     onSuccess = { job ->
-                        editText_title.setText(job.title)
+                        editText_title.setText(job!!.title)
                         editText_payout.setText(job.payout.toString())
                         editText_description.setText(job.description)
                         checkBox_urgency.isChecked = job.urgency
@@ -71,7 +71,7 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
 
             // Start the autocomplete intent.
             val intent = Autocomplete.IntentBuilder(
-                AutocompleteActivityMode.OVERLAY, fields
+                AutocompleteActivityMode.FULLSCREEN, fields
             ).build(this.context!!)
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
         }

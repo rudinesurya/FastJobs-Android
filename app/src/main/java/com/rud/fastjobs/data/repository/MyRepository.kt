@@ -13,6 +13,10 @@ class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
         userDao.getCurrentUserLiveData(onComplete)
     }
 
+    fun getCurrentUser(onSuccess: (User?) -> Unit) {
+        userDao.getCurrentUser(onSuccess)
+    }
+
     fun initCurrentUserIfNew(onSuccess: () -> Unit) {
         userDao.initCurrentUserIfNew(onSuccess)
     }
@@ -39,7 +43,7 @@ class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
         jobDao.updateJob(id, jobFieldMap, onSuccess, onFailure)
     }
 
-    fun getJobById(id: String, onSuccess: (Job) -> Unit, onFailure: (Exception) -> Unit) {
+    fun getJobById(id: String, onSuccess: (Job?) -> Unit, onFailure: (Exception) -> Unit) {
         jobDao.getJobById(id, onSuccess, onFailure)
     }
 }

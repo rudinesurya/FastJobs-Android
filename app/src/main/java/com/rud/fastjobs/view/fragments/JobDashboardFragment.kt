@@ -10,7 +10,6 @@ import com.rud.fastjobs.R
 
 
 class JobDashboardFragment : Fragment() {
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
