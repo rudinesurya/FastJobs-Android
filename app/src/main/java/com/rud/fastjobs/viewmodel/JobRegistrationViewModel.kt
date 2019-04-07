@@ -6,11 +6,14 @@ import androidx.lifecycle.AndroidViewModel
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.utils.toTimestamp
+import java.time.LocalDateTime
 
 
 class JobRegistrationViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
     var currentJob: Job? = null
     var currentSelectedVenue: Venue? = null
+    var currentSelectedDate: LocalDateTime? = null
 
     fun getJobById(id: String, onSuccess: (Job?) -> Unit) {
         myRepository.getJobById(id, onSuccess = {
@@ -45,6 +48,8 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, app: Appl
                 jobFieldMap["urgency"] = urgency
             if (currentSelectedVenue != null)
                 jobFieldMap["venue"] = currentSelectedVenue!!
+            if (currentSelectedDate != null)
+                jobFieldMap["date"] = currentSelectedDate!!.toTimestamp()
 
             updateJob(currentJob!!.id!!, jobFieldMap)
         } else {
@@ -56,7 +61,8 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, app: Appl
                 description = description,
                 payout = payout,
                 urgency = urgency,
-                venue = currentSelectedVenue
+                venue = currentSelectedVenue,
+                date = currentSelectedDate!!.toTimestamp()
             )
             addJob(newJob)
         }

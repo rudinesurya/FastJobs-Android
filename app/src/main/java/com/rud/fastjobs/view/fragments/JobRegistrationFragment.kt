@@ -16,16 +16,20 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.job_registration_form.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
+import java.time.LocalDateTime
 import java.util.*
 
 
-class JobRegistrationFragment : Fragment(), KodeinAware {
+class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDateSetListener,
+    TimePickerDialog.OnTimeSetListener {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobRegistrationViewModel
@@ -76,6 +80,12 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
         }
 
+        editText_date.setOnClickListener {
+            val dpd = DatePickerDialog.newInstance(this)
+            dpd.version = DatePickerDialog.Version.VERSION_2
+            dpd.show(fragmentManager, "date picker")
+        }
+
         btn_save.setOnClickListener {
             viewModel.handleSave(
                 title = editText_title.text.toString(),
@@ -98,7 +108,7 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
                             address = place.address!!,
                             geoPoint = GeoPoint(place.latLng?.latitude!!, place.latLng?.longitude!!)
                         )
-                    editText_venue.setText(place.name)
+                    editText_venue.setText(place.address)
                     Timber.d("Place: " + place.name + ", " + place.latLng)
                 }
 
@@ -112,5 +122,21 @@ class JobRegistrationFragment : Fragment(), KodeinAware {
                 }
             }
         }
+    }
+
+    override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {
+        viewModel.currentSelectedDate =
+            LocalDateTime.now().withYear(year).withMonth(monthOfYear + 1).withDayOfMonth(dayOfMonth)
+//        Timber.d(viewModel.currentSelectedDate.toString())
+
+        val tpd = TimePickerDialog.newInstance(this, false)
+        tpd.version = TimePickerDialog.Version.VERSION_2
+        tpd.show(fragmentManager, "time picker")
+    }
+
+    override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
+        viewModel.currentSelectedDate = viewModel.currentSelectedDate!!.withHour(hourOfDay).withMinute(minute)
+//        Timber.d(viewModel.currentSelectedDate.toString())
+        editText_date.setText(viewModel.currentSelectedDate.toString())
     }
 }

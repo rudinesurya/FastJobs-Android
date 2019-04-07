@@ -1,5 +1,6 @@
 package com.rud.fastjobs.data.model
 
+import com.google.firebase.Timestamp
 import com.ptrbrynt.firestorelivedata.FirestoreModel
 
 
@@ -11,5 +12,6 @@ data class Job(
     val description: String = "",
     val payout: Double = 0.0,
     val urgency: Boolean = false,
-    val venue: Venue? = null
+    val venue: Venue? = null,
+    val date: Timestamp? = null
 ) : FirestoreModel()

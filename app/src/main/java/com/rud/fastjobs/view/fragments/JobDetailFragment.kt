@@ -3,6 +3,7 @@ package com.rud.fastjobs.view.fragments
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,12 +18,16 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.viewmodel.JobDetailViewModel
 import kotlinx.android.synthetic.main.fragment_job_detail.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import java.time.ZoneId
+import java.time.format.DateTimeFormatter
+import java.time.format.FormatStyle
 
 
 class JobDetailFragment : Fragment(), KodeinAware, OnMapReadyCallback {
@@ -46,6 +51,24 @@ class JobDetailFragment : Fragment(), KodeinAware, OnMapReadyCallback {
             val safeArgs = JobDetailFragmentArgs.fromBundle(it)
             viewModel.getJobById(safeArgs.jobId) { job ->
                 viewModel.currentJob = job!!
+
+                val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+                val ldt = job.date?.toLocalDateTime()!!
+                val dateString = ldt.format(formatter)
+                date.text = dateString!!
+
+                date.setOnClickListener {
+                    val startMillis = ldt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+                    val intent = Intent(Intent.ACTION_EDIT)
+                        .setData(CalendarContract.Events.CONTENT_URI)
+                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+                        .putExtra(CalendarContract.Events.TITLE, job.title)
+                        .putExtra(CalendarContract.Events.DESCRIPTION, job.description)
+                        .putExtra(CalendarContract.Events.EVENT_LOCATION, job.venue?.name)
+
+                    startActivity(intent)
+                }
 
                 // Obtain the SupportMapFragment and get notified when the map is ready to be used.
                 val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment

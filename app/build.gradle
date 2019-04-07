@@ -24,6 +24,11 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
 }
 
 androidExtensions {
@@ -49,7 +54,6 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:16.1.0'
     implementation 'com.firebaseui:firebase-ui-storage:4.3.1'
 
-    implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     implementation 'com.google.android.gms:play-services-maps:16.1.0'
     apply plugin: 'com.google.gms.google-services'
 
@@ -94,6 +98,9 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.8.0'
     kapt 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'jp.wasabeef:glide-transformations:4.0.1'
+
+    // Date Time Picker
+    implementation 'com.wdullaer:materialdatetimepicker:4.1.2'
 
     // Airbnb RecyclerView
     implementation 'com.airbnb.android:epoxy:3.0.0'
