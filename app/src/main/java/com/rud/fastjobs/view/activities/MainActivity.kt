@@ -18,7 +18,6 @@ import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
-import com.rud.fastjobs.utils.Config
 import com.rud.fastjobs.view.glide.GlideApp
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.nav_drawer_header.view.*
@@ -44,7 +43,7 @@ class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigati
         setupNavigation()
 
         // Initialize Places.
-        val apiKey = Config.googleApiKey
+        val apiKey = getString(R.string.google_api_key)
         Places.initialize(this, apiKey)
         Places.createClient(this)
     }

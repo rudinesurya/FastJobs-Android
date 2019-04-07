@@ -9,9 +9,9 @@ class JobTest {
     @Test
     fun `test constructor`() {
         val newJob = Job(
-            "title 123", "hostName 123",
-            "hostUid 123", "hostAvatarUrl 123",
-            "description 123", 0.0, false
+            title = "title 123", hostName = "hostName 123",
+            hostUid = "hostUid 123", hostAvatarUrl = "hostAvatarUrl 123",
+            description = "description 123", payout = 0.0, urgency = false
         )
 
         Assertions.assertThat(newJob.title).isEqualTo("title 123")
@@ -26,16 +26,16 @@ class JobTest {
     @Test
     fun `test equality`() {
         val newJob = Job(
-            "title 123", "hostName 123",
-            "hostUId 123", "hostAvatarUrl 123",
-            "description 123", 0.0, false
+            title = "title 123", hostName = "hostName 123",
+            hostUid = "hostUid 123", hostAvatarUrl = "hostAvatarUrl 123",
+            description = "description 123", payout = 0.0, urgency = false
         )
 
         val jobCopy = newJob.copy()
         val differentJob = Job(
-            "x", "xx",
-            "xxx", "xxxx",
-            "xxxxx", 0.0, false
+            title = "x", hostName = "xx",
+            hostUid = "xxx", hostAvatarUrl = "xxxx",
+            description = "xxxxx", payout = 0.0, urgency = false
         )
 
         Assertions.assertThat(newJob).isEqualTo(jobCopy)
