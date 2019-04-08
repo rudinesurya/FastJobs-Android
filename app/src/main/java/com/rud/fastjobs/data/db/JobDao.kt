@@ -1,7 +1,6 @@
 package com.rud.fastjobs.data.db
 
 import androidx.lifecycle.LiveData
-import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.ptrbrynt.firestorelivedata.asLiveData
@@ -9,7 +8,7 @@ import com.rud.fastjobs.data.model.Job
 
 
 class JobDao(private val firestoreInstance: FirebaseFirestore) {
-    private val jobsRef: CollectionReference = firestoreInstance.collection("jobs")
+    private val jobsRef = firestoreInstance.collection("jobs")
 
     fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit) {
         val result = jobsRef.asLiveData<Job>()

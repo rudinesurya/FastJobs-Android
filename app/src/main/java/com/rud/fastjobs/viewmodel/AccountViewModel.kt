@@ -5,21 +5,23 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.ptrbrynt.firestorelivedata.FirestoreResource
+import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 
 
-class AccountViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
+class AccountViewModel(private val myRepository: MyRepository, private val auth: Auth, app: Application) :
+    AndroidViewModel(app) {
     lateinit var currentUser: User
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
 
-    fun getCurrentUserLiveData(onComplete: (LiveData<FirestoreResource<User>>) -> Unit) {
-        myRepository.getCurrentUserLiveData(onComplete)
+    fun getCurrentUserLiveData(onComplete: (LiveData<FirestoreResource<User>>) -> Unit = {}) {
+        myRepository.getUserByIdLiveData(auth.currentUser?.uid!!, onComplete)
     }
 
-    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        myRepository.uploadAvatar(imageBytes, onSuccess = {
+    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (String) -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        myRepository.uploadAvatar(auth.currentUser?.uid!!, imageBytes, onSuccess = {
             onSuccess(it)
         }, onFailure = {
             onFailure(it)
@@ -29,9 +31,9 @@ class AccountViewModel(private val myRepository: MyRepository, app: Application)
     fun pathToReference(path: String) = myRepository.pathToReference(path)
 
     fun updateCurrentUser(userFieldMap: Map<String, Any>) {
-        myRepository.updateCurrentUser(userFieldMap, onSuccess = {
+        myRepository.updateUser(auth.currentUser?.uid!!, userFieldMap, onSuccess = {
             Toast.makeText(getApplication(), "Saved!", Toast.LENGTH_SHORT).show()
-        }, onFailure = {})
+        })
     }
 
     fun handleSave(displayName: String, bio: String) {

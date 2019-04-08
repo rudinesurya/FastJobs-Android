@@ -42,7 +42,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".view.activities.SignInActivity" />
+        <activity android:name=".view.activities.LoginActivity" />
+        <activity android:name=".view.activities.SignUpActivity" />
         <activity android:name=".view.activities.MainActivity" />
     </application>
 

@@ -11,11 +11,11 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.firebase.ui.auth.AuthUI
 import com.google.android.libraries.places.api.Places
 import com.google.android.material.navigation.NavigationView
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
+import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.view.glide.GlideApp
@@ -31,6 +31,7 @@ import timber.log.Timber
 class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigationItemSelectedListener {
     override val kodein: Kodein by closestKodein()
     private val myRepository: MyRepository by instance()
+    private val auth: Auth by instance()
     private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -55,7 +56,7 @@ class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigati
         nav_view.setNavigationItemSelectedListener(this)
 
         nav_view.getHeaderView(0)?.apply {
-            myRepository.getCurrentUserLiveData { user ->
+            myRepository.getUserByIdLiveData(auth.currentUser!!.uid) { user ->
                 user.observe(this@MainActivity, object : ResourceObserver<User> {
                     override fun onSuccess(user: User?) {
                         user?.let { user ->
@@ -107,13 +108,12 @@ class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigati
             -> navController.navigate(menuItem.itemId)
 
             R.id.signOut -> {
-                AuthUI.getInstance().signOut(this@MainActivity)
-                    .addOnCompleteListener {
-                        val intent = Intent(this@MainActivity, SignInActivity::class.java)
-                        intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
-                        startActivity(intent)
-                        Toast.makeText(this@MainActivity, "Signed out!", Toast.LENGTH_SHORT).show()
-                    }
+                auth.signOut()
+
+                val intent = Intent(this@MainActivity, LoginActivity::class.java)
+                intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
+                startActivity(intent)
+                Toast.makeText(this@MainActivity, "Signed out!", Toast.LENGTH_SHORT).show()
             }
         }
 

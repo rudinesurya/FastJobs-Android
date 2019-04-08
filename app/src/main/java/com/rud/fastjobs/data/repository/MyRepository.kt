@@ -9,41 +9,56 @@ import com.rud.fastjobs.data.model.User
 
 
 class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
-    fun getCurrentUserLiveData(onComplete: (LiveData<FirestoreResource<User>>) -> Unit) {
-        userDao.getCurrentUserLiveData(onComplete)
+    fun getUserByIdLiveData(id: String, onComplete: (LiveData<FirestoreResource<User>>) -> Unit = {}) {
+        userDao.getUserByIdLiveData(id, onComplete)
     }
 
-    fun getCurrentUser(onSuccess: (User?) -> Unit) {
-        userDao.getCurrentUser(onSuccess)
+    fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
+        userDao.getUserById(id, onSuccess)
     }
 
-    fun initCurrentUserIfNew(onSuccess: () -> Unit) {
-        userDao.initCurrentUserIfNew(onSuccess)
+    fun addUser(id: String, user: User, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        userDao.addUser(id, user, onSuccess, onFailure)
     }
 
-    fun updateCurrentUser(userFieldMap: Map<String, Any>, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
-        userDao.updateCurrentUser(userFieldMap, onSuccess, onFailure)
+    fun updateUser(
+        id: String,
+        userFieldMap: Map<String, Any>,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        userDao.updateUser(id, userFieldMap, onSuccess, onFailure)
     }
 
-    fun uploadAvatar(imageBytes: ByteArray, onSuccess: (String) -> Unit, onFailure: (Exception) -> Unit) {
-        userDao.uploadAvatar(imageBytes, onSuccess, onFailure)
+    fun uploadAvatar(
+        id: String,
+        imageBytes: ByteArray,
+        onSuccess: (String) -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        userDao.uploadAvatar(id, imageBytes, onSuccess, onFailure)
     }
 
     fun pathToReference(path: String) = userDao.pathToReference(path)
 
-    fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit) {
+    fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit = {}) {
         jobDao.getAllJobsLiveData(onComplete)
     }
 
-    fun addJob(job: Job, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun addJob(job: Job, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
         jobDao.addJob(job, onSuccess, onFailure)
     }
 
-    fun updateJob(id: String, jobFieldMap: Map<String, Any>, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
+    fun updateJob(
+        id: String,
+        jobFieldMap: Map<String, Any>,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
         jobDao.updateJob(id, jobFieldMap, onSuccess, onFailure)
     }
 
-    fun getJobById(id: String, onSuccess: (Job?) -> Unit, onFailure: (Exception) -> Unit) {
+    fun getJobById(id: String, onSuccess: (Job?) -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
         jobDao.getJobById(id, onSuccess, onFailure)
     }
 }

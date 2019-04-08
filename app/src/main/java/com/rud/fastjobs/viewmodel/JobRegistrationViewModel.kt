@@ -15,23 +15,23 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, app: Appl
     var currentSelectedVenue: Venue? = null
     var currentSelectedDate: LocalDateTime? = null
 
-    fun getJobById(id: String, onSuccess: (Job?) -> Unit) {
+    fun getJobById(id: String, onSuccess: (Job?) -> Unit = {}) {
         myRepository.getJobById(id, onSuccess = {
             currentJob = it
             onSuccess(it)
-        }, onFailure = {})
+        })
     }
 
     fun addJob(job: Job) {
         myRepository.addJob(job, onSuccess = {
             Toast.makeText(getApplication(), "Saved!", Toast.LENGTH_SHORT).show()
-        }, onFailure = {})
+        })
     }
 
     fun updateJob(id: String, jobFieldMap: Map<String, Any>) {
         myRepository.updateJob(id, jobFieldMap, onSuccess = {
             Toast.makeText(getApplication(), "Updated!", Toast.LENGTH_SHORT).show()
-        }, onFailure = {})
+        })
     }
 
     fun handleSave(title: String, payout: Double, description: String, urgency: Boolean) {
