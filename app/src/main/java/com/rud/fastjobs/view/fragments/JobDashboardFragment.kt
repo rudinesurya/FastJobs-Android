@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -14,6 +15,7 @@ import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.data.network.NearbyPlacesDataSource
 import com.rud.fastjobs.view.recyclerView.JobListController
 import com.rud.fastjobs.viewmodel.JobListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
@@ -28,6 +30,7 @@ import timber.log.Timber
 class JobDashboardFragment : Fragment(), KodeinAware, JobListController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
+    private val nearbyPlacesDataSource: NearbyPlacesDataSource by instance()
     private lateinit var viewModel: JobListViewModel
     private val controller: JobListController = JobListController(this)
 
@@ -43,6 +46,12 @@ class JobDashboardFragment : Fragment(), KodeinAware, JobListController.AdapterC
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobListViewModel::class.java)
         Timber.d("onViewCreated")
+
+        //TEST
+        nearbyPlacesDataSource.fetchNearbyPlaces("-33.8670522,151.1957362", "1500", "restaurant")
+        nearbyPlacesDataSource.downloadedNearbyPlaces.observe(this@JobDashboardFragment, Observer {
+            Timber.d(it.results.first().toString())
+        })
 
         (activity as AppCompatActivity).apply {
             setSupportActionBar(toolbar)
