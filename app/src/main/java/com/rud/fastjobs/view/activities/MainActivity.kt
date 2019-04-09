@@ -38,9 +38,6 @@ class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigati
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         Timber.d("onCreate")
-        setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
         setupNavigation()
 
         // Initialize Places.
@@ -51,7 +48,6 @@ class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigati
 
     private fun setupNavigation() {
         navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-        NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
         NavigationUI.setupWithNavController(nav_view, navController)
         nav_view.setNavigationItemSelectedListener(this)
 

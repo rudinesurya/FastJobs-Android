@@ -5,8 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
@@ -18,6 +21,8 @@ import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
+import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.fragment_job_registration.*
 import kotlinx.android.synthetic.main.job_registration_form.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -47,23 +52,32 @@ class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDate
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobRegistrationViewModel::class.java)
 
+        (activity as AppCompatActivity).apply {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+            NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
+            toolbar.title = "Jobs Registration"
+        }
+
         arguments?.let {
             val safeArgs = JobRegistrationFragmentArgs.fromBundle(it)
             safeArgs.jobId?.let { id ->
                 viewModel.getJobById(id,
                     onSuccess = { job ->
-                        editText_title.setText(job!!.title)
-                        editText_payout.setText(job.payout.toString())
-                        editText_description.setText(job.description)
-                        checkBox_urgency.isChecked = job.urgency
-                        editText_venue.setText(job.venue?.name)
+                        input_title.setText(job!!.title)
+                        input_payout.setText(job.payout.toString())
+                        input_description.setText(job.description)
+                        input_urgency.isChecked = job.urgency
+                        input_venue.setText(job.venue?.name)
 
                         btn_save.text = "Update Job"
                     })
             }
         }
 
-        editText_venue.setOnClickListener {
+        input_venue.setOnClickListener {
             // Set the fields to specify which types of place data to
             // return after the user has made a selection.
             val fields = Arrays.asList(
@@ -80,7 +94,7 @@ class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDate
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
         }
 
-        editText_date.setOnClickListener {
+        input_date.setOnClickListener {
             val dpd = DatePickerDialog.newInstance(this)
             dpd.version = DatePickerDialog.Version.VERSION_2
             dpd.show(fragmentManager, "date picker")
@@ -88,10 +102,10 @@ class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDate
 
         btn_save.setOnClickListener {
             viewModel.handleSave(
-                title = editText_title.text.toString(),
-                description = editText_description.text.toString(),
-                payout = editText_payout.text.toString().toDouble(),
-                urgency = checkBox_urgency.isChecked
+                title = input_title.text.toString(),
+                description = input_description.text.toString(),
+                payout = input_payout.text.toString().toDouble(),
+                urgency = input_urgency.isChecked
             )
         }
     }
@@ -108,7 +122,7 @@ class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDate
                             address = place.address!!,
                             geoPoint = GeoPoint(place.latLng?.latitude!!, place.latLng?.longitude!!)
                         )
-                    editText_venue.setText(place.address)
+                    input_venue.setText(place.address)
                     Timber.d("Place: " + place.name + ", " + place.latLng)
                 }
 
@@ -137,6 +151,6 @@ class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDate
     override fun onTimeSet(view: TimePickerDialog?, hourOfDay: Int, minute: Int, second: Int) {
         viewModel.currentSelectedDate = viewModel.currentSelectedDate!!.withHour(hourOfDay).withMinute(minute)
 //        Timber.d(viewModel.currentSelectedDate.toString())
-        editText_date.setText(viewModel.currentSelectedDate.toString())
+        input_date.setText(viewModel.currentSelectedDate.toString())
     }
 }

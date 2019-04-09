@@ -7,6 +7,7 @@ import android.provider.CalendarContract
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.fragment.findNavController
@@ -51,32 +52,45 @@ class JobDetailFragment : Fragment(), KodeinAware, OnMapReadyCallback {
             val safeArgs = JobDetailFragmentArgs.fromBundle(it)
             viewModel.getJobById(safeArgs.jobId) { job ->
                 viewModel.currentJob = job!!
-
-                val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
-                val ldt = job.date?.toLocalDateTime()!!
-                val dateString = ldt.format(formatter)
-                date.text = dateString!!
-
-                date.setOnClickListener {
-                    val startMillis = ldt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
-
-                    val intent = Intent(Intent.ACTION_EDIT)
-                        .setData(CalendarContract.Events.CONTENT_URI)
-                        .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
-                        .putExtra(CalendarContract.Events.TITLE, job.title)
-                        .putExtra(CalendarContract.Events.DESCRIPTION, job.description)
-                        .putExtra(CalendarContract.Events.EVENT_LOCATION, job.venue?.name)
-
-                    startActivity(intent)
-                }
-
-                // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-                val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
-                mapFragment.getMapAsync(this)
+                updateUI()
             }
         }
+    }
 
-        btn_edit.setOnClickListener {
+    fun updateUI() {
+        val job = viewModel.currentJob
+
+        (activity as AppCompatActivity).apply {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+        }
+
+        collapsing_toolbar.title = job.title
+
+        val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
+        val ldt = job.date?.toLocalDateTime()!!
+        val dateString = ldt.format(formatter)
+        date.text = dateString!!
+
+        date.setOnClickListener {
+            val startMillis = ldt.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli()
+
+            val intent = Intent(Intent.ACTION_EDIT)
+                .setData(CalendarContract.Events.CONTENT_URI)
+                .putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startMillis)
+                .putExtra(CalendarContract.Events.TITLE, job.title)
+                .putExtra(CalendarContract.Events.DESCRIPTION, job.description)
+                .putExtra(CalendarContract.Events.EVENT_LOCATION, job.venue?.name)
+
+            startActivity(intent)
+        }
+
+        // Obtain the SupportMapFragment and get notified when the map is ready to be used.
+        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
+        mapFragment.getMapAsync(this)
+
+        fab.setOnClickListener {
             val action = JobDetailFragmentDirections.actionEdit(viewModel.currentJob.id)
             findNavController().navigate(action)
         }

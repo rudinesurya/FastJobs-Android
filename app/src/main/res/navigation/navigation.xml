@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_onItemClick"
             app:destination="@id/jobDetailFragment" />
+        <action
+            android:id="@+id/action_createNewJob"
+            app:destination="@id/jobRegistrationFragment" />
     </fragment>
     <fragment
         android:id="@+id/accountFragment"

@@ -8,14 +8,18 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
+import androidx.navigation.ui.NavigationUI
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.view.glide.GlideApp
 import com.rud.fastjobs.viewmodel.AccountViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_account.*
 import kotlinx.android.synthetic.main.fragment_account.view.*
 import org.kodein.di.Kodein
@@ -45,18 +49,26 @@ class AccountFragment : Fragment(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(AccountViewModel::class.java)
 
+        (activity as AppCompatActivity).apply {
+            setSupportActionBar(toolbar)
+            supportActionBar?.setDisplayHomeAsUpEnabled(true)
+            supportActionBar?.setDisplayShowHomeEnabled(true)
+            val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+            NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
+        }
+
         viewModel.getCurrentUserLiveData { user ->
             user.observe(this@AccountFragment, object : ResourceObserver<User> {
                 override fun onSuccess(user: User?) {
                     // Handle successful result here
                     Timber.d("currentUser changes observed")
                     viewModel.currentUser = user!!
-                    editText_displayName.setText(user.name)
-                    editText_bio.setText(user.bio)
+                    input_name.setText(user.name)
+                    input_bio.setText(user.bio)
 
                     if (!viewModel.pictureJustChanged && user.avatarUrl != null) {
                         GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
-                            .into(imageView_avatar)
+                            .into(input_avatar)
                     }
                 }
 
@@ -73,7 +85,7 @@ class AccountFragment : Fragment(), KodeinAware {
         }
 
         view.apply {
-            imageView_avatar.setOnClickListener {
+            input_avatar.setOnClickListener {
                 val intent = Intent().apply {
                     type = "image/*"
                     action = Intent.ACTION_GET_CONTENT
@@ -84,8 +96,8 @@ class AccountFragment : Fragment(), KodeinAware {
 
             btn_save.setOnClickListener {
                 viewModel.handleSave(
-                    displayName = editText_displayName.text.toString(),
-                    bio = editText_bio.text.toString()
+                    displayName = input_name.text.toString(),
+                    bio = input_bio.text.toString()
                 )
             }
         }
@@ -103,7 +115,7 @@ class AccountFragment : Fragment(), KodeinAware {
             viewModel.selectedImageBytes = outputStream.toByteArray()
 
             GlideApp.with(this).load(viewModel.selectedImageBytes)
-                .into(imageView_avatar)
+                .into(input_avatar)
 
             viewModel.pictureJustChanged = true
         }
