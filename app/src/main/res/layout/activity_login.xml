@@ -61,4 +61,22 @@
         android:text="No account yet? Create one"
         android:textSize="16dip" />
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/btn_googleLogin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"
+        android:padding="12dp"
+        android:text="Sign in with Google" />
+
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_fbLogin"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginBottom="30dp"
+        android:padding="12dp"
+        android:text="Sign in with Facebook" />
+
 </LinearLayout>

@@ -4,7 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginResult
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
+import com.google.firebase.auth.GoogleAuthProvider
 import com.rud.fastjobs.R
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
@@ -21,7 +33,11 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
-    private val RC_SIGNUP = 0
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private val RC_GOOGLE_SIGN_IN = 0
+    private val RC_SIGNUP = 1
+
+    private lateinit var callbackManager: CallbackManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -37,6 +53,40 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
             val intent = Intent(this, SignUpActivity::class.java)
             startActivityForResult(intent, RC_SIGNUP)
         }
+
+        // Configure Google Sign In
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(getString(R.string.default_web_client_id))
+            .requestEmail()
+            .build()
+
+        googleSignInClient = GoogleSignIn.getClient(this, gso)
+
+        btn_googleLogin.setOnClickListener {
+            val signInIntent = googleSignInClient.signInIntent
+            startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN)
+        }
+
+
+        // Initialize Facebook Login button
+        callbackManager = CallbackManager.Factory.create()
+
+        btn_fbLogin.setReadPermissions("email", "public_profile")
+        btn_fbLogin.registerCallback(callbackManager, object : FacebookCallback<LoginResult> {
+            override fun onSuccess(loginResult: LoginResult) {
+                Timber.d("facebook:onSuccess:$loginResult")
+                handleFacebookAccessToken(loginResult.accessToken)
+            }
+
+            override fun onCancel() {
+                Timber.d("facebook:onCancel")
+            }
+
+            override fun onError(error: FacebookException) {
+                Timber.e(error)
+            }
+        })
+
     }
 
     fun login() {
@@ -101,12 +151,52 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
-        if (requestCode == RC_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-                Timber.d("RESULT_OK")
-                onLoginSuccess(auth.currentUser!!)
+        when (requestCode) {
+            RC_SIGNUP -> {
+                if (resultCode == RESULT_OK) {
+                    Timber.d("RESULT_OK")
+                    onLoginSuccess(auth.currentUser!!)
+                }
             }
+
+            RC_GOOGLE_SIGN_IN -> {
+                if (resultCode == RESULT_OK) {
+                    val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+                    try {
+                        // Google Sign In was successful, authenticate with Firebase
+                        val account = task.getResult(ApiException::class.java)
+                        firebaseAuthWithGoogle(account!!)
+                    } catch (e: ApiException) {
+                        // Google Sign In failed
+                        Timber.e(e)
+                    }
+                }
+            }
+
+            else -> callbackManager.onActivityResult(requestCode, resultCode, data)
         }
+    }
+
+    private fun firebaseAuthWithGoogle(acct: GoogleSignInAccount) {
+        Timber.d("firebaseAuthWithGoogle:" + acct.id!!)
+
+        val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
+        auth.signInWithCredential(credential, onSuccess = {
+            onLoginSuccess(it)
+        }, onFailure = {
+            onLoginFailed()
+        })
+    }
+
+    private fun handleFacebookAccessToken(token: AccessToken) {
+        Timber.d("handleFacebookAccessToken:$token")
+
+        val credential = FacebookAuthProvider.getCredential(token.token)
+        auth.signInWithCredential(credential, onSuccess = {
+            onLoginSuccess(it)
+        }, onFailure = {
+            onLoginFailed()
+        })
     }
 
     fun initUserIfNew(user: FirebaseUser) {
