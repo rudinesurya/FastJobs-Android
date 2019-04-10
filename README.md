@@ -30,6 +30,29 @@ It has some form of social networking feature, eg. the ability to view user's pr
 
 ## UI Design
 
+Clean Design Concept
++ Use action bar and navigation drawer to place menu items instead of cluttering them on the activity/fragment.
++ Sensible navigation and deep linking.
++ For more important features, allow multiple way to access it besides a button. (nav drawer)
++ User can sign out from anywhere in the app. (nav drawer)
++ Async loading enables seamless and smooth experience for the user.
++ Show loading bars when possible.
+
+Adherence to the Android Material Design
++ CoordinatorLayout extends the ability to accomplish many of the Google's Material Design scrolling effects.
++ parallax scrolling effects animations for the action bars during scrolling effect.
++ expanding and collapsing action bar allows more screen real estate for displaying more important stuffs.
+
+
+## Integration with Android ecosystem
+
++ Static maps can launch an intent to open the user's Google Maps.
++ Clicking on the job date will prompt user if he/she wants to add the job detail to the Google Calendar.
+
+
+## Third party web api
+
+Google Places API is used for making REST requests with retrofit to get a list of nearby places of interest to display on the job detail page as recommendation.
 
 ## Model View ViewModel(MVVM) with Clean Architecture
 
@@ -51,11 +74,13 @@ This diagram shows a basic form of this architecture:
 
 #### Firestore: cloud persistence database which also supports caching for offline data.
 
+#### Remote Data Source: For making REST API requests to the web.
+
 #### Model: The model data class.
 
 
 ### Advantages of MVVM with Clean Architecture
-+ MVVM separates your view (i.e. Activitys and Fragments) from your business logic.
++ MVVM separates your view (i.e. Activities and Fragments) from your business logic.
 + Your code is further decoupled.
 + The package structure gets easier to navigate.
 + The project is easier to maintain.
@@ -75,9 +100,10 @@ This diagram shows a basic form of this architecture:
 + firebase storage
 + firestore
 + google-map
-+ react-places-autocomplete
++ places-autocomplete
 + retrofit
 + glide
++ date-time-picker
 + epoxy recyclerview
 + kodein
 + junit4
