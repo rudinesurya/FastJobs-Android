@@ -1,48 +1,41 @@
 package com.rud.fastjobs
 
 import android.content.Context
-import androidx.test.ext.junit.runners.AndroidJUnit4
 import androidx.test.platform.app.InstrumentationRegistry
 import com.rud.fastjobs.data.network.ConnectivityInterceptor
 import com.rud.fastjobs.data.network.NearbyPlacesApiService
-import com.rud.fastjobs.data.network.response.NearbyPlacesResponse
+import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
-import org.junit.runner.RunWith
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import timber.log.Timber
 
 
-@RunWith(AndroidJUnit4::class)
 class GooglePlacesQueryTest {
-    lateinit var appContext: Context
-    lateinit var apiKey: String
+    companion object {
+        lateinit var appContext: Context
+        lateinit var nearbyPlacesApiService: NearbyPlacesApiService
 
-    @BeforeClass
-    fun init() {
-        appContext = InstrumentationRegistry.getInstrumentation().targetContext
+        @BeforeClass
+        @JvmStatic
+        fun setup() {
+            appContext = InstrumentationRegistry.getInstrumentation().targetContext
+
+            val connectivityInterceptor = ConnectivityInterceptor(appContext)
+            nearbyPlacesApiService = NearbyPlacesApiService(connectivityInterceptor)
+        }
     }
 
     @Test
-    fun testGoogleApiKeyIsWorking() {
-        val connectivityInterceptor = ConnectivityInterceptor(appContext)
-        val nearbyPlacesApiService = NearbyPlacesApiService(connectivityInterceptor)
-
+    fun testNearbyPlacesApiService() {
         val location = "-33.8670522,151.1957362"
         val radius = "1500"
         val type = "restaurant"
 
-        nearbyPlacesApiService.getNearbyPlaces(location = location, radius = radius, type = type).enqueue(object :
-            Callback<NearbyPlacesResponse> {
-            override fun onResponse(call: Call<NearbyPlacesResponse>, response: Response<NearbyPlacesResponse>) {
-                Timber.d(response.body()!!.results.first().name)
-            }
+        val response =
+            nearbyPlacesApiService.getNearbyPlaces(location = location, radius = radius, type = type).execute()
 
-            override fun onFailure(call: Call<NearbyPlacesResponse>, t: Throwable) {
-                Timber.e(t)
-            }
-        })
+        val firstEntry = response.body()!!.results.first()
+
+        Assert.assertEquals("bc58a5ca8e9c65e7b673c6cd628d24828a104be6", firstEntry.id)
+        Assert.assertEquals("Travelodge Hotel Sydney Wynyard", firstEntry.name)
     }
 }

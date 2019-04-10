@@ -54,6 +54,22 @@ Adherence to the Android Material Design
 
 Google Places API is used for making REST requests with retrofit to get a list of nearby places of interest to display on the job detail page as recommendation.
 
+
+## Unit Testing and Instrumentation Testing
+
+UI Layer
++ Testing of ...
+
+Model Layer
++ Testing of Model data classes
+
+Database Layer
++ Testing of Data Access Object (DAO)
++ Testing of network rest api services
++ Testing of firebase & firestore
++ Testing of Room
+
+
 ## Model View ViewModel(MVVM) with Clean Architecture
 
 Architecture components help you structure your app in a way that is robust, testable, and maintainable with less boilerplate code.
