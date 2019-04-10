@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
@@ -46,12 +45,6 @@ class JobDashboardFragment : Fragment(), KodeinAware, JobListController.AdapterC
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobListViewModel::class.java)
         Timber.d("onViewCreated")
-
-        //TEST
-        nearbyPlacesDataSource.fetchNearbyPlaces("-33.8670522,151.1957362", "1500", "restaurant")
-        nearbyPlacesDataSource.downloadedNearbyPlaces.observe(this@JobDashboardFragment, Observer {
-            Timber.d(it.results.first().toString())
-        })
 
         (activity as AppCompatActivity).apply {
             setSupportActionBar(toolbar)

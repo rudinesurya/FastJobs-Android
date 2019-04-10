@@ -10,8 +10,6 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 
-const val apiKey = "AIzaSyCdEILHNk5PjPZX-5bQt0cVpAWFQ1bSUqg"
-
 //https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=-33.8670522,151.1957362&radius=1500&type=restaurant&key=AIzaSyCdEILHNk5PjPZX-5bQt0cVpAWFQ1bSUqg
 interface NearbyPlacesApiService {
     @GET("/maps/api/place/nearbysearch/json")
@@ -23,6 +21,7 @@ interface NearbyPlacesApiService {
 
     companion object {
         operator fun invoke(
+            apiKey: String,
             connectivityInterceptor: ConnectivityInterceptor
         ): NearbyPlacesApiService {
             val requestInterceptor = Interceptor { chain ->

@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigati
         setupNavigation()
 
         // Initialize Places.
-        val apiKey = getString(R.string.google_api_key)
+        val apiKey = getString(R.string.google_maps_key)
         Places.initialize(this, apiKey)
         Places.createClient(this)
     }

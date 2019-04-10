@@ -32,6 +32,7 @@ class MyApplication : Application(), KodeinAware {
 
     override val kodein = Kodein.lazy {
         import(androidXModule(this@MyApplication))
+        val apiKey = getString(R.string.google_maps_key)
 
         bind() from singleton { FirebaseAuth.getInstance() }
         bind() from singleton { FirebaseFirestore.getInstance() }
@@ -40,7 +41,7 @@ class MyApplication : Application(), KodeinAware {
         bind() from singleton { UserDao(instance(), instance()) }
         bind() from singleton { JobDao(instance()) }
         bind() from singleton { ConnectivityInterceptor(instance()) }
-        bind() from singleton { NearbyPlacesApiService(instance()) }
+        bind() from singleton { NearbyPlacesApiService(apiKey, instance()) }
         bind() from singleton { NearbyPlacesDataSource(instance()) }
         bind() from singleton { MyRepository(instance(), instance()) }
         bind() from provider { ViewModelFactory(instance(), instance(), instance()) }
