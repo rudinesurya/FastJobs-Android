@@ -10,6 +10,7 @@ import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.rud.fastjobs.R
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.utils.toLocalDateTime
 import kotlinx.android.synthetic.main.job_item_card.view.*
 
 
@@ -33,9 +34,13 @@ class JobItem @JvmOverloads constructor(
     @AfterPropsSet
     fun bindUI() {
         job.let {
+            val lt = it.date?.toLocalDateTime()?.toLocalTime()!!
+
             title.text = it.title
-            payout.text = it.payout.toString()
-            hostName.text = it.hostName
+            time.text = "${lt.hour}:${lt.minute}"
+            venue.text = it.venue?.name
+            shortDescription.text = it.description
+            payout.text = "$ ${it.payout}"
         }
 
         setOnClickListener(onClick)

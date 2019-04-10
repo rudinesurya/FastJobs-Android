@@ -120,9 +120,12 @@ dependencies {
     testImplementation "org.assertj:assertj-core:3.11.1"
     androidTestImplementation 'androidx.test:core:1.1.0'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
-    androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
-    androidTestImplementation 'androidx.test:rules:1.1.2-alpha02'
-    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
+    androidTestImplementation 'androidx.test:runner:1.2.0-alpha03'
+    androidTestImplementation 'androidx.test:rules:1.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-intents:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-web:3.2.0-alpha03'
+    androidTestImplementation 'androidx.test.espresso:espresso-idling-resource:3.2.0-alpha03'
     androidTestImplementation "android.arch.core:core-testing:1.1.1"
     androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
     androidTestUtil 'com.android.support.test:orchestrator:1.0.2'

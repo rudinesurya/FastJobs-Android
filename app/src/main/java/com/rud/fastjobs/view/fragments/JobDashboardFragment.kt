@@ -32,7 +32,7 @@ class JobDashboardFragment : Fragment(), KodeinAware, JobListController.AdapterC
     private val viewModelFactory: ViewModelFactory by instance()
     private val nearbyPlacesDataSource: NearbyPlacesDataSource by instance()
     private lateinit var viewModel: JobListViewModel
-    private val controller: JobListController = JobListController(this)
+    private val controller = JobListController(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
