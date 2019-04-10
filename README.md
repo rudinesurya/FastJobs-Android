@@ -27,6 +27,10 @@ It has some form of social networking feature, eg. the ability to view user's pr
 
 ## Installation requirements
 
+Must create a resource file (google_maps_api.xml) inside src/debug/res/values and src/release/res/values
+<resources>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">YOUR_KEY</string>
+</resources>
 
 ## UI Design
 
