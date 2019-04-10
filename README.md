@@ -124,6 +124,8 @@ This diagram shows a basic form of this architecture:
 + epoxy recyclerview
 + kodein
 + junit4
++ espresso
++ mockk
 + assertj
 
 
