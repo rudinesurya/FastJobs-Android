@@ -6,7 +6,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.ui.NavigationUI
@@ -15,6 +14,7 @@ import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.firestore.GeoPoint
+import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Venue
@@ -24,6 +24,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_job_registration.*
 import kotlinx.android.synthetic.main.job_registration_form.*
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -33,7 +34,7 @@ import java.time.LocalDateTime
 import java.util.*
 
 
-class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDateSetListener,
+class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
@@ -52,13 +53,14 @@ class JobRegistrationFragment : Fragment(), KodeinAware, DatePickerDialog.OnDate
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobRegistrationViewModel::class.java)
 
-        (activity as AppCompatActivity).apply {
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-            NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
-            toolbar.title = "Jobs Registration"
+        launch {
+            (activity as AppCompatActivity).apply {
+                setSupportActionBar(toolbar)
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setDisplayShowHomeEnabled(true)
+                val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+                NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
+            }
         }
 
         arguments?.let {

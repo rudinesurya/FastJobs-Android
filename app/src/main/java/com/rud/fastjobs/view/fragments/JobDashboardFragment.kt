@@ -5,12 +5,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.NavigationUI
 import com.ptrbrynt.firestorelivedata.ResourceObserver
+import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
@@ -19,6 +19,7 @@ import com.rud.fastjobs.view.recyclerView.JobListController
 import com.rud.fastjobs.viewmodel.JobListViewModel
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_job_dashboard.*
+import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -26,7 +27,7 @@ import org.kodein.di.generic.instance
 import timber.log.Timber
 
 
-class JobDashboardFragment : Fragment(), KodeinAware, JobListController.AdapterCallbacks {
+class JobDashboardFragment : ScopedFragment(), KodeinAware, JobListController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private val nearbyPlacesDataSource: NearbyPlacesDataSource by instance()
@@ -46,13 +47,14 @@ class JobDashboardFragment : Fragment(), KodeinAware, JobListController.AdapterC
             .get(JobListViewModel::class.java)
         Timber.d("onViewCreated")
 
-        (activity as AppCompatActivity).apply {
-            setSupportActionBar(toolbar)
-            supportActionBar?.setDisplayHomeAsUpEnabled(true)
-            supportActionBar?.setDisplayShowHomeEnabled(true)
-            val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-            NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
-            toolbar.title = "Fast Jobs"
+        launch {
+            (activity as AppCompatActivity).apply {
+                setSupportActionBar(toolbar)
+                supportActionBar?.setDisplayHomeAsUpEnabled(true)
+                supportActionBar?.setDisplayShowHomeEnabled(true)
+                val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+                NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
+            }
         }
 
         initRecyclerView(view)

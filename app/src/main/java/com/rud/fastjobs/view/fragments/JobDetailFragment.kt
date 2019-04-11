@@ -8,9 +8,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
+import androidx.navigation.Navigation
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.NavigationUI
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -18,12 +19,14 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.ptrbrynt.firestorelivedata.ResourceObserver
+import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.recyclerView.RecommendationCarouselController
 import com.rud.fastjobs.viewmodel.JobDetailViewModel
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_job_detail.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -35,7 +38,7 @@ import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
 
-class JobDetailFragment : Fragment(), KodeinAware, OnMapReadyCallback {
+class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobDetailViewModel
@@ -69,6 +72,8 @@ class JobDetailFragment : Fragment(), KodeinAware, OnMapReadyCallback {
             setSupportActionBar(toolbar)
             supportActionBar?.setDisplayHomeAsUpEnabled(true)
             supportActionBar?.setDisplayShowHomeEnabled(true)
+            val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
+            NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
         }
 
         collapsing_toolbar.title = job.title
