@@ -1,12 +1,14 @@
-package com.rud.fastjobs.view.recyclerView
+package com.rud.fastjobs.view.recyclerViewController
 
 import com.airbnb.epoxy.TypedEpoxyController
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.toLocalDateTime
+import com.rud.fastjobs.view.epoxyModelView.headerItem
+import com.rud.fastjobs.view.epoxyModelView.jobItem
 import java.time.LocalDate
 
 
-class JobListController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
+class JobListEpoxyController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
     interface AdapterCallbacks {
         fun onItemClick(id: String)
     }

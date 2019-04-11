@@ -14,7 +14,7 @@ import androidx.test.espresso.intent.matcher.IntentMatchers.*
 import androidx.test.espresso.matcher.ViewMatchers.withId
 import androidx.test.platform.app.InstrumentationRegistry
 import androidx.test.rule.ActivityTestRule
-import com.rud.fastjobs.view.activities.MainActivity
+import com.google.android.libraries.places.api.Places
 import com.rud.fastjobs.view.fragments.JobDetailFragment
 import org.hamcrest.Matchers.allOf
 import org.hamcrest.Matchers.not
@@ -52,6 +52,10 @@ class JobDetailTest {
 
     @Test
     fun testOpenGoogleMaps() {
+        // Initialize Places.
+        val apiKey = appContext.getString(R.string.google_maps_key)
+        Places.initialize(appContext, apiKey)
+        Places.createClient(appContext)
         val gmmIntentUri = Uri.parse("geo:-33.8670522,151.1957362?z=12")
 
         onView(withId(R.id.mapView)).perform(ViewActions.click())

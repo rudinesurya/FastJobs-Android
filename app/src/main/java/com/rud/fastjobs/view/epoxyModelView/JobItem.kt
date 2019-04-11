@@ -1,4 +1,4 @@
-package com.rud.fastjobs.view.recyclerView
+package com.rud.fastjobs.view.epoxyModelView
 
 import android.content.Context
 import android.util.AttributeSet

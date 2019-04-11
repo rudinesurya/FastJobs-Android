@@ -14,7 +14,7 @@ class SplashActivity : AppCompatActivity() {
             val intent = Intent(this, LoginActivity::class.java)
             startActivity(intent)
         } else {
-            val intent = Intent(this, MainActivity::class.java)
+            val intent = Intent(this, JobDashboardActivity::class.java)
             startActivity(intent)
         }
     }

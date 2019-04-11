@@ -1,20 +1,33 @@
-package com.rud.fastjobs.view.recyclerView
+package com.rud.fastjobs.view.recyclerViewController
 
 import com.airbnb.epoxy.*
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.view.epoxyModelView.headerItem
 
 
-class RecommendationCarouselController : TypedEpoxyController<List<Job>>() {
+class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
+    interface AdapterCallbacks {
+        fun onCarouselItemClick(id: String)
+    }
+
     override fun buildModels(data: List<Job>) {
-        carousel {
-            id("carousel")
-            numViewsToShowOnScreen(1.2f)
-            withModelsFrom(data) {
-                JobItemModel_()
-                    .id(it.id)
-                    .job(it)
-            }
+
+        headerItem {
+            id("header1")
+            headerTitle("TEST")
         }
+
+//        carousel {
+//            id("carousel")
+//            numViewsToShowOnScreen(1.2f)
+//
+//            withModelsFrom(data) {
+//                JobItemModel_()
+//                    .id(it.id)
+//                    .job(it)
+//                    .onClick { model, modelview, _, _ -> callbacks.onCarouselItemClick(modelview.job.id!!) }
+//            }
+//        }
     }
 }
 

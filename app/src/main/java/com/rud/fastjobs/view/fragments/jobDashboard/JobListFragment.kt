@@ -1,25 +1,22 @@
-package com.rud.fastjobs.view.fragments
+package com.rud.fastjobs.view.fragments.jobDashboard
 
+
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.NavigationUI
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.coffeemate.ui.fragments.ScopedFragment
+
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
-import com.rud.fastjobs.data.network.NearbyPlacesDataSource
-import com.rud.fastjobs.view.recyclerView.JobListController
+import com.rud.fastjobs.view.activities.JobDetailActivity
+import com.rud.fastjobs.view.recyclerViewController.JobListEpoxyController
 import com.rud.fastjobs.viewmodel.JobListViewModel
-import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.android.synthetic.main.fragment_job_dashboard.*
-import kotlinx.coroutines.launch
+import kotlinx.android.synthetic.main.fragment_job_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -27,18 +24,18 @@ import org.kodein.di.generic.instance
 import timber.log.Timber
 
 
-class JobDashboardFragment : ScopedFragment(), KodeinAware, JobListController.AdapterCallbacks {
+class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
-    private val nearbyPlacesDataSource: NearbyPlacesDataSource by instance()
     private lateinit var viewModel: JobListViewModel
-    private val controller = JobListController(this)
+    private val controller = JobListEpoxyController(this)
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_job_dashboard, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_job_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -46,16 +43,6 @@ class JobDashboardFragment : ScopedFragment(), KodeinAware, JobListController.Ad
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobListViewModel::class.java)
         Timber.d("onViewCreated")
-
-        launch {
-            (activity as AppCompatActivity).apply {
-                setSupportActionBar(toolbar)
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                supportActionBar?.setDisplayShowHomeEnabled(true)
-                val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-                NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
-            }
-        }
 
         initRecyclerView(view)
         viewModel.getAllJobsLiveData { jobs ->
@@ -79,12 +66,13 @@ class JobDashboardFragment : ScopedFragment(), KodeinAware, JobListController.Ad
     }
 
     private fun initRecyclerView(view: View) {
-        recycler_view.setController(controller)
+        allJobs_recyclerView.setController(controller)
     }
 
     override fun onItemClick(id: String) {
         Timber.d("job [%s] clicked!", id)
-        val action = JobDashboardFragmentDirections.actionOnItemClick(id)
-        findNavController().navigate(action)
+        val intent = Intent(this@JobListFragment.context, JobDetailActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
     }
 }

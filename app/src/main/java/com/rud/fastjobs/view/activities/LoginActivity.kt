@@ -114,7 +114,7 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
         btn_login.isEnabled = true
         initUserIfNew(user)
 
-        val intent = Intent(this, MainActivity::class.java)
+        val intent = Intent(this, JobDashboardActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK or Intent.FLAG_ACTIVITY_NEW_TASK
         startActivity(intent)
         finish()

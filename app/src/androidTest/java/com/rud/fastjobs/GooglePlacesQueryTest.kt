@@ -18,7 +18,7 @@ class GooglePlacesQueryTest {
         @JvmStatic
         fun setup() {
             appContext = InstrumentationRegistry.getInstrumentation().targetContext
-            val apiKey = appContext.getString(R.string.google_maps_key)
+            val apiKey = appContext.getString(R.string.google_api_key)
             val connectivityInterceptor = ConnectivityInterceptor(appContext)
             nearbyPlacesApiService = NearbyPlacesApiService(apiKey, connectivityInterceptor)
         }

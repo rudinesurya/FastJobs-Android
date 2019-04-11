@@ -5,10 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
-import androidx.navigation.Navigation
-import androidx.navigation.ui.NavigationUI
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.AutocompleteActivity
@@ -21,10 +18,7 @@ import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.fragment_job_registration.*
-import kotlinx.android.synthetic.main.job_registration_form.*
-import kotlinx.coroutines.launch
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -53,31 +47,18 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobRegistrationViewModel::class.java)
 
-        launch {
-            (activity as AppCompatActivity).apply {
-                setSupportActionBar(toolbar)
-                supportActionBar?.setDisplayHomeAsUpEnabled(true)
-                supportActionBar?.setDisplayShowHomeEnabled(true)
-                val navController = Navigation.findNavController(this, R.id.nav_host_fragment)
-                NavigationUI.setupActionBarWithNavController(this, navController, drawer_layout)
-            }
-        }
 
-        arguments?.let {
-            val safeArgs = JobRegistrationFragmentArgs.fromBundle(it)
-            safeArgs.jobId?.let { id ->
-                viewModel.getJobById(id,
-                    onSuccess = { job ->
-                        input_title.setText(job!!.title)
-                        input_payout.setText(job.payout.toString())
-                        input_description.setText(job.description)
-                        input_urgency.isChecked = job.urgency
-                        input_venue.setText(job.venue?.name)
+//        viewModel.getJobById(id,
+//            onSuccess = { job ->
+//                input_title.setText(job!!.title)
+//                input_payout.setText(job.payout.toString())
+//                input_description.setText(job.description)
+//                input_urgency.isChecked = job.urgency
+//                input_venue.setText(job.venue?.name)
+//
+//                btn_save.text = "Update Job"
+//            })
 
-                        btn_save.text = "Update Job"
-                    })
-            }
-        }
 
         input_venue.setOnClickListener {
             // Set the fields to specify which types of place data to

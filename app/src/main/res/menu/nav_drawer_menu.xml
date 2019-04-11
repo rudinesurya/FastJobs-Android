@@ -2,16 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/jobDashboardFragment"
-            android:title="@string/title_jobDashboard" />
+            android:id="@+id/userActivity"
+            android:title="@string/title_userActivity" />
 
         <item
-            android:id="@+id/accountFragment"
-            android:title="@string/title_account" />
-
-        <item
-            android:id="@+id/jobRegistrationFragment"
-            android:title="@string/title_jobRegistration" />
+            android:id="@+id/jobRegistrationActivity"
+            android:title="@string/title_jobRegistrationActivity" />
 
         <item
             android:id="@+id/signOut"
