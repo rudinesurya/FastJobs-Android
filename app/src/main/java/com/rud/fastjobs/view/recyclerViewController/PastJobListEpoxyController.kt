@@ -3,19 +3,21 @@ package com.rud.fastjobs.view.recyclerViewController
 import com.airbnb.epoxy.TypedEpoxyController
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.toLocalDateTime
+import com.rud.fastjobs.utils.toTimestamp
 import com.rud.fastjobs.view.epoxyModelView.headerItem
 import com.rud.fastjobs.view.epoxyModelView.jobItem
 import java.time.LocalDate
+import java.time.LocalDateTime
 
 
-class JobListEpoxyController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
+class PastJobListEpoxyController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
     interface AdapterCallbacks {
         fun onItemClick(id: String)
     }
 
     override fun buildModels(data: List<Job>) {
         var dateState = LocalDate.MIN
-        data.sortedBy { it.date }.forEach {
+        data.filter { it.date!! <= LocalDateTime.now().toTimestamp() }.sortedBy { it.date }.forEach {
             val ld = it.date?.toLocalDateTime()!!.toLocalDate()
 
             if (dateState != ld) //when the date is different, render a new header
