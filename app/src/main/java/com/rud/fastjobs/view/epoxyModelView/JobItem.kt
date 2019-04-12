@@ -3,7 +3,7 @@ package com.rud.fastjobs.view.epoxyModelView
 import android.content.Context
 import android.util.AttributeSet
 import android.view.View
-import android.widget.LinearLayout
+import android.widget.FrameLayout
 import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
@@ -19,10 +19,9 @@ class JobItem @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
-) : LinearLayout(context, attrs, defStyleAttr) {
+) : FrameLayout(context, attrs, defStyleAttr) {
     init {
         inflate(context, R.layout.job_item_card, this)
-        orientation = VERTICAL
     }
 
     @ModelProp

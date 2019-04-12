@@ -7,6 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
+import com.airbnb.epoxy.EpoxyController
+import com.airbnb.epoxy.EpoxyRecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -59,6 +61,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
         val job = viewModel.currentJob
         Timber.d(job.toString())
 
+        controller.setData(job, arrayListOf("xxxxx", "asdasda"))
         jobDetail_recyclerView.setController(controller)
 
         val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -92,7 +95,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
                     Timber.d("jobs changes observed")
                     Timber.d(jobs?.toString())
 
-                    controller.setData(jobs)
+
                 }
 
                 override fun onLoading() {
@@ -129,4 +132,13 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
     override fun onCarouselItemClick(id: String) {
         Timber.d("job [%s] clicked!", id)
     }
+}
+
+/** Easily add models to an EpoxyRecyclerView, the same way you would in a buildModels method of EpoxyController. */
+fun EpoxyRecyclerView.withModels(buildModelsCallback: EpoxyController.() -> Unit) {
+    setControllerAndBuildModels(object : EpoxyController() {
+        override fun buildModels() {
+            buildModelsCallback()
+        }
+    })
 }

@@ -1,33 +1,43 @@
 package com.rud.fastjobs.view.recyclerViewController
 
 import com.airbnb.epoxy.*
+import com.google.android.gms.maps.model.LatLng
 import com.rud.fastjobs.data.model.Job
-import com.rud.fastjobs.view.epoxyModelView.headerItem
+import com.rud.fastjobs.view.epoxyModelView.RecItemModel_
+import com.rud.fastjobs.view.epoxyModelView.jobBodyInfo
+import com.rud.fastjobs.view.epoxyModelView.jobHeaderInfo
+import com.rud.fastjobs.view.epoxyModelView.liteMapItem
 
 
-class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
+class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2EpoxyController<Job, List<String>>() {
     interface AdapterCallbacks {
         fun onCarouselItemClick(id: String)
     }
 
-    override fun buildModels(data: List<Job>) {
+    override fun buildModels(job: Job, recommendations: List<String>) {
 
-        headerItem {
-            id("header1")
-            headerTitle("TEST")
+        jobHeaderInfo {
+            id("jobHeaderInfo")
         }
 
-//        carousel {
-//            id("carousel")
-//            numViewsToShowOnScreen(1.2f)
-//
-//            withModelsFrom(data) {
-//                JobItemModel_()
-//                    .id(it.id)
-//                    .job(it)
-//                    .onClick { model, modelview, _, _ -> callbacks.onCarouselItemClick(modelview.job.id!!) }
-//            }
-//        }
+        liteMapItem {
+            id("liteMapItem")
+            location(LatLng(-33.8670522, 151.1957362))
+        }
+
+        jobBodyInfo {
+            id("jobBodyInfo")
+        }
+
+        carousel {
+            id("carousel")
+            numViewsToShowOnScreen(1.2f)
+
+            withModelsFrom(recommendations) {
+                RecItemModel_()
+                    .id(it)
+            }
+        }
     }
 }
 

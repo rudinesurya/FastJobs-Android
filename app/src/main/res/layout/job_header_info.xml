@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/hostName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Posted by: John" />
+
+    <TextView
+        android:id="@+id/updatedAt"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Updated at 3/4/2019" />
+
+    <TextView
+        android:id="@+id/urgency"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Urgent" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:gravity="center">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_join"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Join" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_save"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save" />
+
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="DESCRIPTION" />
+
+    <TextView
+        android:id="@+id/shortDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/short_description_sample" />
+
+</LinearLayout>

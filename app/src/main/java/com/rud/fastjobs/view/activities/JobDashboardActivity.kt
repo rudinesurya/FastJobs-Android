@@ -6,9 +6,6 @@ import android.view.MenuItem
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
-import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentPagerAdapter
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.libraries.places.api.Places
@@ -18,6 +15,7 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.utils.MyViewPagerAdapter
 import com.rud.fastjobs.view.fragments.jobDashboard.*
 import com.rud.fastjobs.view.glide.GlideApp
 import kotlinx.android.synthetic.main.activity_job_dashboard.*
@@ -33,27 +31,6 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
     private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
 
-    class MyViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manager) {
-        private val fragmentList: MutableList<Fragment> = ArrayList()
-        private val titleList: MutableList<String> = ArrayList()
-
-        override fun getItem(position: Int): Fragment {
-            return fragmentList[position]
-        }
-
-        override fun getCount(): Int {
-            return fragmentList.size
-        }
-
-        fun addFragment(fragment: Fragment, title: String) {
-            fragmentList.add(fragment)
-            titleList.add(title)
-        }
-
-        override fun getPageTitle(position: Int): CharSequence? {
-            return titleList[position]
-        }
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

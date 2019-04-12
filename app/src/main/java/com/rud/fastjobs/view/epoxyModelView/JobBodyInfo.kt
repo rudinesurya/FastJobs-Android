@@ -3,28 +3,17 @@ package com.rud.fastjobs.view.epoxyModelView
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
-import com.airbnb.epoxy.AfterPropsSet
-import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.rud.fastjobs.R
-import kotlinx.android.synthetic.main.header_view.view.*
-
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
-class HeaderItem @JvmOverloads constructor(
+class JobBodyInfo @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
 ) : FrameLayout(context, attrs, defStyleAttr) {
     init {
-        inflate(context, R.layout.header_view, this)
+        inflate(context, R.layout.job_body_info, this)
     }
 
-    @ModelProp
-    lateinit var headerTitle: String
-
-    @AfterPropsSet
-    fun bindUI() {
-        title.text = headerTitle
-    }
 }
