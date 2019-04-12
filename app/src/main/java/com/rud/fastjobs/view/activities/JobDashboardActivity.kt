@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
@@ -37,8 +38,11 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         setContentView(R.layout.activity_job_dashboard)
 
         setSupportActionBar(dashboard_toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-        supportActionBar?.setDisplayShowHomeEnabled(true)
+
+        val mToggle =
+            ActionBarDrawerToggle(this, drawer_layout, dashboard_toolbar, R.string.app_name, R.string.app_name)
+        drawer_layout.addDrawerListener(mToggle)
+        mToggle.syncState()
 
         setupNavigation()
 
@@ -86,7 +90,8 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
             }
 
             setOnClickListener {
-                //                navController.navigate(R.id.accountFragment)
+                val intent = Intent(this@JobDashboardActivity, UserActivity::class.java)
+                startActivity(intent)
                 drawer_layout.closeDrawers()
             }
         }
