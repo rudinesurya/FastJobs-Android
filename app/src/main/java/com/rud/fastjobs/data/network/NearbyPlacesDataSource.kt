@@ -8,7 +8,6 @@ import retrofit2.Callback
 import retrofit2.Response
 import timber.log.Timber
 
-
 class NearbyPlacesDataSource(
     private val nearbyPlacesApiService: NearbyPlacesApiService
 ) {

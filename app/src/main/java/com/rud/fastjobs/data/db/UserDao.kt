@@ -6,8 +6,7 @@ import com.google.firebase.storage.FirebaseStorage
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.ptrbrynt.firestorelivedata.asLiveData
 import com.rud.fastjobs.data.model.User
-import java.util.*
-
+import java.util.UUID
 
 class UserDao(
     private val firestoreInstance: FirebaseFirestore,

@@ -6,7 +6,6 @@ import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.repository.MyRepository
 
-
 class JobDetailViewModel(private val myRepository: MyRepository) : ViewModel() {
     lateinit var currentJob: Job
 
@@ -16,7 +15,7 @@ class JobDetailViewModel(private val myRepository: MyRepository) : ViewModel() {
         })
     }
 
-    //test
+    // test
     fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit = {}) {
         myRepository.getAllJobsLiveData(onComplete)
     }

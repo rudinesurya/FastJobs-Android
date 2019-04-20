@@ -6,7 +6,6 @@ import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.ptrbrynt.firestorelivedata.asLiveData
 import com.rud.fastjobs.data.model.Job
 
-
 class JobDao(private val firestoreInstance: FirebaseFirestore) {
     private val jobsRef = firestoreInstance.collection("jobs")
 

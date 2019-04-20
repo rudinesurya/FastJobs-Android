@@ -4,7 +4,6 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 
-
 class Auth(private val firebaseAuth: FirebaseAuth) {
     val currentUser
         get() = firebaseAuth.currentUser
@@ -32,7 +31,8 @@ class Auth(private val firebaseAuth: FirebaseAuth) {
     }
 
     fun signInWithCredential(
-        credential: AuthCredential, onSuccess: (FirebaseUser) -> Unit,
+        credential: AuthCredential,
+        onSuccess: (FirebaseUser) -> Unit,
         onFailure: (Exception) -> Unit
     ) {
         firebaseAuth.signInWithCredential(credential).addOnSuccessListener { onSuccess(it.user) }

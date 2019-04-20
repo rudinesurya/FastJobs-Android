@@ -17,7 +17,11 @@ import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.utils.MyViewPagerAdapter
-import com.rud.fastjobs.view.fragments.jobDashboard.*
+import com.rud.fastjobs.view.fragments.jobDashboard.JobListFragment
+import com.rud.fastjobs.view.fragments.jobDashboard.JoinedJobListFragment
+import com.rud.fastjobs.view.fragments.jobDashboard.NotificationFragment
+import com.rud.fastjobs.view.fragments.jobDashboard.PastJobListFragment
+import com.rud.fastjobs.view.fragments.jobDashboard.StarredJobListFragment
 import com.rud.fastjobs.view.glide.GlideApp
 import kotlinx.android.synthetic.main.activity_job_dashboard.*
 import kotlinx.android.synthetic.main.nav_drawer_header.view.*
@@ -26,12 +30,10 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 
-
 class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigationItemSelectedListener {
     override val kodein: Kodein by closestKodein()
     private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

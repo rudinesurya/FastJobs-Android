@@ -1,13 +1,16 @@
 package com.rud.fastjobs.view.recyclerViewController
 
-import com.airbnb.epoxy.*
+import com.airbnb.epoxy.CarouselModelBuilder
+import com.airbnb.epoxy.CarouselModel_
+import com.airbnb.epoxy.EpoxyController
+import com.airbnb.epoxy.EpoxyModel
+import com.airbnb.epoxy.Typed2EpoxyController
 import com.google.android.gms.maps.model.LatLng
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.view.epoxyModelView.RecItemModel_
 import com.rud.fastjobs.view.epoxyModelView.jobBodyInfo
 import com.rud.fastjobs.view.epoxyModelView.jobHeaderInfo
 import com.rud.fastjobs.view.epoxyModelView.liteMapItem
-
 
 class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2EpoxyController<Job, List<String>>() {
     interface AdapterCallbacks {
@@ -40,7 +43,6 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2
         }
     }
 }
-
 
 /** For use in the buildModels method of EpoxyController. A shortcut for creating a Carousel model, initializing it, and adding it to the controller.
  *

@@ -9,7 +9,6 @@ import com.rud.fastjobs.view.fragments.JobDetailFragment
 import com.rud.fastjobs.view.fragments.UserListFragment
 import kotlinx.android.synthetic.main.activity_job_detail.*
 
-
 class JobDetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

@@ -25,8 +25,7 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 import java.time.LocalDateTime
-import java.util.*
-
+import java.util.Arrays
 
 class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.OnDateSetListener,
     TimePickerDialog.OnTimeSetListener {
@@ -36,7 +35,8 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
     private val AUTOCOMPLETE_REQUEST_CODE = 1
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_job_registration, container, false)
@@ -46,7 +46,6 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobRegistrationViewModel::class.java)
-
 
 //        viewModel.getJobById(id,
 //            onSuccess = { job ->
@@ -58,7 +57,6 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
 //
 //                btn_save.text = "Update Job"
 //            })
-
 
         input_venue.setOnClickListener {
             // Set the fields to specify which types of place data to

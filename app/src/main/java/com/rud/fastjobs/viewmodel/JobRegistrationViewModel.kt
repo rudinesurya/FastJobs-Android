@@ -9,7 +9,6 @@ import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.utils.toTimestamp
 import java.time.LocalDateTime
 
-
 class JobRegistrationViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
     var currentJob: Job? = null
     var currentSelectedVenue: Venue? = null

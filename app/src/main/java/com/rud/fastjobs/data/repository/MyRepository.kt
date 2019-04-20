@@ -7,7 +7,6 @@ import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.User
 
-
 class MyRepository(private val userDao: UserDao, private val jobDao: JobDao) {
     fun getUserByIdLiveData(id: String, onComplete: (LiveData<FirestoreResource<User>>) -> Unit = {}) {
         userDao.getUserByIdLiveData(id, onComplete)

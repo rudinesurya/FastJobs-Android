@@ -21,7 +21,6 @@ import org.kodein.di.generic.provider
 import org.kodein.di.generic.singleton
 import timber.log.Timber
 
-
 class MyApplication : Application(), KodeinAware {
     private lateinit var placesClient: PlacesClient
 

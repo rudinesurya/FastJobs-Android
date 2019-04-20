@@ -30,7 +30,6 @@ import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-
 class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, JobDetailEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
@@ -38,7 +37,8 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
     private val controller = JobDetailEpoxyController(this)
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(com.rud.fastjobs.R.layout.fragment_job_detail, container, false)
@@ -88,14 +88,11 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
 //        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
 //        mapFragment.getMapAsync(this)
 
-
         viewModel.getAllJobsLiveData { jobs ->
             jobs.observe(this, object : ResourceObserver<List<Job>> {
                 override fun onSuccess(jobs: List<Job>?) {
                     Timber.d("jobs changes observed")
                     Timber.d(jobs?.toString())
-
-
                 }
 
                 override fun onLoading() {

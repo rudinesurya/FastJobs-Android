@@ -5,7 +5,6 @@ import java.time.Instant
 import java.time.LocalDateTime
 import java.time.ZoneId
 
-
 fun LocalDateTime.toTimestamp() = Timestamp(atZone(ZoneId.systemDefault()).toEpochSecond(), nano)
 
 fun Timestamp.toLocalDateTime(zone: ZoneId = ZoneId.systemDefault()) =

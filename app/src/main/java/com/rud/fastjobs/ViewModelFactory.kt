@@ -10,7 +10,6 @@ import com.rud.fastjobs.viewmodel.JobDetailViewModel
 import com.rud.fastjobs.viewmodel.JobListViewModel
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 
-
 class ViewModelFactory(private val myRepository: MyRepository, private val auth: Auth, private val app: Application) :
     ViewModelProvider.NewInstanceFactory() {
 

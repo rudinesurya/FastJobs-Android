@@ -9,7 +9,6 @@ import com.airbnb.epoxy.ModelView
 import com.rud.fastjobs.R
 import kotlinx.android.synthetic.main.header_view.view.*
 
-
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class HeaderItem @JvmOverloads constructor(
     context: Context,

@@ -72,7 +72,6 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
         btn_signup.isEnabled = true
     }
 
-
     fun validate(): Boolean {
         var valid = true
 

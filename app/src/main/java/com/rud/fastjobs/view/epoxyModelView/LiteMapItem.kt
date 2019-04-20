@@ -13,7 +13,6 @@ import com.google.android.gms.maps.model.MarkerOptions
 import com.rud.fastjobs.R
 import kotlinx.android.synthetic.main.lite_google_map.view.*
 
-
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class LiteMapItem @JvmOverloads constructor(
     context: Context,

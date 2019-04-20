@@ -13,7 +13,6 @@ import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.toLocalDateTime
 import kotlinx.android.synthetic.main.job_item_card.view.*
 
-
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class JobItem @JvmOverloads constructor(
     context: Context,

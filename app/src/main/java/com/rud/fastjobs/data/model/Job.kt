@@ -3,7 +3,6 @@ package com.rud.fastjobs.data.model
 import com.google.firebase.Timestamp
 import com.ptrbrynt.firestorelivedata.FirestoreModel
 
-
 data class Job(
     val title: String = "",
     val hostName: String = "",

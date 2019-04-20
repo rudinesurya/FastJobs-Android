@@ -8,7 +8,6 @@ import org.junit.Assert
 import org.junit.BeforeClass
 import org.junit.Test
 
-
 class GooglePlacesQueryTest {
     companion object {
         lateinit var appContext: Context

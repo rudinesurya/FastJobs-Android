@@ -28,7 +28,6 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-
 class LoginActivity : AppCompatActivity(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val myRepository: MyRepository by instance()
@@ -38,7 +37,6 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
     private val RC_SIGNUP = 1
 
     private lateinit var callbackManager: CallbackManager
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -67,7 +65,6 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
             startActivityForResult(signInIntent, RC_GOOGLE_SIGN_IN)
         }
 
-
         // Initialize Facebook Login button
         callbackManager = CallbackManager.Factory.create()
 
@@ -86,7 +83,6 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
                 Timber.e(error)
             }
         })
-
     }
 
     fun login() {

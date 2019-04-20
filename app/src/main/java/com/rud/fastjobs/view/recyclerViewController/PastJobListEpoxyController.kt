@@ -9,7 +9,6 @@ import com.rud.fastjobs.view.epoxyModelView.jobItem
 import java.time.LocalDate
 import java.time.LocalDateTime
 
-
 class PastJobListEpoxyController(private val callbacks: AdapterCallbacks) : TypedEpoxyController<List<Job>>() {
     interface AdapterCallbacks {
         fun onItemClick(id: String)
@@ -20,7 +19,7 @@ class PastJobListEpoxyController(private val callbacks: AdapterCallbacks) : Type
         data.filter { it.date!! <= LocalDateTime.now().toTimestamp() }.sortedBy { it.date }.forEach {
             val ld = it.date?.toLocalDateTime()!!.toLocalDate()
 
-            if (dateState != ld) //when the date is different, render a new header
+            if (dateState != ld) // when the date is different, render a new header
             {
                 val dateStr = ld.dayOfWeek.toString() + ", " + ld.dayOfMonth + " " + ld.month
 
@@ -29,7 +28,7 @@ class PastJobListEpoxyController(private val callbacks: AdapterCallbacks) : Type
                     headerTitle(dateStr)
                 }
 
-                dateState = ld //set the current data state to this date
+                dateState = ld // set the current data state to this date
             }
 
             jobItem {

@@ -4,7 +4,6 @@ import com.rud.fastjobs.data.model.User
 import org.assertj.core.api.Assertions.assertThat
 import org.junit.Test
 
-
 class UserTest {
     @Test
     fun `test constructor`() {

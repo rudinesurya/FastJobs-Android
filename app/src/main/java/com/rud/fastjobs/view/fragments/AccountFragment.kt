@@ -25,16 +25,15 @@ import org.kodein.di.generic.instance
 import timber.log.Timber
 import java.io.ByteArrayOutputStream
 
-
 class AccountFragment : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: AccountViewModel
     private val RC_SELECT_IMAGE = 2
 
-
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_account, container, false)

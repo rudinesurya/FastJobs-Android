@@ -21,7 +21,6 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-
 class PastJobListFragment : ScopedFragment(), KodeinAware, PastJobListEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
@@ -29,7 +28,8 @@ class PastJobListFragment : ScopedFragment(), KodeinAware, PastJobListEpoxyContr
     private val controller = PastJobListEpoxyController(this)
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment

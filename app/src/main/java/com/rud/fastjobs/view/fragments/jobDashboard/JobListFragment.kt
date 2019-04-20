@@ -1,6 +1,5 @@
 package com.rud.fastjobs.view.fragments.jobDashboard
 
-
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -23,7 +22,6 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-
 class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
@@ -31,7 +29,8 @@ class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyController.Ad
     private val controller = JobListEpoxyController(this)
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment

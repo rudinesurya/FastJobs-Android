@@ -15,5 +15,4 @@ class JobBodyInfo @JvmOverloads constructor(
     init {
         inflate(context, R.layout.job_body_info, this)
     }
-
 }

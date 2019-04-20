@@ -9,7 +9,6 @@ import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 
-
 class AccountViewModel(private val myRepository: MyRepository, private val auth: Auth, app: Application) :
     AndroidViewModel(app) {
     lateinit var currentUser: User
@@ -44,10 +43,10 @@ class AccountViewModel(private val myRepository: MyRepository, private val auth:
         if (bio != currentUser.bio)
             userFieldMap["bio"] = bio
 
-        //if no new image is selected, or
-        //if image fails to be uploaded,
-        //update user without uploading image to storage
-        //else upload user data with the avatarurl to the storage path
+        // if no new image is selected, or
+        // if image fails to be uploaded,
+        // update user without uploading image to storage
+        // else upload user data with the avatarurl to the storage path
         if (selectedImageBytes != null) {
             uploadAvatar(selectedImageBytes!!,
                 onSuccess = { imagePath ->
