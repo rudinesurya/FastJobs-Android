@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    package="com.rud.fastjobs">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.rud.fastjobs">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality.
     -->
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
 
     <application
         android:name=".MyApplication"
@@ -31,48 +33,53 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_api_key" />
+            android:value="@string/google_maps_key"/>
+
+
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_application_id" />
+            android:value="@string/facebook_application_id"/>
 
         <activity
             android:name=".view.activities.SplashActivity"
             android:noHistory="true"
             android:theme="@style/SplashTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
         <activity android:name=".view.activities.LoginActivity">
             <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.VIEW"/>
 
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.DEFAULT"/>
+                <category android:name="android.intent.category.BROWSABLE"/>
 
-                <data android:scheme="@string/fb_login_protocol_scheme" />
+                <data android:scheme="@string/fb_login_protocol_scheme"/>
             </intent-filter>
         </activity>
-
-        <activity android:name=".view.activities.SignUpActivity" />
-
-        <activity android:name=".view.activities.JobDashboardActivity" />
-
+        <activity android:name=".view.activities.SignUpActivity"/>
+        <activity android:name=".view.activities.JobDashboardActivity"/>
         <activity
             android:name=".view.activities.JobDetailActivity"
-            android:parentActivityName=".view.activities.JobDashboardActivity" />
-
+            android:label="@string/title_jobDetailActivity"
+            android:parentActivityName=".view.activities.JobDashboardActivity"/>
         <activity
             android:name=".view.activities.JobRegistrationActivity"
-            android:parentActivityName=".view.activities.JobDashboardActivity" />
-
+            android:label="@string/title_jobRegistrationActivity"
+            android:parentActivityName=".view.activities.JobDashboardActivity"/>
         <activity
             android:name=".view.activities.UserActivity"
-            android:parentActivityName=".view.activities.JobDashboardActivity" />
+            android:label="@string/title_userActivity"
+            android:parentActivityName=".view.activities.JobDashboardActivity"/>
 
+        <activity
+            android:name=".view.activities.MapsActivity"
+            android:label="@string/title_mapActivity"
+            android:parentActivityName=".view.activities.JobDashboardActivity">
+        </activity>
     </application>
 
 </manifest>

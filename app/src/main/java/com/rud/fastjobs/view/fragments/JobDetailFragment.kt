@@ -14,10 +14,8 @@ import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
-import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.recyclerViewController.JobDetailEpoxyController
 import com.rud.fastjobs.viewmodel.JobDetailViewModel
@@ -87,23 +85,6 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 //        val mapFragment = childFragmentManager.findFragmentById(R.id.mapView) as SupportMapFragment
 //        mapFragment.getMapAsync(this)
-
-        viewModel.getAllJobsLiveData { jobs ->
-            jobs.observe(this, object : ResourceObserver<List<Job>> {
-                override fun onSuccess(jobs: List<Job>?) {
-                    Timber.d("jobs changes observed")
-                    Timber.d(jobs?.toString())
-                }
-
-                override fun onLoading() {
-                    Timber.d("loading jobs observer")
-                }
-
-                override fun onError(throwable: Throwable?, errorMessage: String?) {
-                    Timber.e(errorMessage)
-                }
-            })
-        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {

@@ -120,6 +120,11 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
                 startActivity(intent)
             }
 
+            R.id.mapActivity -> {
+                val intent = Intent(this@JobDashboardActivity, MapsActivity::class.java)
+                startActivity(intent)
+            }
+
             R.id.signOut -> {
                 auth.signOut()
 
