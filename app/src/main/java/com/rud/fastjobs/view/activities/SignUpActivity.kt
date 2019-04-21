@@ -9,8 +9,6 @@ import com.google.firebase.auth.FirebaseUser
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
-import com.rud.fastjobs.data.model.User
-import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.viewmodel.SignUpActivityViewModel
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.kodein.di.Kodein
@@ -23,7 +21,6 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: SignUpActivityViewModel
-    private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -67,7 +64,7 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
     fun onSignUpSuccess(user: FirebaseUser) {
         Timber.d("onSignUpSuccess")
 
-        initUserIfNew(user)
+        viewModel.initUserIfNew(user, name = input_name.text.toString())
         btn_signup.isEnabled = true
         setResult(RESULT_OK, null)
         finish()
@@ -116,20 +113,5 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
         }
 
         return valid
-    }
-
-    fun initUserIfNew(user: FirebaseUser) {
-        myRepository.getUserById(user.uid, onSuccess = {
-            if (it == null) {
-                val newUser = User(
-                    name = input_name.text.toString(),
-                    email = user.email!!,
-                    bio = "",
-                    avatarUrl = null
-                )
-
-                myRepository.addUser(user.uid, newUser)
-            }
-        })
     }
 }

@@ -10,14 +10,12 @@ import androidx.core.view.GravityCompat
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.google.android.libraries.places.api.Places
 import com.google.android.material.navigation.NavigationView
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
-import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.utils.MyViewPagerAdapter
 import com.rud.fastjobs.view.fragments.jobDashboard.JobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.JoinedJobListFragment
@@ -37,7 +35,6 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobDashboardActivityViewModel
-    private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -65,22 +62,19 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         viewpager.adapter = adapter
         tabs.setupWithViewPager(viewpager)
 
-        // Initialize Places.
-        val apiKey = getString(R.string.google_maps_key)
-        Places.initialize(this, apiKey)
-        Places.createClient(this)
+        viewModel.initGooglePlaces()
     }
 
     private fun setupNavigation() {
         nav_view.setNavigationItemSelectedListener(this)
 
         nav_view.getHeaderView(0)?.apply {
-            myRepository.getUserByIdLiveData(auth.currentUser!!.uid) { user ->
+            viewModel.getUserByIdLiveData(auth.currentUser!!.uid) { user ->
                 user.observe(this@JobDashboardActivity, object : ResourceObserver<User> {
                     override fun onSuccess(user: User?) {
                         user?.let { user ->
                             user.avatarUrl?.let { avatarUrl ->
-                                GlideApp.with(this@JobDashboardActivity).load(myRepository.pathToReference(avatarUrl))
+                                GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(avatarUrl))
                                     .transforms(CenterCrop(), RoundedCorners(100))
                                     .into(imageView_avatar)
                             }

@@ -5,12 +5,14 @@ import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.ptrbrynt.firestorelivedata.FirestoreResource
+import com.rud.fastjobs.MyApplication
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 
 class AccountViewModel(private val myRepository: MyRepository, private val auth: Auth, app: Application) :
     AndroidViewModel(app) {
+    private val app = getApplication<MyApplication>()
     lateinit var currentUser: User
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
@@ -31,7 +33,7 @@ class AccountViewModel(private val myRepository: MyRepository, private val auth:
 
     fun updateCurrentUser(userFieldMap: Map<String, Any>) {
         myRepository.updateUser(auth.currentUser?.uid!!, userFieldMap, onSuccess = {
-            Toast.makeText(getApplication(), "Saved!", Toast.LENGTH_SHORT).show()
+            Toast.makeText(app, "Saved!", Toast.LENGTH_SHORT).show()
         })
     }
 
