@@ -14,6 +14,8 @@ import com.rud.fastjobs.view.epoxyModelView.liteMapItem
 
 class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2EpoxyController<Job, List<String>>() {
     interface AdapterCallbacks {
+        fun onJoinBtnClick()
+        fun onLeaveBtnClick()
         fun onCarouselItemClick(id: String)
     }
 
@@ -21,6 +23,8 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2
 
         jobHeaderInfo {
             id("jobHeaderInfo")
+            onJoinBtnClick { _ -> callbacks.onJoinBtnClick() }
+            onLeaveBtnClick { _ -> callbacks.onLeaveBtnClick() }
         }
 
         liteMapItem {

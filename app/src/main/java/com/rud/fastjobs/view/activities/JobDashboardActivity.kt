@@ -65,6 +65,11 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         viewModel.initGooglePlaces()
     }
 
+    override fun onResume() {
+        super.onResume()
+        nav_view.checkedItem?.isChecked = false
+    }
+
     private fun setupNavigation() {
         nav_view.setNavigationItemSelectedListener(this)
 

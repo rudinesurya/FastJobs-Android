@@ -70,6 +70,39 @@ class MyRepository(
         jobDao.getJobById(id, onSuccess, onFailure)
     }
 
+    fun joinJob(userId: String, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        jobDao.joinJob(userId, jobId, onSuccess, onFailure)
+    }
+
+    fun leaveJob(
+        userId: String,
+        jobId: String,
+        participantId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        jobDao.leaveJob(userId, jobId, participantId, onSuccess, onFailure)
+    }
+
+    fun postComment(
+        userId: String,
+        jobId: String,
+        text: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        jobDao.postComment(userId, jobId, text, onSuccess, onFailure)
+    }
+
+    fun deleteComment(
+        jobId: String,
+        commentId: String,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        jobDao.deleteComment(jobId, commentId, onSuccess, onFailure)
+    }
+
     // Nearby Places Data Source
     fun fetchNearbyPlaces(
         location: String,
