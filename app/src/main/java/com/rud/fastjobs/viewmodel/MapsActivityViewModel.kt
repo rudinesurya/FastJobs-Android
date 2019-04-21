@@ -4,18 +4,19 @@ import android.app.Application
 import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
-import com.rud.fastjobs.data.network.NearbyPlacesDataSource
+import androidx.lifecycle.MutableLiveData
 import com.rud.fastjobs.data.network.response.NearbyPlacesResponse
 import com.rud.fastjobs.data.repository.MyRepository
 
 class MapsActivityViewModel(
     private val myRepository: MyRepository,
-    private val nearbyPlacesDataSource: NearbyPlacesDataSource,
     app: Application
 ) : AndroidViewModel(app) {
     lateinit var myLastLocation: Location
 
-    val downloadedNearbyPlaces: LiveData<NearbyPlacesResponse> = nearbyPlacesDataSource.downloadedNearbyPlaces
+    private val _downloadedNearbyPlaces = MutableLiveData<NearbyPlacesResponse>()
+    val downloadedNearbyPlaces: LiveData<NearbyPlacesResponse>
+        get() = _downloadedNearbyPlaces
 
     fun fetchNearbyMarket() {
         val lat = myLastLocation.latitude
@@ -25,6 +26,8 @@ class MapsActivityViewModel(
         val type = "restaurant"
 
         // fetch the data. when it is ready, it will be populated to the livedata
-        nearbyPlacesDataSource.fetchNearbyPlaces(location = location, radius = radius, type = type)
+        myRepository.fetchNearbyPlaces(location = location, radius = radius, type = type, onSuccess = {
+            _downloadedNearbyPlaces.postValue(it)
+        })
     }
 }

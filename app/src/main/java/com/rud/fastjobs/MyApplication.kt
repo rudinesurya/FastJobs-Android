@@ -42,7 +42,7 @@ class MyApplication : Application(), KodeinAware {
         bind() from singleton { ConnectivityInterceptor(instance()) }
         bind() from singleton { NearbyPlacesApiService(apiKey, instance()) }
         bind() from singleton { NearbyPlacesDataSource(instance()) }
-        bind() from singleton { MyRepository(instance(), instance()) }
-        bind() from provider { ViewModelFactory(instance(), instance(), instance(), instance()) }
+        bind() from singleton { MyRepository(instance(), instance(), instance()) }
+        bind() from provider { ViewModelFactory(instance(), instance(), instance()) }
     }
 }

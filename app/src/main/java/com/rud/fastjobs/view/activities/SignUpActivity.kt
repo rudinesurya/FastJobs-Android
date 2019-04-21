@@ -4,11 +4,14 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.google.firebase.auth.FirebaseUser
 import com.rud.fastjobs.R
+import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.viewmodel.SignUpActivityViewModel
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -18,12 +21,16 @@ import timber.log.Timber
 
 class SignUpActivity : AppCompatActivity(), KodeinAware {
     override val kodein: Kodein by closestKodein()
+    private val viewModelFactory: ViewModelFactory by instance()
+    private lateinit var viewModel: SignUpActivityViewModel
     private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(SignUpActivityViewModel::class.java)
 
         btn_signup.setOnClickListener {
             signup()

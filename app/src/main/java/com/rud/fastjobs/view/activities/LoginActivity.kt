@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProviders
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -18,9 +19,11 @@ import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rud.fastjobs.R
+import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.viewmodel.LoginActivityViewModel
 import kotlinx.android.synthetic.main.activity_login.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -30,6 +33,8 @@ import timber.log.Timber
 
 class LoginActivity : AppCompatActivity(), KodeinAware {
     override val kodein: Kodein by closestKodein()
+    private val viewModelFactory: ViewModelFactory by instance()
+    private lateinit var viewModel: LoginActivityViewModel
     private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
     private lateinit var googleSignInClient: GoogleSignInClient
@@ -41,6 +46,8 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(LoginActivityViewModel::class.java)
 
         btn_login.setOnClickListener {
             login()

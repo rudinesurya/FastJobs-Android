@@ -7,12 +7,14 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.libraries.places.api.Places
 import com.google.android.material.navigation.NavigationView
 import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
+import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
@@ -23,6 +25,7 @@ import com.rud.fastjobs.view.fragments.jobDashboard.NotificationFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.PastJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.StarredJobListFragment
 import com.rud.fastjobs.view.glide.GlideApp
+import com.rud.fastjobs.viewmodel.JobDashboardActivityViewModel
 import kotlinx.android.synthetic.main.activity_job_dashboard.*
 import kotlinx.android.synthetic.main.nav_drawer_header.view.*
 import org.kodein.di.Kodein
@@ -32,12 +35,16 @@ import org.kodein.di.generic.instance
 
 class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.OnNavigationItemSelectedListener {
     override val kodein: Kodein by closestKodein()
+    private val viewModelFactory: ViewModelFactory by instance()
+    private lateinit var viewModel: JobDashboardActivityViewModel
     private val myRepository: MyRepository by instance()
     private val auth: Auth by instance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_job_dashboard)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)
+            .get(JobDashboardActivityViewModel::class.java)
 
         setSupportActionBar(dashboard_toolbar)
 
