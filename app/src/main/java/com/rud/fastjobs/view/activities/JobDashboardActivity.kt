@@ -23,7 +23,7 @@ import com.rud.fastjobs.view.fragments.jobDashboard.NotificationFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.PastJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.StarredJobListFragment
 import com.rud.fastjobs.view.glide.GlideApp
-import com.rud.fastjobs.viewmodel.JobDashboardActivityViewModel
+import com.rud.fastjobs.viewmodel.jobDashboard.JobDashboardActivityViewModel
 import kotlinx.android.synthetic.main.activity_job_dashboard.*
 import kotlinx.android.synthetic.main.nav_drawer_header.view.*
 import org.kodein.di.Kodein

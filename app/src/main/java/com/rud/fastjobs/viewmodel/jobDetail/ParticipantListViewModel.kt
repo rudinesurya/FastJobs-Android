@@ -1,4 +1,4 @@
-package com.rud.fastjobs.viewmodel
+package com.rud.fastjobs.viewmodel.jobDetail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel

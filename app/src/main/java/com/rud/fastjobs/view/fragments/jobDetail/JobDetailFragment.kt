@@ -1,4 +1,4 @@
-package com.rud.fastjobs.view.fragments
+package com.rud.fastjobs.view.fragments.jobDetail
 
 import android.content.Intent
 import android.net.Uri
@@ -7,8 +7,6 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
-import com.airbnb.epoxy.EpoxyController
-import com.airbnb.epoxy.EpoxyRecyclerView
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -19,7 +17,7 @@ import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.recyclerViewController.JobDetailEpoxyController
-import com.rud.fastjobs.viewmodel.JobDetailViewModel
+import com.rud.fastjobs.viewmodel.jobDetail.JobDetailViewModel
 import kotlinx.android.synthetic.main.fragment_job_detail.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -124,13 +122,4 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
             Timber.d("leave success")
         })
     }
-}
-
-/** Easily add models to an EpoxyRecyclerView, the same way you would in a buildModels method of EpoxyController. */
-fun EpoxyRecyclerView.withModels(buildModelsCallback: EpoxyController.() -> Unit) {
-    setControllerAndBuildModels(object : EpoxyController() {
-        override fun buildModels() {
-            buildModelsCallback()
-        }
-    })
 }

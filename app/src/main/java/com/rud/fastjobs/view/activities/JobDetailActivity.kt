@@ -4,9 +4,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import com.rud.fastjobs.R
 import com.rud.fastjobs.utils.MyViewPagerAdapter
-import com.rud.fastjobs.view.fragments.ChatRoomFragment
-import com.rud.fastjobs.view.fragments.JobDetailFragment
-import com.rud.fastjobs.view.fragments.ParticipantListFragment
+import com.rud.fastjobs.view.fragments.jobDetail.ChatRoomFragment
+import com.rud.fastjobs.view.fragments.jobDetail.JobDetailFragment
+import com.rud.fastjobs.view.fragments.jobDetail.ParticipantListFragment
 import kotlinx.android.synthetic.main.activity_job_detail.*
 
 class JobDetailActivity : AppCompatActivity() {

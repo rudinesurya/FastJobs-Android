@@ -1,4 +1,4 @@
-package com.rud.fastjobs.view.fragments
+package com.rud.fastjobs.view.fragments.jobDetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -12,7 +12,7 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Participant
 import com.rud.fastjobs.view.recyclerViewController.ParticipantListEpoxyController
-import com.rud.fastjobs.viewmodel.ParticipantListViewModel
+import com.rud.fastjobs.viewmodel.jobDetail.ParticipantListViewModel
 import kotlinx.android.synthetic.main.fragment_user_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware

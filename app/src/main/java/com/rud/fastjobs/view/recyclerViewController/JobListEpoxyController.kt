@@ -12,21 +12,25 @@ class JobListEpoxyController(private val callbacks: AdapterCallbacks) : TypedEpo
         fun onItemClick(id: String)
     }
 
+    var showHeader: Boolean = true
+
     override fun buildModels(data: List<Job>) {
         var dateState = LocalDate.MIN
-        data.sortedBy { it.date }.forEach {
-            val ld = it.date?.toLocalDateTime()!!.toLocalDate()
+        data.forEach {
+            if (showHeader) {
+                val ld = it.date?.toLocalDateTime()!!.toLocalDate()
 
-            if (dateState != ld) // when the date is different, render a new header
-            {
-                val dateStr = ld.dayOfWeek.toString() + ", " + ld.dayOfMonth + " " + ld.month
+                if (dateState != ld) // when the date is different, render a new header
+                {
+                    val dateStr = ld.dayOfWeek.toString() + ", " + ld.dayOfMonth + " " + ld.month
 
-                headerItem {
-                    id(it.id)
-                    headerTitle(dateStr)
+                    headerItem {
+                        id(it.id)
+                        headerTitle(dateStr)
+                    }
+
+                    dateState = ld // set the current data state to this date
                 }
-
-                dateState = ld // set the current data state to this date
             }
 
             jobItem {

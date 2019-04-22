@@ -14,7 +14,7 @@ import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.view.activities.JobDetailActivity
 import com.rud.fastjobs.view.recyclerViewController.JobListEpoxyController
-import com.rud.fastjobs.viewmodel.JobListViewModel
+import com.rud.fastjobs.viewmodel.jobDashboard.JobListViewModel
 import kotlinx.android.synthetic.main.fragment_job_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -50,7 +50,7 @@ class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyController.Ad
                     Timber.d("jobs changes observed")
                     Timber.d(jobs?.toString())
 
-                    controller.setData(jobs)
+                    controller.setData(jobs?.sortedBy { it.date })
                 }
 
                 override fun onLoading() {

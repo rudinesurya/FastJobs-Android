@@ -11,21 +11,23 @@ import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.utils.toTimestamp
 import com.rud.fastjobs.view.activities.JobDetailActivity
-import com.rud.fastjobs.view.recyclerViewController.PastJobListEpoxyController
-import com.rud.fastjobs.viewmodel.JobListViewModel
+import com.rud.fastjobs.view.recyclerViewController.JobListEpoxyController
+import com.rud.fastjobs.viewmodel.jobDashboard.JobListViewModel
 import kotlinx.android.synthetic.main.fragment_job_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
+import java.time.LocalDateTime
 
-class PastJobListFragment : ScopedFragment(), KodeinAware, PastJobListEpoxyController.AdapterCallbacks {
+class PastJobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobListViewModel
-    private val controller = PastJobListEpoxyController(this)
+    private val controller = JobListEpoxyController(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -49,7 +51,7 @@ class PastJobListFragment : ScopedFragment(), KodeinAware, PastJobListEpoxyContr
                     Timber.d("jobs changes observed")
                     Timber.d(jobs?.toString())
 
-                    controller.setData(jobs)
+                    controller.setData(jobs?.filter { it.date!! <= LocalDateTime.now().toTimestamp() }?.sortedBy { it.date })
                 }
 
                 override fun onLoading() {

@@ -1,4 +1,4 @@
-package com.rud.fastjobs.view.fragments
+package com.rud.fastjobs.view.fragments.jobDetail
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,7 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Comment
 import com.rud.fastjobs.view.recyclerViewController.ChatRoomEpoxyController
-import com.rud.fastjobs.viewmodel.ChatRoomViewModel
+import com.rud.fastjobs.viewmodel.jobDetail.ChatRoomViewModel
 import kotlinx.android.synthetic.main.fragment_chat_room.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware

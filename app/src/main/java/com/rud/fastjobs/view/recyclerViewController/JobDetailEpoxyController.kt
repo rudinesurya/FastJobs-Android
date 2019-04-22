@@ -7,7 +7,6 @@ import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.Typed2EpoxyController
 import com.google.android.gms.maps.model.LatLng
 import com.rud.fastjobs.data.model.Job
-import com.rud.fastjobs.view.epoxyModelView.RecItemModel_
 import com.rud.fastjobs.view.epoxyModelView.jobBodyInfo
 import com.rud.fastjobs.view.epoxyModelView.jobHeaderInfo
 import com.rud.fastjobs.view.epoxyModelView.liteMapItem
@@ -36,15 +35,15 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2
             id("jobBodyInfo")
         }
 
-        carousel {
-            id("carousel")
-            numViewsToShowOnScreen(1.2f)
-
-            withModelsFrom(recommendations) {
-                RecItemModel_()
-                    .id(it)
-            }
-        }
+        // carousel {
+        //     id("carousel")
+        //     numViewsToShowOnScreen(1.2f)
+        //
+        //     withModelsFrom(recommendations) {
+        //         RecItemModel_()
+        //             .id(it)
+        //     }
+        // }
     }
 }
 
