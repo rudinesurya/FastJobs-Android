@@ -33,8 +33,7 @@ class LoginActivityViewModel(
                 val newUser = User(
                     name = user.displayName ?: "John Doe",
                     email = user.email ?: "johndoe@gmail.com",
-                    bio = "",
-                    avatarUrl = null
+                    bio = ""
                 )
 
                 addUser(user.uid, newUser)

@@ -5,12 +5,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.toTimestamp
 import com.rud.fastjobs.view.activities.JobDetailActivity
 import com.rud.fastjobs.view.recyclerViewController.JobListEpoxyController
@@ -46,20 +45,12 @@ class PastJobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyControlle
 
         initRecyclerView(view)
         viewModel.getAllJobsLiveData { jobs ->
-            jobs.observe(this, object : ResourceObserver<List<Job>> {
-                override fun onSuccess(jobs: List<Job>?) {
+            jobs.observe(this, Observer {
+                it.data?.let { jobs ->
                     Timber.d("jobs changes observed")
-                    Timber.d(jobs?.toString())
+                    Timber.d(jobs.toString())
 
                     controller.setData(jobs?.filter { it.date!! <= LocalDateTime.now().toTimestamp() }?.sortedBy { it.date })
-                }
-
-                override fun onLoading() {
-                    Timber.d("loading jobs observer")
-                }
-
-                override fun onError(throwable: Throwable?, errorMessage: String?) {
-                    Timber.e(errorMessage)
                 }
             })
         }

@@ -8,12 +8,11 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.view.glide.GlideApp
 import com.rud.fastjobs.viewmodel.AccountViewModel
 import kotlinx.android.synthetic.main.fragment_account.*
@@ -46,28 +45,17 @@ class AccountFragment : ScopedFragment(), KodeinAware {
             .get(AccountViewModel::class.java)
 
         viewModel.getCurrentUserLiveData { user ->
-            user.observe(this@AccountFragment, object : ResourceObserver<User> {
-                override fun onSuccess(user: User?) {
-                    // Handle successful result here
+            user.observe(this@AccountFragment, Observer {
+                it.data?.let { user ->
                     Timber.d("currentUser changes observed")
-                    viewModel.currentUser = user!!
+                    viewModel.currentUser = user
                     input_name.setText(user.name)
                     input_bio.setText(user.bio)
 
-                    if (!viewModel.pictureJustChanged && user.avatarUrl != null) {
+                    if (!viewModel.pictureJustChanged && user.avatarUrl.isNotBlank()) {
                         GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
                             .into(input_avatar)
                     }
-                }
-
-                override fun onLoading() {
-                    // Handle loading state e.g. display a loading animation
-                    Timber.d("loading current user observer")
-                }
-
-                override fun onError(throwable: Throwable?, errorMessage: String?) {
-                    // Handle errors here
-                    Timber.e(errorMessage)
                 }
             })
         }

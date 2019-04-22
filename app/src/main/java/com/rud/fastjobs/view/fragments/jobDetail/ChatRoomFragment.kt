@@ -5,11 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.data.model.Comment
 import com.rud.fastjobs.view.recyclerViewController.ChatRoomEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.ChatRoomViewModel
 import kotlinx.android.synthetic.main.fragment_chat_room.*
@@ -46,21 +45,21 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
         initRecyclerView(view)
 
         viewModel.getAllCommentsLiveData { comments ->
-            comments.observe(this, object : ResourceObserver<List<Comment>> {
-                override fun onSuccess(comments: List<Comment>?) {
+            comments.observe(this, Observer {
+                it.data?.let { comments ->
                     Timber.d("comments changes observed")
-                    Timber.d(comments?.toString())
+                    Timber.d(comments.toString())
 
                     controller.setData(comments)
                 }
+            })
+        }
 
-                override fun onLoading() {
-                    Timber.d("loading comments observer")
-                }
-
-                override fun onError(throwable: Throwable?, errorMessage: String?) {
-                    Timber.e(errorMessage)
-                }
+        btn_post.setOnClickListener {
+            val text = input_comment.text.toString()
+            viewModel.postComment(viewModel.jobId, text, onSuccess = {
+                Timber.d("post success")
+                input_comment.setText("")
             })
         }
     }

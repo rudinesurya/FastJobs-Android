@@ -5,12 +5,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.ptrbrynt.firestorelivedata.ResourceObserver
-
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.data.model.Participant
 import com.rud.fastjobs.view.recyclerViewController.ParticipantListEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.ParticipantListViewModel
 import kotlinx.android.synthetic.main.fragment_user_list.*
@@ -48,20 +46,12 @@ class ParticipantListFragment : Fragment(), KodeinAware, ParticipantListEpoxyCon
         initRecyclerView(view)
 
         viewModel.getAllParticipantsLiveData { participants ->
-            participants.observe(this, object : ResourceObserver<List<Participant>> {
-                override fun onSuccess(participants: List<Participant>?) {
+            participants.observe(this, Observer {
+                it.data?.let { participants ->
                     Timber.d("participants changes observed")
-                    Timber.d(participants?.toString())
+                    Timber.d(participants.toString())
 
                     controller.setData(participants)
-                }
-
-                override fun onLoading() {
-                    Timber.d("loading participants observer")
-                }
-
-                override fun onError(throwable: Throwable?, errorMessage: String?) {
-                    Timber.e(errorMessage)
                 }
             })
         }

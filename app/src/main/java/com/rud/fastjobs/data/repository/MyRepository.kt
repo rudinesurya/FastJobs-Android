@@ -80,28 +80,27 @@ class MyRepository(
         jobDao.getJobById(id, onSuccess, onFailure)
     }
 
-    fun joinJob(userId: String, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
-        jobDao.joinJob(userId, jobId, onSuccess, onFailure)
+    fun joinJob(user: User, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        jobDao.joinJob(user, jobId, onSuccess, onFailure)
     }
 
     fun leaveJob(
         userId: String,
         jobId: String,
-        participantId: String,
         onSuccess: () -> Unit = {},
         onFailure: (Exception) -> Unit = {}
     ) {
-        jobDao.leaveJob(userId, jobId, participantId, onSuccess, onFailure)
+        jobDao.leaveJob(userId, jobId, onSuccess, onFailure)
     }
 
     fun postComment(
-        userId: String,
+        user: User,
         jobId: String,
         text: String,
         onSuccess: () -> Unit = {},
         onFailure: (Exception) -> Unit = {}
     ) {
-        jobDao.postComment(userId, jobId, text, onSuccess, onFailure)
+        jobDao.postComment(user, jobId, text, onSuccess, onFailure)
     }
 
     fun deleteComment(

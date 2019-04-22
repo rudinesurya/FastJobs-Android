@@ -7,15 +7,14 @@ import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.navigation.NavigationView
-import com.ptrbrynt.firestorelivedata.ResourceObserver
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
-import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.utils.MyViewPagerAdapter
 import com.rud.fastjobs.view.fragments.jobDashboard.JobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.JoinedJobListFragment
@@ -74,25 +73,17 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         nav_view.setNavigationItemSelectedListener(this)
 
         nav_view.getHeaderView(0)?.apply {
-            viewModel.getUserByIdLiveData(auth.currentUser!!.uid) { user ->
-                user.observe(this@JobDashboardActivity, object : ResourceObserver<User> {
-                    override fun onSuccess(user: User?) {
-                        user?.let { user ->
-                            user.avatarUrl?.let { avatarUrl ->
-                                GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(avatarUrl))
-                                    .transforms(CenterCrop(), RoundedCorners(100))
-                                    .into(imageView_avatar)
-                            }
-
-                            displayName.text = user.name
-                            email.text = user.email
+            viewModel.getUserByIdLiveData(auth.currentUser.uid) { user ->
+                user.observe(this@JobDashboardActivity, Observer {
+                    it.data?.let { user ->
+                        if (user.avatarUrl.isNotBlank()) {
+                            GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(user.avatarUrl))
+                                .transforms(CenterCrop(), RoundedCorners(100))
+                                .into(imageView_avatar)
                         }
-                    }
 
-                    override fun onLoading() {
-                    }
-
-                    override fun onError(throwable: Throwable?, errorMessage: String?) {
+                        displayName.text = user.name
+                        email.text = user.email
                     }
                 })
             }

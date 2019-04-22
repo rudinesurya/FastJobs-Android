@@ -34,8 +34,10 @@ class CommentItem @JvmOverloads constructor(
         comment.let {
             val lt = it.postDate?.toLocalDateTime()?.toLocalTime()!!
 
-            commentPostDate.text = lt.toString()
-            commentBody.text = comment.text
+            // image_senderAvatar
+            text_senderName.text = comment.userName
+            text_postDate.text = lt.toString()
+            text_comment.text = comment.text
         }
 
         setOnClickListener(onClick)

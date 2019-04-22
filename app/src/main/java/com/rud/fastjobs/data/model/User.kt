@@ -6,5 +6,5 @@ data class User(
     val name: String = "",
     val email: String = "",
     val bio: String = "",
-    val avatarUrl: String? = null
+    val avatarUrl: String = ""
 ) : FirestoreModel()

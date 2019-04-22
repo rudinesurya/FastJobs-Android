@@ -15,8 +15,7 @@ class SignUpActivityViewModel(
                 val newUser = User(
                     name = name,
                     email = user.email!!,
-                    bio = "",
-                    avatarUrl = null
+                    bio = ""
                 )
 
                 myRepository.addUser(user.uid, newUser)
