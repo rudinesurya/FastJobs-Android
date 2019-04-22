@@ -13,6 +13,7 @@ import com.rud.fastjobs.data.network.response.NearbyPlacesResponse
 
 class MyRepository(
     private val userDao: UserDao,
+    private val storageUtil: StorageUtil,
     private val jobDao: JobDao,
     private val nearbyPlacesDataSource: NearbyPlacesDataSource
 ) {
@@ -57,10 +58,10 @@ class MyRepository(
         onSuccess: (String) -> Unit = {},
         onFailure: (Exception) -> Unit = {}
     ) {
-        userDao.uploadAvatar(id, imageBytes, onSuccess, onFailure)
+        storageUtil.uploadAvatar(id, imageBytes, onSuccess, onFailure)
     }
 
-    fun pathToReference(path: String) = userDao.pathToReference(path)
+    fun pathToReference(path: String) = storageUtil.pathToReference(path)
 
     // JobDao
     fun addJob(job: Job, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {

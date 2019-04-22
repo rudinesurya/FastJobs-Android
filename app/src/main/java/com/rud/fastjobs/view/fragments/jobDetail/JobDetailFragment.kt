@@ -14,6 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.recyclerViewController.JobDetailEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.JobDetailViewModel
@@ -30,6 +31,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobDetailViewModel
+    private val auth: Auth by instance()
     private val controller = JobDetailEpoxyController(this)
 
     override fun onCreateView(
@@ -45,9 +47,10 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobDetailViewModel::class.java)
 
+        viewModel.getUserById(auth.currentUser.uid)
+
         activity?.intent?.getStringExtra("id")?.let {
-            viewModel.getJobById(it) { job ->
-                viewModel.currentJob = job!!
+            viewModel.getJobById(it) {
                 updateUI()
             }
         }

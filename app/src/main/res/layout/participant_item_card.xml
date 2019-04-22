@@ -1,28 +1,45 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
                                                    android:layout_width="match_parent"
                                                    android:layout_height="wrap_content"
+                                                   xmlns:tools="http://schemas.android.com/tools"
                                                    android:layout_marginLeft="@dimen/mtrl_card_spacing"
                                                    android:layout_marginTop="@dimen/mtrl_card_spacing"
                                                    android:layout_marginRight="@dimen/mtrl_card_spacing">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:orientation="vertical"
-                  android:paddingLeft="8dp"
-                  android:paddingTop="8dp"
-                  android:paddingRight="8dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/image_userAvatar"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="20dp"
+            tools:src="@drawable/circle"/>
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/joinDate"
-                  android:text="123"/>
+        <TextView
+            android:id="@+id/text_userName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/image_userAvatar"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="5dp"
+            android:textSize="25sp"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat"
+            tools:text="John Doe"/>
 
-        <TextView android:layout_width="match_parent"
-                  android:layout_height="wrap_content"
-                  android:id="@+id/participantName"
-                  android:text="John"/>
+        <TextView
+            android:id="@+id/text_joinDate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignStart="@+id/text_userName"
+            android:layout_below="@+id/text_userName"
+            android:layout_marginStart="2dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"
+            tools:text="123"/>
 
-    </LinearLayout>
+    </RelativeLayout>
 </com.google.android.material.card.MaterialCardView>
 

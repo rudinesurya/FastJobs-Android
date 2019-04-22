@@ -12,6 +12,13 @@ class ChatRoomViewModel(private val myRepository: MyRepository, app: Application
     lateinit var currentUser: User
     lateinit var jobId: String
 
+    fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
+        myRepository.getUserById(id, onSuccess = {
+            currentUser = it!!
+            onSuccess(it)
+        })
+    }
+
     fun getAllCommentsLiveData(onComplete: (LiveData<FirestoreResource<List<Comment>>>) -> Unit = {}) {
         myRepository.getAllCommentsLiveData(jobId, onComplete)
     }

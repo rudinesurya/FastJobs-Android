@@ -10,8 +10,18 @@ class JobDetailViewModel(private val myRepository: MyRepository, app: Applicatio
     lateinit var currentUser: User
     lateinit var currentJob: Job
 
+    fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
+        myRepository.getUserById(id, onSuccess = {
+            currentUser = it!!
+            onSuccess(it)
+        })
+    }
+
     fun getJobById(id: String, onSuccess: (Job?) -> Unit = {}) {
-        myRepository.getJobById(id, onSuccess)
+        myRepository.getJobById(id, onSuccess = {
+            currentJob = it!!
+            onSuccess(it)
+        })
     }
 
     fun joinJob(jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {

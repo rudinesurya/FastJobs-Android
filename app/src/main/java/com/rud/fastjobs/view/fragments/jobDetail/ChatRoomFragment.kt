@@ -9,6 +9,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.view.recyclerViewController.ChatRoomEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.ChatRoomViewModel
 import kotlinx.android.synthetic.main.fragment_chat_room.*
@@ -22,6 +23,7 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: ChatRoomViewModel
+    private val auth: Auth by instance()
     private val controller = ChatRoomEpoxyController(this)
 
     override fun onCreateView(
@@ -37,6 +39,8 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(ChatRoomViewModel::class.java)
         Timber.d("onViewCreated")
+
+        viewModel.getUserById(auth.currentUser.uid)
 
         activity?.intent?.getStringExtra("id")?.let {
             viewModel.jobId = it
