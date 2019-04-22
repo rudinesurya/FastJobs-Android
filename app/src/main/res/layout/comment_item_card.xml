@@ -1,0 +1,30 @@
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+                                                   android:layout_width="match_parent"
+                                                   android:layout_height="wrap_content"
+                                                   android:layout_marginLeft="@dimen/mtrl_card_spacing"
+                                                   android:layout_marginTop="@dimen/mtrl_card_spacing"
+                                                   android:layout_marginRight="@dimen/mtrl_card_spacing">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:orientation="vertical"
+                  android:paddingLeft="8dp"
+                  android:paddingTop="8dp"
+                  android:paddingRight="8dp">
+
+        <TextView android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/commentPostDate"
+                  android:text="123"/>
+
+        <TextView
+            android:id="@+id/commentBody"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="hello"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
+</com.google.android.material.card.MaterialCardView>
+

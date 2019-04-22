@@ -6,7 +6,7 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.utils.MyViewPagerAdapter
 import com.rud.fastjobs.view.fragments.ChatRoomFragment
 import com.rud.fastjobs.view.fragments.JobDetailFragment
-import com.rud.fastjobs.view.fragments.UserListFragment
+import com.rud.fastjobs.view.fragments.ParticipantListFragment
 import kotlinx.android.synthetic.main.activity_job_detail.*
 
 class JobDetailActivity : AppCompatActivity() {
@@ -21,7 +21,7 @@ class JobDetailActivity : AppCompatActivity() {
         val adapter = MyViewPagerAdapter(supportFragmentManager)
         adapter.addFragment(JobDetailFragment(), "Job")
         adapter.addFragment(ChatRoomFragment(), "Chat")
-        adapter.addFragment(UserListFragment(), "Participants")
+        adapter.addFragment(ParticipantListFragment(), "Participants")
 
         viewpager.adapter = adapter
         tabs.setupWithViewPager(viewpager)

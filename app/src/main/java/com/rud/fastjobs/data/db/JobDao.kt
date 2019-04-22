@@ -19,6 +19,18 @@ class JobDao(private val firestoreInstance: FirebaseFirestore) {
         onComplete(result)
     }
 
+    fun getAllCommentsLiveData(id: String, onComplete: (LiveData<FirestoreResource<List<Comment>>>) -> Unit) {
+        val commentsRef = jobsRef.document(id).collection("comments")
+        val result = commentsRef.asLiveData<Comment>()
+        onComplete(result)
+    }
+
+    fun getAllParticipantsLiveData(id: String, onComplete: (LiveData<FirestoreResource<List<Participant>>>) -> Unit) {
+        val participantsRef = jobsRef.document(id).collection("participants")
+        val result = participantsRef.asLiveData<Participant>()
+        onComplete(result)
+    }
+
     fun addJob(job: Job, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         jobsRef.add(job).addOnSuccessListener {
             onSuccess()

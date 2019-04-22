@@ -7,36 +7,38 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProviders
 import com.ptrbrynt.firestorelivedata.ResourceObserver
+
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.data.model.Comment
-import com.rud.fastjobs.view.recyclerViewController.ChatRoomEpoxyController
-import com.rud.fastjobs.viewmodel.ChatRoomViewModel
-import kotlinx.android.synthetic.main.fragment_chat_room.*
+import com.rud.fastjobs.data.model.Participant
+import com.rud.fastjobs.view.recyclerViewController.ParticipantListEpoxyController
+import com.rud.fastjobs.viewmodel.ParticipantListViewModel
+import kotlinx.android.synthetic.main.fragment_user_list.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.AdapterCallbacks {
+class ParticipantListFragment : Fragment(), KodeinAware, ParticipantListEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
-    private lateinit var viewModel: ChatRoomViewModel
-    private val controller = ChatRoomEpoxyController(this)
+    private lateinit var viewModel: ParticipantListViewModel
+    private val controller = ParticipantListEpoxyController(this)
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_chat_room, container, false)
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_user_list, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
-            .get(ChatRoomViewModel::class.java)
+            .get(ParticipantListViewModel::class.java)
         Timber.d("onViewCreated")
 
         activity?.intent?.getStringExtra("id")?.let {
@@ -45,17 +47,17 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
 
         initRecyclerView(view)
 
-        viewModel.getAllCommentsLiveData { comments ->
-            comments.observe(this, object : ResourceObserver<List<Comment>> {
-                override fun onSuccess(comments: List<Comment>?) {
-                    Timber.d("comments changes observed")
-                    Timber.d(comments?.toString())
+        viewModel.getAllParticipantsLiveData { participants ->
+            participants.observe(this, object : ResourceObserver<List<Participant>> {
+                override fun onSuccess(participants: List<Participant>?) {
+                    Timber.d("participants changes observed")
+                    Timber.d(participants?.toString())
 
-                    controller.setData(comments)
+                    controller.setData(participants)
                 }
 
                 override fun onLoading() {
-                    Timber.d("loading comments observer")
+                    Timber.d("loading participants observer")
                 }
 
                 override fun onError(throwable: Throwable?, errorMessage: String?) {
@@ -66,7 +68,7 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
     }
 
     private fun initRecyclerView(view: View) {
-        comments_recyclerView.setController(controller)
+        participants_recyclerView.setController(controller)
     }
 
     override fun onItemClick(id: String) {

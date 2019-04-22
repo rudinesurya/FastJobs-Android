@@ -6,12 +6,14 @@ import androidx.lifecycle.ViewModelProvider
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.viewmodel.AccountViewModel
+import com.rud.fastjobs.viewmodel.ChatRoomViewModel
 import com.rud.fastjobs.viewmodel.JobDashboardActivityViewModel
 import com.rud.fastjobs.viewmodel.JobDetailViewModel
 import com.rud.fastjobs.viewmodel.JobListViewModel
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import com.rud.fastjobs.viewmodel.LoginActivityViewModel
 import com.rud.fastjobs.viewmodel.MapsActivityViewModel
+import com.rud.fastjobs.viewmodel.ParticipantListViewModel
 import com.rud.fastjobs.viewmodel.SignUpActivityViewModel
 
 class ViewModelFactory(
@@ -33,6 +35,8 @@ class ViewModelFactory(
             JobDashboardActivityViewModel::class.java -> JobDashboardActivityViewModel(myRepository, app) as T
             LoginActivityViewModel::class.java -> LoginActivityViewModel(myRepository, app) as T
             SignUpActivityViewModel::class.java -> SignUpActivityViewModel(myRepository, app) as T
+            ChatRoomViewModel::class.java -> ChatRoomViewModel(myRepository, app) as T
+            ParticipantListViewModel::class.java -> ParticipantListViewModel(myRepository, app) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
         }

@@ -4,7 +4,9 @@ import androidx.lifecycle.LiveData
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.data.db.JobDao
 import com.rud.fastjobs.data.db.UserDao
+import com.rud.fastjobs.data.model.Comment
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.data.model.Participant
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.network.NearbyPlacesDataSource
 import com.rud.fastjobs.data.network.response.NearbyPlacesResponse
@@ -21,6 +23,14 @@ class MyRepository(
 
     fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit = {}) {
         jobDao.getAllJobsLiveData(onComplete)
+    }
+
+    fun getAllCommentsLiveData(id: String, onComplete: (LiveData<FirestoreResource<List<Comment>>>) -> Unit = {}) {
+        jobDao.getAllCommentsLiveData(id, onComplete)
+    }
+
+    fun getAllParticipantsLiveData(id: String, onComplete: (LiveData<FirestoreResource<List<Participant>>>) -> Unit) {
+        jobDao.getAllParticipantsLiveData(id, onComplete)
     }
 
     // UserDao
