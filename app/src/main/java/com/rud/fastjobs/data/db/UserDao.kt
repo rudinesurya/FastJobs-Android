@@ -1,6 +1,7 @@
 package com.rud.fastjobs.data.db
 
 import androidx.lifecycle.LiveData
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.ptrbrynt.firestorelivedata.asLiveData
@@ -31,8 +32,30 @@ class UserDao(
     fun updateUser(id: String, userFieldMap: Map<String, Any>, onSuccess: () -> Unit, onFailure: (Exception) -> Unit) {
         usersRef.document(id).update(userFieldMap).addOnSuccessListener {
             onSuccess()
-        }.addOnFailureListener {
-            onFailure(it)
-        }
+        }.addOnFailureListener(onFailure)
+    }
+
+    fun addJob(userId: String, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        usersRef.document(userId).update("joinedList", FieldValue.arrayUnion(jobId)).addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener(onFailure)
+    }
+
+    fun deleteJob(userId: String, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        usersRef.document(userId).update("joinedList", FieldValue.arrayRemove(jobId)).addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener(onFailure)
+    }
+
+    fun addFav(userId: String, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        usersRef.document(userId).update("favList", FieldValue.arrayUnion(jobId)).addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener(onFailure)
+    }
+
+    fun deleteFav(userId: String, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        usersRef.document(userId).update("favList", FieldValue.arrayRemove(jobId)).addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener(onFailure)
     }
 }

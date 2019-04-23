@@ -142,7 +142,7 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
             RC_SIGNUP -> {
                 if (resultCode == RESULT_OK) {
                     Timber.d("RESULT_OK")
-                    onLoginSuccess(auth.currentUser)
+                    onLoginSuccess(auth.currentUser!!)
                 }
             }
 

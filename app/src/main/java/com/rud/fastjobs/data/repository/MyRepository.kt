@@ -83,6 +83,7 @@ class MyRepository(
 
     fun joinJob(user: User, jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
         jobDao.joinJob(user, jobId, onSuccess, onFailure)
+        userDao.addJob(user.id!!, jobId)
     }
 
     fun leaveJob(
@@ -92,6 +93,25 @@ class MyRepository(
         onFailure: (Exception) -> Unit = {}
     ) {
         jobDao.leaveJob(userId, jobId, onSuccess, onFailure)
+        userDao.deleteJob(userId, jobId)
+    }
+
+    fun addFav(
+        userId: String,
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        userDao.addFav(userId, jobId, onSuccess, onFailure)
+    }
+
+    fun deleteFav(
+        userId: String,
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        userDao.deleteFav(userId, jobId, onSuccess, onFailure)
     }
 
     fun postComment(

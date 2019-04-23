@@ -47,7 +47,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobDetailViewModel::class.java)
 
-        viewModel.getUserById(auth.currentUser.uid)
+        viewModel.getUserById(auth.currentUser?.uid!!)
 
         activity?.intent?.getStringExtra("id")?.let {
             viewModel.getJobById(it) {

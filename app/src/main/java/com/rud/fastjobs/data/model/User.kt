@@ -6,5 +6,7 @@ data class User(
     val name: String = "",
     val email: String = "",
     val bio: String = "",
-    val avatarUrl: String = ""
+    val avatarUrl: String = "",
+    val joinedList: MutableList<String> = mutableListOf(),
+    val favList: MutableList<String> = mutableListOf()
 ) : FirestoreModel()

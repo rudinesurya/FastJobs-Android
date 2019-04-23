@@ -40,7 +40,7 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
             .get(ChatRoomViewModel::class.java)
         Timber.d("onViewCreated")
 
-        viewModel.getUserById(auth.currentUser.uid)
+        viewModel.getUserById(auth.currentUser?.uid!!)
 
         activity?.intent?.getStringExtra("id")?.let {
             viewModel.jobId = it

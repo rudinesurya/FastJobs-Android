@@ -1,19 +1,20 @@
 package com.rud.fastjobs.view.fragments.jobDashboard
 
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
-import com.rud.fastjobs.R
+import android.content.Intent
+import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.view.activities.JobDetailActivity
+import timber.log.Timber
 
-class StarredJobListFragment : Fragment() {
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_starred_job_list, container, false)
+class StarredJobListFragment : JobListFragment() {
+    override fun applyTransformation(jobs: List<Job>): List<Job> {
+        val list = viewModel.currentUser.favList
+        return jobs.filter { list.contains(it.id) }.sortedBy { it.date }
+    }
+
+    override fun onItemClick(id: String) {
+        Timber.d("job [%s] clicked!", id)
+        val intent = Intent(this@StarredJobListFragment.context, JobDetailActivity::class.java)
+        intent.putExtra("id", id)
+        startActivity(intent)
     }
 }

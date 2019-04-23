@@ -15,10 +15,12 @@ It has some form of social networking feature, eg. the ability to view user's pr
  
 
 ##### Features:
- + CRUD operation
+ + CRUD operation with cloud persistence (Firestore)
  + List Jobs (Sorting, Filtering)
+ + Dynamic map view with gps (view nearby jobs and also places of interests)
  + View & Edit Job Detail
  + Chat system in the job page
+ + Push notification sent to participants (when job cancelled)
  + Login / Register
  + View other user's profile
  + Edit self user profile
@@ -53,7 +55,7 @@ Adherence to the Android Material Design
 
 ## Third party web api
 
-Google Places API is used for making REST requests with retrofit to get a list of nearby places of interest to display on the job detail page as recommendation.
+Google Places API is used for making REST requests with retrofit to get a list of nearby places of interest to display on the dynamic map view activity.
 
 
 ## Unit Testing and Instrumentation Testing
@@ -67,8 +69,6 @@ Model Layer
 Database Layer
 + Testing of Data Access Object (DAO)
 + Testing of network rest api services
-+ Testing of firebase & firestore
-+ Testing of Room
 
 
 ## Model View ViewModel(MVVM) with Clean Architecture
@@ -104,6 +104,10 @@ This diagram shows a basic form of this architecture:
 + Your team can add new features more quickly.
 
 
+### Optimizations 
++ Using best practices for relationship database design
++ Usage of sub-collection within documents to optimize read
++ Usage of cross referencing with key ids to avoids multiple querying for specific results
 
 
 ## Third party libraries

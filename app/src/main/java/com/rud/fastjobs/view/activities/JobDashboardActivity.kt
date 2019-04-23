@@ -16,7 +16,7 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.utils.MyViewPagerAdapter
-import com.rud.fastjobs.view.fragments.jobDashboard.JobListFragment
+import com.rud.fastjobs.view.fragments.jobDashboard.DefaultJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.JoinedJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.NotificationFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.PastJobListFragment
@@ -52,7 +52,7 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         setupNavigation()
 
         val adapter = MyViewPagerAdapter(supportFragmentManager)
-        adapter.addFragment(JobListFragment(), "All")
+        adapter.addFragment(DefaultJobListFragment(), "All")
         adapter.addFragment(JoinedJobListFragment(), "Joined")
         adapter.addFragment(StarredJobListFragment(), "Starred")
         adapter.addFragment(PastJobListFragment(), "Past")
@@ -73,7 +73,7 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         nav_view.setNavigationItemSelectedListener(this)
 
         nav_view.getHeaderView(0)?.apply {
-            viewModel.getUserByIdLiveData(auth.currentUser.uid) { user ->
+            viewModel.getUserByIdLiveData(auth.currentUser?.uid!!) { user ->
                 user.observe(this@JobDashboardActivity, Observer {
                     it.data?.let { user ->
                         if (user.avatarUrl.isNotBlank()) {
