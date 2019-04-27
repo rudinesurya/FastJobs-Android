@@ -4,13 +4,14 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Responsibilities" />
+        android:text="Description"/>
 
     <TextView
-        android:id="@+id/longDescription"
+        android:id="@+id/text_longDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/description_sample" />
@@ -21,7 +22,7 @@
         android:text="Requirements" />
 
     <TextView
-        android:id="@+id/requirements"
+        android:id="@+id/text_requirements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/description_sample" />
@@ -37,12 +38,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Share this" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_report"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Report this job" />
 
     </LinearLayout>
 

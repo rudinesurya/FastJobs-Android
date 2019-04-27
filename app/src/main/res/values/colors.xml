@@ -6,13 +6,5 @@
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
 
-    <!--Job Registeration-->
-    <color name="btn_create">#ffffff</color>
-    <color name="btn_create_disabled">#c1acff</color>
-    <!--Job Update-->
-    <color name="btn_edit">#ffffff</color>
-    <color name="btn_edit_disabled">#c1acff</color>
-    <!--Comment Post-->
-    <color name="btn_post">#774df2</color>
-    <color name="btn_post_disabled">#8e8e8e</color>
+    <color name="chip_urgent">#D54848</color>
 </resources>

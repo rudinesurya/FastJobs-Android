@@ -1,10 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/action_market"
-        android:title="Market"/>
+        android:id="@+id/action_nearbyJobs"
+        android:title="Job"/>
 
     <item
-        android:id="@+id/action_school"
-        android:title="School"/>
+        android:id="@+id/action_nearbyRestaurant"
+        android:title="Restaurant"/>
+
+    <item
+        android:id="@+id/action_nearbyBar"
+        android:title="Bar"/>
 </menu>

@@ -26,6 +26,9 @@ import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.data.model.InfoWindowData
+import com.rud.fastjobs.data.model.Placemark
+import com.rud.fastjobs.view.miscs.MyInfoWindowAdapter
 import com.rud.fastjobs.viewmodel.MapsActivityViewModel
 import kotlinx.android.synthetic.main.activity_maps.*
 import org.kodein.di.Kodein
@@ -34,7 +37,7 @@ import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback, GoogleMap.OnMarkerClickListener {
+class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: MapsActivityViewModel
@@ -46,6 +49,7 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback, Googl
     private lateinit var locationCallback: LocationCallback
     private lateinit var locationRequest: LocationRequest
     private var locationUpdateState = false
+    private val nearbyPlacesMarkers = mutableListOf<Marker>()
 
     companion object {
         private const val LOCATION_PERMISSION_REQUEST_CODE = 1
@@ -58,9 +62,10 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback, Googl
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(MapsActivityViewModel::class.java)
 
-        viewModel.downloadedNearbyPlaces.observe(this, Observer {
+        viewModel.nearbyPlaces.observe(this, Observer {
             Timber.d("nearby places dataset changes observed! time to react!")
             Timber.d(it.toString())
+            placeMarkers(it)
         })
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
@@ -76,38 +81,63 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback, Googl
 
                 viewModel.myLastLocation = p0.lastLocation
                 // Timber.d("current: ${viewModel.myLastLocation}")
-                setCurrentPositionOnMap(LatLng(viewModel.myLastLocation.latitude, viewModel.myLastLocation.longitude))
+                // setCurrentPositionOnMap(LatLng(viewModel.myLastLocation.latitude, viewModel.myLastLocation.longitude))
             }
         }
 
         createLocationRequest()
 
+        botNavView.menu.getItem(0).isCheckable = false
         botNavView.setOnNavigationItemSelectedListener { item ->
+            item.isCheckable = true
             when (item.itemId) {
-                R.id.action_market -> selectNearByPlaces("market")
-                R.id.action_school -> selectNearByPlaces("school")
+                R.id.action_nearbyJobs -> selectNearByPlaces("job")
+                R.id.action_nearbyRestaurant -> selectNearByPlaces("restaurant")
+                R.id.action_nearbyBar -> selectNearByPlaces("bar")
                 else -> selectNearByPlaces("market")
             }
+        }
+
+        viewModel.getAllJobsLiveData { jobs ->
+            jobs.observe(this, Observer {
+                it.data?.let { jobs ->
+                    // Timber.d("jobs changes observed")
+                    viewModel.jobs = jobs
+                }
+            })
         }
     }
 
     private fun selectNearByPlaces(keyword: String): Boolean {
-        mMap.clear()
-        viewModel.fetchNearbyMarket() // test
+        when (keyword) {
+            "job" -> viewModel.fetchNearbyJobs()
+            "restaurant" -> viewModel.fetchNearbyPlacesFromGoogle("restaurant")
+            "bar" -> viewModel.fetchNearbyPlacesFromGoogle("bar")
+        }
+
         return true
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        mMap.setOnMarkerClickListener(this)
-        mMap.uiSettings.isZoomControlsEnabled = true
+        // mMap.uiSettings.isZoomControlsEnabled = true
+        mMap.uiSettings.isMyLocationButtonEnabled = true
+
+        val customInfoWindow = MyInfoWindowAdapter(this)
+        mMap.setInfoWindowAdapter(customInfoWindow)
+        mMap.setOnInfoWindowClickListener {
+            val infoWindowData: InfoWindowData? = it?.tag as InfoWindowData?
+            Timber.d(infoWindowData.toString())
+            if (infoWindowData?.job != null) {
+                Timber.d("launching job detail activity")
+                val intent = Intent(this, JobDetailActivity::class.java)
+                intent.putExtra("id", infoWindowData.job.id)
+                startActivity(intent)
+            }
+        }
 
         setUpMap()
-    }
-
-    override fun onMarkerClick(p0: Marker?): Boolean {
-        return false
     }
 
     private fun setUpMap() {
@@ -136,6 +166,24 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback, Googl
         }
     }
 
+    private fun placeMarkers(places: List<Placemark>) {
+        nearbyPlacesMarkers.forEach {
+            it.remove()
+        }
+        nearbyPlacesMarkers.clear()
+
+        places.forEach {
+            val latLng = LatLng(it.lat, it.lng)
+            val markerOptions = MarkerOptions().position(latLng)
+            markerOptions.apply {
+
+            }
+            val m = mMap.addMarker(markerOptions)
+            m.tag = InfoWindowData(locationName = it.name, job = it.job)
+            nearbyPlacesMarkers.add(m)
+        }
+    }
+
     private fun setCurrentPositionOnMap(latLng: LatLng) {
         val markerOptions = MarkerOptions().position(latLng)
         markerOptions.apply {
@@ -146,6 +194,7 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback, Googl
             marker!!.remove()
 
         marker = mMap.addMarker(markerOptions)
+        marker?.tag = InfoWindowData(locationName = "You")
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12f))
     }
 

@@ -5,19 +5,19 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/hostName"
+        android:id="@+id/text_hostName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Posted by: John" />
 
     <TextView
-        android:id="@+id/updatedAt"
+        android:id="@+id/text_updatedAt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Updated at 3/4/2019" />
 
     <TextView
-        android:id="@+id/urgency"
+        android:id="@+id/text_urgency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Urgent" />
@@ -47,16 +47,5 @@
             android:text="Save" />
 
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="DESCRIPTION" />
-
-    <TextView
-        android:id="@+id/shortDescription"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="@string/short_description_sample" />
 
 </LinearLayout>

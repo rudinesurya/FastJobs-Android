@@ -7,32 +7,39 @@ import com.airbnb.epoxy.EpoxyModel
 import com.airbnb.epoxy.Typed2EpoxyController
 import com.google.android.gms.maps.model.LatLng
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.view.epoxyModelView.jobBodyInfo
 import com.rud.fastjobs.view.epoxyModelView.jobHeaderInfo
 import com.rud.fastjobs.view.epoxyModelView.liteMapItem
 
-class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2EpoxyController<Job, List<String>>() {
+class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2EpoxyController<Job, User>() {
     interface AdapterCallbacks {
         fun onJoinBtnClick()
         fun onLeaveBtnClick()
+        fun onShareBtnClick()
         fun onCarouselItemClick(id: String)
     }
 
-    override fun buildModels(job: Job, recommendations: List<String>) {
+    override fun buildModels(job: Job, user: User) {
 
         jobHeaderInfo {
             id("jobHeaderInfo")
+            job(job)
+            user(user)
             onJoinBtnClick { _ -> callbacks.onJoinBtnClick() }
             onLeaveBtnClick { _ -> callbacks.onLeaveBtnClick() }
         }
 
         liteMapItem {
             id("liteMapItem")
-            location(LatLng(-33.8670522, 151.1957362))
+            val gp = job.venue?.geoPoint!!
+            location(LatLng(gp.latitude, gp.longitude))
         }
 
         jobBodyInfo {
             id("jobBodyInfo")
+            job(job)
+            onShareBtnClick { _ -> callbacks.onShareBtnClick() }
         }
 
         // carousel {

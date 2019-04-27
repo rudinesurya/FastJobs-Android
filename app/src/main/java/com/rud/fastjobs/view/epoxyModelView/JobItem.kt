@@ -39,6 +39,11 @@ class JobItem @JvmOverloads constructor(
             venue.text = it.venue?.name
             shortDescription.text = it.description
             payout.text = "$ ${it.payout}"
+
+            if (it.urgency)
+                chip_urgency.visibility = View.VISIBLE
+            else
+                chip_urgency.visibility = View.INVISIBLE
         }
 
         setOnClickListener(onClick)

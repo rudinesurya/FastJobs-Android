@@ -60,7 +60,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
         val job = viewModel.currentJob
         Timber.d(job.toString())
 
-        controller.setData(job, arrayListOf("xxxxx", "asdasda"))
+        controller.setData(job, viewModel.currentUser)
         jobDetail_recyclerView.setController(controller)
 
         val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -110,6 +110,9 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
 
     override fun onCarouselItemClick(id: String) {
         Timber.d("job [%s] clicked!", id)
+    }
+
+    override fun onShareBtnClick() {
     }
 
     override fun onJoinBtnClick() {
