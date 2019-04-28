@@ -22,6 +22,10 @@ class MyRepository(
         userDao.getUserByIdLiveData(id, onComplete)
     }
 
+    fun getAllUsersLiveData(onComplete: (LiveData<FirestoreResource<List<User>>>) -> Unit = {}) {
+        userDao.getAllUsersLiveData(onComplete)
+    }
+
     fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit = {}) {
         jobDao.getAllJobsLiveData(onComplete)
     }

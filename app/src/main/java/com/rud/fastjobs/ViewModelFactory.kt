@@ -5,6 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.data.repository.Store
 import com.rud.fastjobs.viewmodel.AccountViewModel
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import com.rud.fastjobs.viewmodel.LoginActivityViewModel
@@ -18,6 +19,7 @@ import com.rud.fastjobs.viewmodel.jobDetail.ParticipantListViewModel
 
 class ViewModelFactory(
     private val myRepository: MyRepository,
+    private val store: Store,
     private val auth: Auth,
     private val app: Application
 ) :
@@ -27,25 +29,25 @@ class ViewModelFactory(
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         return when (modelClass) {
 
-            AccountViewModel::class.java -> AccountViewModel(myRepository, auth, app) as T
+            AccountViewModel::class.java -> AccountViewModel(myRepository, store, auth, app) as T
             JobListViewModel::class.java -> JobListViewModel(
-                myRepository, auth,
+                store, auth,
                 app
             ) as T
             JobRegistrationViewModel::class.java -> JobRegistrationViewModel(myRepository, app) as T
-            MapsActivityViewModel::class.java -> MapsActivityViewModel(myRepository, app) as T
+            MapsActivityViewModel::class.java -> MapsActivityViewModel(myRepository, store, app) as T
             JobDetailViewModel::class.java -> JobDetailViewModel(
-                myRepository,
+                myRepository, store, auth,
                 app
             ) as T
             JobDashboardActivityViewModel::class.java -> JobDashboardActivityViewModel(
-                myRepository,
+                myRepository, store, auth,
                 app
             ) as T
             LoginActivityViewModel::class.java -> LoginActivityViewModel(myRepository, app) as T
             SignUpActivityViewModel::class.java -> SignUpActivityViewModel(myRepository, app) as T
             ChatRoomViewModel::class.java -> ChatRoomViewModel(
-                myRepository,
+                myRepository, store, auth,
                 app
             ) as T
             ParticipantListViewModel::class.java -> ParticipantListViewModel(

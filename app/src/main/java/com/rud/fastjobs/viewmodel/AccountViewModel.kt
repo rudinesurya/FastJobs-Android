@@ -9,11 +9,17 @@ import com.rud.fastjobs.MyApplication
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.data.repository.Store
 
-class AccountViewModel(private val myRepository: MyRepository, private val auth: Auth, app: Application) :
+class AccountViewModel(
+    private val myRepository: MyRepository,
+    private val store: Store,
+    private val auth: Auth,
+    app: Application
+) :
     AndroidViewModel(app) {
     private val app = getApplication<MyApplication>()
-    lateinit var currentUser: User
+    val currentUser = auth.currentUserProfile
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
 
@@ -40,9 +46,9 @@ class AccountViewModel(private val myRepository: MyRepository, private val auth:
     fun handleSave(displayName: String, bio: String) {
         val userFieldMap = mutableMapOf<String, Any>()
 
-        if (displayName.isNotBlank() && displayName != currentUser.name)
+        if (displayName.isNotBlank() && displayName != currentUser.value?.name)
             userFieldMap["name"] = displayName
-        if (bio != currentUser.bio)
+        if (bio != currentUser.value?.bio)
             userFieldMap["bio"] = bio
 
         // if no new image is selected, or

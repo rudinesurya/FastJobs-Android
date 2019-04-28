@@ -97,15 +97,6 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback {
                 else -> selectNearByPlaces("market")
             }
         }
-
-        viewModel.getAllJobsLiveData { jobs ->
-            jobs.observe(this, Observer {
-                it.data?.let { jobs ->
-                    // Timber.d("jobs changes observed")
-                    viewModel.jobs = jobs
-                }
-            })
-        }
     }
 
     private fun selectNearByPlaces(keyword: String): Boolean {

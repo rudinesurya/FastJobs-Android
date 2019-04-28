@@ -5,14 +5,13 @@ import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.MyApplication
-import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.Placemark
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.data.repository.Store
 
 class MapsActivityViewModel(
-    private val myRepository: MyRepository,
+    private val myRepository: MyRepository, val store: Store,
     app: Application
 ) : AndroidViewModel(app) {
     private val app = getApplication<MyApplication>()
@@ -22,15 +21,11 @@ class MapsActivityViewModel(
     val nearbyPlaces: LiveData<List<Placemark>>
         get() = _nearbyPlaces
 
-    lateinit var jobs: List<Job>
-
-    fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit = {}) {
-        myRepository.getAllJobsLiveData(onComplete)
-    }
+    val jobs = store.jobs
 
     fun fetchNearbyJobs() {
         val nearbyPlacemarks =
-            jobs.map { Placemark(it.title, it.venue?.geoPoint?.latitude!!, it.venue.geoPoint.longitude, it) }
+            jobs.value?.map { Placemark(it.title, it.venue?.geoPoint?.latitude!!, it.venue.geoPoint.longitude, it) }
         _nearbyPlaces.postValue(nearbyPlacemarks)
     }
 

@@ -4,20 +4,19 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import com.ptrbrynt.firestorelivedata.FirestoreResource
+import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.Comment
-import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.data.repository.Store
 
-class ChatRoomViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
-    lateinit var currentUser: User
+class ChatRoomViewModel(
+    private val myRepository: MyRepository,
+    store: Store,
+    private val auth: Auth,
+    app: Application
+) : AndroidViewModel(app) {
+    val currentUser = auth.currentUserProfile
     lateinit var jobId: String
-
-    fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
-        myRepository.getUserById(id, onSuccess = {
-            currentUser = it!!
-            onSuccess(it)
-        })
-    }
 
     fun getAllCommentsLiveData(onComplete: (LiveData<FirestoreResource<List<Comment>>>) -> Unit = {}) {
         myRepository.getAllCommentsLiveData(jobId, onComplete)
@@ -29,7 +28,7 @@ class ChatRoomViewModel(private val myRepository: MyRepository, app: Application
         onSuccess: () -> Unit = {},
         onFailure: (Exception) -> Unit = {}
     ) {
-        myRepository.postComment(currentUser, jobId, text, onSuccess, onFailure)
+        myRepository.postComment(currentUser.value!!, jobId, text, onSuccess, onFailure)
     }
 
     fun deleteComment(

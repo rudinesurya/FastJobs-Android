@@ -14,7 +14,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.auth.Auth
+import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.recyclerViewController.JobDetailEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.JobDetailViewModel
@@ -27,12 +27,18 @@ import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
-class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, JobDetailEpoxyController.AdapterCallbacks {
+class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle, OnMapReadyCallback,
+    JobDetailEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobDetailViewModel
-    private val auth: Auth by instance()
     private val controller = JobDetailEpoxyController(this)
+
+    override fun onPauseFragment() {
+    }
+
+    override fun onResumeFragment() {
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,8 +53,6 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobDetailViewModel::class.java)
 
-        viewModel.getUserById(auth.currentUser?.uid!!)
-
         activity?.intent?.getStringExtra("id")?.let {
             viewModel.getJobById(it) {
                 updateUI()
@@ -60,7 +64,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
         val job = viewModel.currentJob
         Timber.d(job.toString())
 
-        controller.setData(job, viewModel.currentUser)
+        controller.setData(job, viewModel.currentUser.value!!)
         jobDetail_recyclerView.setController(controller)
 
         val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -109,7 +113,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
     }
 
     override fun onCarouselItemClick(id: String) {
-        Timber.d("job [%s] clicked!", id)
+        // Timber.d("job [%s] clicked!", id)
     }
 
     override fun onShareBtnClick() {
@@ -117,13 +121,13 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, OnMapReadyCallback, Job
 
     override fun onJoinBtnClick() {
         viewModel.joinJob(viewModel.currentJob.id!!, onSuccess = {
-            Timber.d("join success")
+            // Timber.d("join success")
         })
     }
 
     override fun onLeaveBtnClick() {
         viewModel.leaveJob(viewModel.currentJob.id!!, onSuccess = {
-            Timber.d("leave success")
+            // Timber.d("leave success")
         })
     }
 }

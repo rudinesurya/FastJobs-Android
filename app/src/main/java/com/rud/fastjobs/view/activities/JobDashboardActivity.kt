@@ -9,12 +9,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.viewpager.widget.ViewPager
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.material.navigation.NavigationView
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
+import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.utils.MyViewPagerAdapter
 import com.rud.fastjobs.view.fragments.jobDashboard.DefaultJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.JoinedJobListFragment
@@ -42,6 +44,8 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobDashboardActivityViewModel::class.java)
 
+        auth.fetchUserProfile()
+
         setSupportActionBar(dashboard_toolbar)
 
         val mToggle =
@@ -62,6 +66,26 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         tabs.setupWithViewPager(viewpager)
 
         viewModel.initGooglePlaces()
+
+        viewpager.addOnPageChangeListener(object : ViewPager.OnPageChangeListener {
+            var currentPosition = -1
+
+            override fun onPageSelected(position: Int) {
+                val newFrag = adapter.getItem(position) as FragmentLifecycle
+                newFrag.onResumeFragment()
+
+                if (currentPosition >= 0) {
+                    val oldFrag = adapter.getItem(currentPosition) as FragmentLifecycle
+                    oldFrag.onPauseFragment()
+                }
+
+                currentPosition = position
+            }
+
+            override fun onPageScrollStateChanged(state: Int) {}
+
+            override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
+        })
     }
 
     override fun onResume() {
@@ -73,20 +97,18 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         nav_view.setNavigationItemSelectedListener(this)
 
         nav_view.getHeaderView(0)?.apply {
-            viewModel.getUserByIdLiveData(auth.currentUser?.uid!!) { user ->
-                user.observe(this@JobDashboardActivity, Observer {
-                    it.data?.let { user ->
-                        if (user.avatarUrl.isNotBlank()) {
-                            GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(user.avatarUrl))
-                                .transforms(CenterCrop(), RoundedCorners(100))
-                                .into(imageView_avatar)
-                        }
-
-                        displayName.text = user.name
-                        email.text = user.email
+            viewModel.currentUser.observe(this@JobDashboardActivity, Observer { user ->
+                user?.let { user ->
+                    if (user.avatarUrl.isNotBlank()) {
+                        GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(user.avatarUrl))
+                            .transforms(CenterCrop(), RoundedCorners(100))
+                            .into(imageView_avatar)
                     }
-                })
-            }
+
+                    displayName.text = user.name
+                    email.text = user.email
+                }
+            })
 
             setOnClickListener {
                 val intent = Intent(this@JobDashboardActivity, UserActivity::class.java)

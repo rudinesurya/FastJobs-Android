@@ -10,6 +10,7 @@ import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.view.recyclerViewController.JobListEpoxyController
 import com.rud.fastjobs.viewmodel.jobDashboard.JobListViewModel
 import kotlinx.android.synthetic.main.fragment_job_list.*
@@ -18,7 +19,8 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 
-abstract class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyController.AdapterCallbacks {
+abstract class JobListFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
+    JobListEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     lateinit var viewModel: JobListViewModel
@@ -29,7 +31,6 @@ abstract class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyCont
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_job_list, container, false)
     }
 
@@ -37,25 +38,17 @@ abstract class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyCont
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobListViewModel::class.java)
-        // Timber.d("onViewCreated")
-
-        viewModel.getCurrentUserLiveData { user ->
-            user.observe(this, Observer {
-                it.data?.let { user ->
-                    viewModel.currentUser = user
-                }
-            })
-        }
 
         initRecyclerView(view)
-        viewModel.getAllJobsLiveData { jobs ->
-            jobs.observe(this, Observer {
-                it.data?.let { jobs ->
-                    // Timber.d("jobs changes observed")
-                    controller.setData(applyTransformation(jobs))
-                }
-            })
-        }
+        updateUI()
+    }
+
+    fun updateUI() {
+        viewModel.jobs.observe(this, Observer { jobs ->
+            jobs?.let { jobs ->
+                controller.setData(applyTransformation(jobs))
+            }
+        })
     }
 
     open fun applyTransformation(jobs: List<Job>): List<Job> {
@@ -64,8 +57,5 @@ abstract class JobListFragment : ScopedFragment(), KodeinAware, JobListEpoxyCont
 
     private fun initRecyclerView(view: View) {
         allJobs_recyclerView.setController(controller)
-    }
-
-    override fun onItemClick(id: String) {
     }
 }

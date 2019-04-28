@@ -2,20 +2,19 @@ package com.rud.fastjobs.viewmodel.jobDetail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.Job
-import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
+import com.rud.fastjobs.data.repository.Store
 
-class JobDetailViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
-    lateinit var currentUser: User
+class JobDetailViewModel(
+    private val myRepository: MyRepository,
+    store: Store,
+    private val auth: Auth,
+    app: Application
+) : AndroidViewModel(app) {
+    val currentUser = auth.currentUserProfile
     lateinit var currentJob: Job
-
-    fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
-        myRepository.getUserById(id, onSuccess = {
-            currentUser = it!!
-            onSuccess(it)
-        })
-    }
 
     fun getJobById(id: String, onSuccess: (Job?) -> Unit = {}) {
         myRepository.getJobById(id, onSuccess = {
@@ -25,7 +24,7 @@ class JobDetailViewModel(private val myRepository: MyRepository, app: Applicatio
     }
 
     fun joinJob(jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
-        myRepository.joinJob(currentUser, jobId, onSuccess, onFailure)
+        myRepository.joinJob(currentUser.value!!, jobId, onSuccess, onFailure)
     }
 
     fun leaveJob(
@@ -33,6 +32,6 @@ class JobDetailViewModel(private val myRepository: MyRepository, app: Applicatio
         onSuccess: () -> Unit = {},
         onFailure: (Exception) -> Unit = {}
     ) {
-        myRepository.leaveJob(currentUser.id!!, jobId, onSuccess, onFailure)
+        myRepository.leaveJob(currentUser.value!!.id!!, jobId, onSuccess, onFailure)
     }
 }

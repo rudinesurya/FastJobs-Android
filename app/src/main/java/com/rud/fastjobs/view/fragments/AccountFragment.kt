@@ -44,21 +44,18 @@ class AccountFragment : ScopedFragment(), KodeinAware {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(AccountViewModel::class.java)
 
-        viewModel.getCurrentUserLiveData { user ->
-            user.observe(this@AccountFragment, Observer {
-                it.data?.let { user ->
-                    Timber.d("currentUser changes observed")
-                    viewModel.currentUser = user
-                    input_name.setText(user.name)
-                    input_bio.setText(user.bio)
+        viewModel.currentUser.observe(this, Observer { user ->
+            user?.let { user ->
+                Timber.d("currentUser changes observed")
+                input_name.setText(user.name)
+                input_bio.setText(user.bio)
 
-                    if (!viewModel.pictureJustChanged && user.avatarUrl.isNotBlank()) {
-                        GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
-                            .into(input_avatar)
-                    }
+                if (!viewModel.pictureJustChanged && user.avatarUrl.isNotBlank()) {
+                    GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
+                        .into(input_avatar)
                 }
-            })
-        }
+            }
+        })
 
         view.apply {
             input_avatar.setOnClickListener {

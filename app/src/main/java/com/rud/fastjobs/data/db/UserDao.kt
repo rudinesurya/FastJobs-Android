@@ -17,6 +17,11 @@ class UserDao(
         onComplete(result)
     }
 
+    fun getAllUsersLiveData(onComplete: (LiveData<FirestoreResource<List<User>>>) -> Unit) {
+        val result = usersRef.asLiveData<User>()
+        onComplete(result)
+    }
+
     fun getUserById(id: String, onSuccess: (User?) -> Unit) {
         usersRef.document(id).get().addOnSuccessListener {
             val user = it.toObject(User::class.java)

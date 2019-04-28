@@ -6,8 +6,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.rud.fastjobs.R
+import com.rud.fastjobs.utils.FragmentLifecycle
 
-class NotificationFragment : Fragment() {
+class NotificationFragment : Fragment(), FragmentLifecycle {
+    override fun onPauseFragment() {
+    }
+
+    override fun onResumeFragment() {
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,

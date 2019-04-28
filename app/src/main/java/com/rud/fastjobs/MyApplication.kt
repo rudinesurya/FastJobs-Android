@@ -13,6 +13,7 @@ import com.rud.fastjobs.data.network.NearbyPlacesApiService
 import com.rud.fastjobs.data.network.NearbyPlacesDataSource
 import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.data.repository.StorageUtil
+import com.rud.fastjobs.data.repository.Store
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.androidXModule
@@ -37,14 +38,15 @@ class MyApplication : Application(), KodeinAware {
         bind() from singleton { FirebaseAuth.getInstance() }
         bind() from singleton { FirebaseFirestore.getInstance() }
         bind() from singleton { FirebaseStorage.getInstance() }
-        bind() from singleton { Auth(instance()) }
         bind() from singleton { StorageUtil(instance()) }
         bind() from singleton { UserDao(instance()) }
         bind() from singleton { JobDao(instance()) }
+        bind() from singleton { Auth(instance(), instance()) }
         bind() from singleton { ConnectivityInterceptor(instance()) }
         bind() from singleton { NearbyPlacesApiService(apiKey, instance()) }
         bind() from singleton { NearbyPlacesDataSource(instance()) }
         bind() from singleton { MyRepository(instance(), instance(), instance(), instance()) }
-        bind() from provider { ViewModelFactory(instance(), instance(), instance()) }
+        bind() from singleton { Store(instance()) }
+        bind() from provider { ViewModelFactory(instance(), instance(), instance(), instance()) }
     }
 }

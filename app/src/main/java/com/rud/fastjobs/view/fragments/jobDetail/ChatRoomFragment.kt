@@ -9,9 +9,10 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
-import com.rud.fastjobs.auth.Auth
+import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.view.recyclerViewController.ChatRoomEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.ChatRoomViewModel
+import kotlinx.android.synthetic.main.activity_job_detail.*
 import kotlinx.android.synthetic.main.fragment_chat_room.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -19,12 +20,18 @@ import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
 
-class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.AdapterCallbacks {
+class ChatRoomFragment : Fragment(), KodeinAware, FragmentLifecycle, ChatRoomEpoxyController.AdapterCallbacks {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: ChatRoomViewModel
-    private val auth: Auth by instance()
     private val controller = ChatRoomEpoxyController(this)
+
+    override fun onPauseFragment() {
+    }
+
+    override fun onResumeFragment() {
+        app_bar_layout.setExpanded(false)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -38,9 +45,6 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
         super.onViewCreated(view, savedInstanceState)
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(ChatRoomViewModel::class.java)
-        Timber.d("onViewCreated")
-
-        viewModel.getUserById(auth.currentUser?.uid!!)
 
         activity?.intent?.getStringExtra("id")?.let {
             viewModel.jobId = it
@@ -51,7 +55,7 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
         viewModel.getAllCommentsLiveData { comments ->
             comments.observe(this, Observer {
                 it.data?.let { comments ->
-                    Timber.d("comments changes observed")
+                    // Timber.d("comments changes observed")
                     Timber.d(comments.toString())
 
                     controller.setData(comments)
@@ -62,7 +66,7 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
         btn_post.setOnClickListener {
             val text = input_comment.text.toString()
             viewModel.postComment(viewModel.jobId, text, onSuccess = {
-                Timber.d("post success")
+                // Timber.d("post success")
                 input_comment.setText("")
             })
         }
@@ -73,6 +77,5 @@ class ChatRoomFragment : Fragment(), KodeinAware, ChatRoomEpoxyController.Adapte
     }
 
     override fun onItemClick(id: String) {
-        Timber.d("item [%s] clicked!", id)
     }
 }
