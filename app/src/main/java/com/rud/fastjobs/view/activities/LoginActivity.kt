@@ -77,8 +77,6 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
     }
 
     fun login() {
-        Timber.d("login")
-
         if (!validate()) {
             onLoginFailed()
             return

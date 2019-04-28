@@ -1,14 +1,17 @@
 package com.rud.fastjobs.view.fragments
 
+import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteActivity
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.firestore.GeoPoint
 import com.rud.coffeemate.ui.fragments.ScopedFragment
@@ -25,6 +28,7 @@ import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
 import timber.log.Timber
+import java.io.ByteArrayOutputStream
 import java.time.LocalDateTime
 import java.util.Arrays
 
@@ -34,6 +38,7 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: JobRegistrationViewModel
     private val AUTOCOMPLETE_REQUEST_CODE = 1
+    private val RC_SELECT_IMAGES = 2
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -86,6 +91,16 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
             dpd.show(fragmentManager, "date picker")
         }
 
+        btn_attachImages.setOnClickListener {
+            val intent = Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
+                putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+            }
+            startActivityForResult(Intent.createChooser(intent, "Select Image"), RC_SELECT_IMAGES)
+        }
+
         btn_save.setOnClickListener {
             viewModel.handleSave(
                 title = input_title.text.toString(),
@@ -100,30 +115,53 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) {
+            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+                val status = Autocomplete.getStatusFromIntent(data!!)
+                Timber.d(status.statusMessage)
+            }
+
+            return
+        }
+
         if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
-            when (resultCode) {
-                AutocompleteActivity.RESULT_OK -> {
-                    val place = Autocomplete.getPlaceFromIntent(data!!)
-                    viewModel.currentSelectedVenue =
-                        Venue(
-                            name = place.name!!,
-                            address = place.address!!,
-                            geoPoint = GeoPoint(place.latLng?.latitude!!, place.latLng?.longitude!!)
-                        )
-                    input_venue.setText(place.address)
-                    Timber.d("Place: " + place.name + ", " + place.latLng)
-                }
+            val place = Autocomplete.getPlaceFromIntent(data!!)
+            viewModel.currentSelectedVenue =
+                Venue(
+                    name = place.name!!,
+                    address = place.address!!,
+                    geoPoint = GeoPoint(place.latLng?.latitude!!, place.latLng?.longitude!!)
+                )
+            input_venue.setText(place.address)
+            Timber.d("Place: " + place.name + ", " + place.latLng)
+        } else if (requestCode == RC_SELECT_IMAGES) {
+            val clipData = data?.clipData
+            viewModel.selectedImageBytesArray.clear()
 
-                AutocompleteActivity.RESULT_ERROR -> {
-                    val status = Autocomplete.getStatusFromIntent(data!!)
-                    Timber.d(status.statusMessage)
-                }
-
-                AutocompleteActivity.RESULT_CANCELED -> {
-                    // The user canceled the operation.
+            if (clipData == null) {
+                val selectedImagePath = data?.data
+                // Timber.d(selectedImagePath.toString())
+                if (selectedImagePath != null)
+                    addToList(selectedImagePath)
+            } else {
+                for (i in 0 until clipData.itemCount) {
+                    val item = clipData.getItemAt(i)
+                    val selectedImagePath = item.uri
+                    // Timber.d(selectedImagePath.toString())
+                    addToList(selectedImagePath)
                 }
             }
         }
+    }
+
+    fun addToList(selectedImagePath: Uri) {
+        val selectedImageBitmap =
+            MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedImagePath)
+
+        val outputStream = ByteArrayOutputStream()
+        selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+        val ba = outputStream.toByteArray()
+        viewModel.selectedImageBytesArray.add(ba)
     }
 
     override fun onDateSet(view: DatePickerDialog?, year: Int, monthOfYear: Int, dayOfMonth: Int) {

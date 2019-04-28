@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
@@ -26,7 +27,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import timber.log.Timber
 import java.time.format.DateTimeFormatter
 import java.time.format.FormatStyle
 
@@ -63,15 +63,19 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle, OnMa
         }
 
         activity?.fab?.setOnClickListener {
-            val intent = Intent(this.context, JobRegistrationActivity::class.java)
-            intent.putExtra("id", viewModel.currentJob.id)
-            startActivity(intent)
+            if (viewModel.currentUser.value?.id != viewModel.currentJob.hostUid) {
+                Toast.makeText(this.context, "Unauthorized", Toast.LENGTH_LONG).show()
+            } else {
+                val intent = Intent(this.context, JobRegistrationActivity::class.java)
+                intent.putExtra("id", viewModel.currentJob.id)
+                startActivity(intent)
+            }
         }
     }
 
     fun updateUI() {
         val job = viewModel.currentJob
-        Timber.d(job.toString())
+        // Timber.d(job.toString())
 
         controller.setData(job, viewModel.currentUser.value!!, null)
         jobDetail_recyclerView.setController(controller)
@@ -135,12 +139,14 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle, OnMa
 
     override fun onJoinBtnClick() {
         viewModel.joinJob(viewModel.currentJob.id!!, onSuccess = {
+            updateUI()
             // Timber.d("join success")
         })
     }
 
     override fun onLeaveBtnClick() {
         viewModel.leaveJob(viewModel.currentJob.id!!, onSuccess = {
+            updateUI()
             // Timber.d("leave success")
         })
     }

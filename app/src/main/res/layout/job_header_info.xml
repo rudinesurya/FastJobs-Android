@@ -28,17 +28,18 @@
 
         android:gravity="center">
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_join"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Join" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_leave"
+            android:id="@+id/btn_cancel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Leave"/>
+            android:text="Cancel"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_joinLeave"
+            android:layout_width="wrap_content"
+            android:text="Join"
+            android:layout_height="wrap_content"/>
 
         <CheckBox
             android:id="@+id/checkbox_fav"

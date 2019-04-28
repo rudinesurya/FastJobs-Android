@@ -2,19 +2,19 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/userActivity"
-            android:title="@string/title_userActivity" />
+            android:id="@+id/action_userAccount"
+            android:title="@string/title_userAccount"/>
 
         <item
-            android:id="@+id/jobRegistrationActivity"
-            android:title="@string/title_jobRegistrationActivity" />
+            android:id="@+id/action_jobRegistration"
+            android:title="@string/title_jobRegistration"/>
 
         <item
-            android:id="@+id/mapActivity"
+            android:id="@+id/action_mapActivity"
             android:title="@string/title_mapActivity"/>
 
         <item
-            android:id="@+id/signOut"
+            android:id="@+id/action_signOut"
             android:title="@string/title_signOut" />
     </group>
 </menu>

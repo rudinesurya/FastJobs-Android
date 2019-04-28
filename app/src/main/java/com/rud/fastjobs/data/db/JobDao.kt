@@ -17,6 +17,11 @@ import java.time.LocalDateTime
 class JobDao(private val firestoreInstance: FirebaseFirestore) {
     private val jobsRef = firestoreInstance.collection("jobs")
 
+    fun getJobByIdLiveData(id: String, onComplete: (LiveData<FirestoreResource<Job>>) -> Unit) {
+        val result = jobsRef.document(id).asLiveData<Job>()
+        onComplete(result)
+    }
+
     fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit) {
         val result = jobsRef.asLiveData<Job>()
         onComplete(result)

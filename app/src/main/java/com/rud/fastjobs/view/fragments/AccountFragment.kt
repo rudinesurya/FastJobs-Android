@@ -21,7 +21,6 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
-import timber.log.Timber
 import java.io.ByteArrayOutputStream
 
 class AccountFragment : ScopedFragment(), KodeinAware {
@@ -40,7 +39,6 @@ class AccountFragment : ScopedFragment(), KodeinAware {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        Timber.d("onViewCreated")
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(AccountViewModel::class.java)
 
@@ -79,20 +77,24 @@ class AccountFragment : ScopedFragment(), KodeinAware {
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        if (requestCode == RC_SELECT_IMAGE && resultCode == Activity.RESULT_OK &&
-            data != null && data.data != null
-        ) {
-            val selectedImagePath = data.data
-            val selectedImageBitmap = MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedImagePath)
+        super.onActivityResult(requestCode, resultCode, data)
+        if (resultCode != Activity.RESULT_OK) return
 
-            val outputStream = ByteArrayOutputStream()
-            selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
-            viewModel.selectedImageBytes = outputStream.toByteArray()
+        if (requestCode == RC_SELECT_IMAGE) {
+            if (data != null && data.data != null) {
+                val selectedImagePath = data.data
+                val selectedImageBitmap =
+                    MediaStore.Images.Media.getBitmap(activity?.contentResolver, selectedImagePath)
 
-            GlideApp.with(this).load(viewModel.selectedImageBytes)
-                .into(input_avatar)
+                val outputStream = ByteArrayOutputStream()
+                selectedImageBitmap.compress(Bitmap.CompressFormat.JPEG, 100, outputStream)
+                viewModel.selectedImageBytes = outputStream.toByteArray()
 
-            viewModel.pictureJustChanged = true
+                GlideApp.with(this).load(viewModel.selectedImageBytes)
+                    .into(input_avatar)
+
+                viewModel.pictureJustChanged = true
+            }
         }
     }
 }

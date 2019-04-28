@@ -29,6 +29,10 @@ class MyRepository(
         userDao.getAllUsersLiveData(onComplete)
     }
 
+    fun getJobByIdLiveData(id: String, onComplete: (LiveData<FirestoreResource<Job>>) -> Unit = {}) {
+        jobDao.getJobByIdLiveData(id, onComplete)
+    }
+
     fun getAllJobsLiveData(onComplete: (LiveData<FirestoreResource<List<Job>>>) -> Unit = {}) {
         jobDao.getAllJobsLiveData(onComplete)
     }
@@ -66,6 +70,15 @@ class MyRepository(
         onFailure: (Exception) -> Unit = {}
     ) {
         storageUtil.uploadAvatar(id, imageBytes, onSuccess, onFailure)
+    }
+
+    fun uploadPhoto(
+        id: String,
+        imageBytes: ByteArray,
+        onSuccess: (String) -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        storageUtil.uploadJobPhoto(id, imageBytes, onSuccess, onFailure)
     }
 
     fun pathToReference(path: String) = storageUtil.pathToReference(path)

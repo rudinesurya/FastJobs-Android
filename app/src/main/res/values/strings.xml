@@ -1,10 +1,10 @@
 <resources>
     <string name="app_name">FastJobs</string>
     <string name="title_jobDashboardActivity">Job Dashboard</string>
-    <string name="title_userActivity">User Account</string>
+    <string name="title_userAccount">User Account</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="title_signOut">Sign Out</string>
-    <string name="title_jobRegistrationActivity">Register Job</string>
+    <string name="title_jobRegistration">Register Job</string>
     <string name="title_jobDetailActivity">Job Detail</string>
     <string name="title_mapActivity">Map</string>
     <string name="short_description_sample">The Role Ensuring customer satisfaction is at the heart of all actions in

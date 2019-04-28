@@ -42,8 +42,6 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
     }
 
     fun signup() {
-        Timber.d("signup")
-
         if (!validate()) {
             onSignUpFailed()
             return

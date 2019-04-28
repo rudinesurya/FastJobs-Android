@@ -129,22 +129,22 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
     override fun onNavigationItemSelected(menuItem: MenuItem): Boolean {
         menuItem.isChecked = true
         when (menuItem.itemId) {
-            R.id.jobRegistrationActivity -> {
+            R.id.action_jobRegistration -> {
                 val intent = Intent(this@JobDashboardActivity, JobRegistrationActivity::class.java)
                 startActivity(intent)
             }
 
-            R.id.userActivity -> {
+            R.id.action_userAccount -> {
                 val intent = Intent(this@JobDashboardActivity, UserActivity::class.java)
                 startActivity(intent)
             }
 
-            R.id.mapActivity -> {
+            R.id.action_mapActivity -> {
                 val intent = Intent(this@JobDashboardActivity, MapsActivity::class.java)
                 startActivity(intent)
             }
 
-            R.id.signOut -> {
+            R.id.action_signOut -> {
                 auth.signOut()
 
                 val intent = Intent(this@JobDashboardActivity, LoginActivity::class.java)

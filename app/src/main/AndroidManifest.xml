@@ -78,11 +78,11 @@
             android:parentActivityName=".view.activities.JobDashboardActivity"/>
         <activity
             android:name=".view.activities.JobRegistrationActivity"
-            android:label="@string/title_jobRegistrationActivity"
+            android:label="@string/title_jobRegistration"
             android:parentActivityName=".view.activities.JobDashboardActivity"/>
         <activity
             android:name=".view.activities.UserActivity"
-            android:label="@string/title_userActivity"
+            android:label="@string/title_userAccount"
             android:parentActivityName=".view.activities.JobDashboardActivity"/>
 
         <activity

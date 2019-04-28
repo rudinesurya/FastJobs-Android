@@ -3,16 +3,20 @@ package com.rud.fastjobs.viewmodel
 import android.app.Application
 import android.widget.Toast
 import androidx.lifecycle.AndroidViewModel
+import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.utils.toTimestamp
+import timber.log.Timber
 import java.time.LocalDateTime
 
-class JobRegistrationViewModel(private val myRepository: MyRepository, app: Application) : AndroidViewModel(app) {
+class JobRegistrationViewModel(private val myRepository: MyRepository, private val auth: Auth, app: Application) :
+    AndroidViewModel(app) {
     var currentJob: Job? = null
     var currentSelectedVenue: Venue? = null
     var currentSelectedDate: LocalDateTime? = null
+    val selectedImageBytesArray = mutableListOf<ByteArray>()
 
     fun getJobById(id: String, onSuccess: (Job?) -> Unit = {}) {
         myRepository.getJobById(id, onSuccess = {
@@ -34,6 +38,26 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, app: Appl
     }
 
     fun handleSave(title: String, payout: Double, description: String, urgency: Boolean) {
+        Timber.d(selectedImageBytesArray.toString())
+
+        val urls = mutableListOf<String>()
+        var imagesUploaded = 0
+        selectedImageBytesArray.forEach { ba ->
+            myRepository.uploadPhoto(auth.currentUser?.uid!!, ba, onSuccess = { imagePath ->
+                ++imagesUploaded
+                urls.add(imagePath)
+
+                if (imagesUploaded == selectedImageBytesArray.count()) {
+                    Timber.d("All photos have been uploaded")
+                    finaliseSave(title, payout, description, urgency, urls)
+                }
+            }, onFailure = {
+                Timber.e(it)
+            })
+        }
+    }
+
+    fun finaliseSave(title: String, payout: Double, description: String, urgency: Boolean, urls: MutableList<String>) {
         if (currentJob != null) {
             val jobFieldMap = mutableMapOf<String, Any>()
 
@@ -50,18 +74,21 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, app: Appl
             if (currentSelectedDate != null)
                 jobFieldMap["date"] = currentSelectedDate!!.toTimestamp()
 
+            jobFieldMap["photoUrls"] = urls
+
             updateJob(currentJob!!.id!!, jobFieldMap)
         } else {
             val newJob = Job(
                 title = title,
-                hostName = "host",
-                hostUid = "123",
-                hostAvatarUrl = "123",
+                hostName = auth.currentUserProfile.value?.name ?: "",
+                hostUid = auth.currentUserProfile.value?.id ?: "",
+                hostAvatarUrl = auth.currentUserProfile.value?.avatarUrl ?: "",
                 description = description,
                 payout = payout,
                 urgency = urgency,
                 venue = currentSelectedVenue,
-                date = currentSelectedDate!!.toTimestamp()
+                date = currentSelectedDate!!.toTimestamp(),
+                photoUrls = urls
             )
             addJob(newJob)
         }

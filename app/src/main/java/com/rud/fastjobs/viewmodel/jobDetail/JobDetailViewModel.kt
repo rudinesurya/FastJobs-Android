@@ -2,6 +2,8 @@ package com.rud.fastjobs.viewmodel.jobDetail
 
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.repository.MyRepository
@@ -16,11 +18,15 @@ class JobDetailViewModel(
     val currentUser = auth.currentUserProfile
     lateinit var currentJob: Job
 
-    fun getJobById(id: String, onSuccess: (Job?) -> Unit = {}) {
+    fun getJobById(id: String, onSuccess: (Job?) -> Unit) {
         myRepository.getJobById(id, onSuccess = {
             currentJob = it!!
             onSuccess(it)
         })
+    }
+
+    fun getJobByIdLiveData(id: String, onComplete: (LiveData<FirestoreResource<Job>>) -> Unit = {}) {
+        myRepository.getJobByIdLiveData(id, onComplete)
     }
 
     fun joinJob(jobId: String, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {

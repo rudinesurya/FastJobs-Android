@@ -38,7 +38,7 @@ class ViewModelFactory(
                 store, auth,
                 app
             ) as T
-            JobRegistrationViewModel::class.java -> JobRegistrationViewModel(myRepository, app) as T
+            JobRegistrationViewModel::class.java -> JobRegistrationViewModel(myRepository, auth, app) as T
             MapsActivityViewModel::class.java -> MapsActivityViewModel(myRepository, store, app) as T
             JobDetailViewModel::class.java -> JobDetailViewModel(
                 myRepository, store, auth,

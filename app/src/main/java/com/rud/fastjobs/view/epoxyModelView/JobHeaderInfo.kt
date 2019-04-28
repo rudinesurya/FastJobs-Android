@@ -47,16 +47,23 @@ class JobHeaderInfo @JvmOverloads constructor(
             val userIsHost = user.id == job.hostUid
             val userCanJoin = !userIsHost && !user.joinedList.contains(job.id)
 
-            btn_join.isVisible = userCanJoin
-            btn_leave.isVisible = !userCanJoin
+            if (userCanJoin) {
+                btn_joinLeave.text = "Join"
+                btn_joinLeave.setOnClickListener(onJoinBtnClick)
+            } else if (userIsHost)
+                btn_joinLeave.isVisible = false
+            else {
+                btn_joinLeave.text = "Leave"
+                btn_joinLeave.setOnClickListener(onLeaveBtnClick)
+            }
+
+            btn_cancel.isVisible = userIsHost
 
             text_hostName.text = job.hostName
             text_updatedAt.text = "to be notified.."
             text_urgency.text = job.urgency.toString()
             checkbox_fav.isChecked = user.favList.contains(job.id)
 
-            btn_join.setOnClickListener(onJoinBtnClick)
-            btn_leave.setOnClickListener(onLeaveBtnClick)
             checkbox_fav.setOnClickListener(onFavChecked)
         }
     }

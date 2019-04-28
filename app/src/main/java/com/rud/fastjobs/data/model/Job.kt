@@ -12,5 +12,6 @@ data class Job(
     val payout: Double = 0.0,
     val urgency: Boolean = false,
     val venue: Venue? = null,
-    val date: Timestamp? = null
+    val date: Timestamp? = null,
+    val photoUrls: MutableList<String> = mutableListOf()
 ) : FirestoreModel()

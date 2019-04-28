@@ -63,8 +63,6 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback {
             .get(MapsActivityViewModel::class.java)
 
         viewModel.nearbyPlaces.observe(this, Observer {
-            Timber.d("nearby places dataset changes observed! time to react!")
-            Timber.d(it.toString())
             placeMarkers(it)
         })
 
