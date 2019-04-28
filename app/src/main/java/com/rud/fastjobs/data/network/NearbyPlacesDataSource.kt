@@ -5,6 +5,9 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
+/***
+ * Data access object for getting google places
+ */
 class NearbyPlacesDataSource(
     private val nearbyPlacesApiService: NearbyPlacesApiService
 ) {

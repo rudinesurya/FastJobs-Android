@@ -11,6 +11,9 @@ import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.utils.toTimestamp
 import java.time.LocalDateTime
 
+/***
+ * Job data access object
+ */
 class JobDao(private val firestoreInstance: FirebaseFirestore) {
     private val jobsRef = firestoreInstance.collection("jobs")
 

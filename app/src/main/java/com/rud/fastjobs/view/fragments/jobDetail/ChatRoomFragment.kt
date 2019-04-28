@@ -65,10 +65,12 @@ class ChatRoomFragment : Fragment(), KodeinAware, FragmentLifecycle, ChatRoomEpo
 
         btn_post.setOnClickListener {
             val text = input_comment.text.toString()
-            viewModel.postComment(viewModel.jobId, text, onSuccess = {
-                // Timber.d("post success")
-                input_comment.setText("")
-            })
+            if (text.isNotBlank()) {
+                viewModel.postComment(viewModel.jobId, text, onSuccess = {
+                    // Timber.d("post success")
+                    input_comment.setText("")
+                })
+            }
         }
     }
 

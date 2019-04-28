@@ -16,8 +16,10 @@ import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.utils.toLocalDateTime
+import com.rud.fastjobs.view.activities.JobRegistrationActivity
 import com.rud.fastjobs.view.recyclerViewController.JobDetailEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.JobDetailViewModel
+import kotlinx.android.synthetic.main.activity_job_detail.*
 import kotlinx.android.synthetic.main.fragment_job_detail.*
 import kotlinx.android.synthetic.main.job_header_info.*
 import org.kodein.di.Kodein
@@ -58,6 +60,12 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle, OnMa
             viewModel.getJobById(it) {
                 updateUI()
             }
+        }
+
+        activity?.fab?.setOnClickListener {
+            val intent = Intent(this.context, JobRegistrationActivity::class.java)
+            intent.putExtra("id", viewModel.currentJob.id)
+            startActivity(intent)
         }
     }
 

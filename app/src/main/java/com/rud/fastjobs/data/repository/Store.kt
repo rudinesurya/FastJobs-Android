@@ -6,6 +6,9 @@ import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.User
 import timber.log.Timber
 
+/***
+ * Class used to hold references to common objects to avoid multiple querying of the same data
+ */
 class Store(private val repository: MyRepository) {
     // LiveData
     private val _jobs = MutableLiveData<List<Job>>()

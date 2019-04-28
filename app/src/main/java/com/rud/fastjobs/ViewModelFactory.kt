@@ -17,6 +17,9 @@ import com.rud.fastjobs.viewmodel.jobDetail.ChatRoomViewModel
 import com.rud.fastjobs.viewmodel.jobDetail.JobDetailViewModel
 import com.rud.fastjobs.viewmodel.jobDetail.ParticipantListViewModel
 
+/***
+ * Generic viewmodel factory class
+ */
 class ViewModelFactory(
     private val myRepository: MyRepository,
     private val store: Store,

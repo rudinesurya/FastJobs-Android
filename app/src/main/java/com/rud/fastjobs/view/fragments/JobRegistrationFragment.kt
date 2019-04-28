@@ -15,6 +15,7 @@ import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Venue
+import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog
@@ -47,16 +48,20 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobRegistrationViewModel::class.java)
 
-//        viewModel.getJobById(id,
-//            onSuccess = { job ->
-//                input_title.setText(job!!.title)
-//                input_payout.setText(job.payout.toString())
-//                input_description.setText(job.description)
-//                input_urgency.isChecked = job.urgency
-//                input_venue.setText(job.venue?.name)
-//
-//                btn_save.text = "Update Job"
-//            })
+        activity?.intent?.getStringExtra("id")?.let {
+            viewModel.getJobById(it) { job ->
+                job?.let {
+                    viewModel.currentJob = job
+                    input_title.setText(job.title)
+                    input_payout.setText(job.payout.toString())
+                    input_description.setText(job.description)
+                    input_urgency.isChecked = job.urgency
+                    input_venue.setText(job.venue?.name)
+                    input_date.setText(job.date?.toLocalDateTime().toString())
+                    btn_save.text = "Update Job"
+                }
+            }
+        }
 
         input_venue.setOnClickListener {
             // Set the fields to specify which types of place data to
@@ -88,6 +93,8 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
                 payout = input_payout.text.toString().toDouble(),
                 urgency = input_urgency.isChecked
             )
+
+            activity?.finish()
         }
     }
 

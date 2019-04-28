@@ -11,6 +11,9 @@ import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.network.NearbyPlacesDataSource
 import com.rud.fastjobs.data.network.response.NearbyPlacesResponse
 
+/***
+ * Single source of truth for database access
+ */
 class MyRepository(
     private val userDao: UserDao,
     private val storageUtil: StorageUtil,

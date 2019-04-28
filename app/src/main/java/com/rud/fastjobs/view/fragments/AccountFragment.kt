@@ -46,7 +46,7 @@ class AccountFragment : ScopedFragment(), KodeinAware {
 
         viewModel.currentUser.observe(this, Observer { user ->
             user?.let { user ->
-                Timber.d("currentUser changes observed")
+                // Timber.d("currentUser changes observed")
                 input_name.setText(user.name)
                 input_bio.setText(user.bio)
 
@@ -72,6 +72,8 @@ class AccountFragment : ScopedFragment(), KodeinAware {
                     displayName = input_name.text.toString(),
                     bio = input_bio.text.toString()
                 )
+
+                activity?.finish()
             }
         }
     }

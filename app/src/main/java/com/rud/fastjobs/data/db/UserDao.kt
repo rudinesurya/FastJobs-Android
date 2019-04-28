@@ -7,6 +7,9 @@ import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.ptrbrynt.firestorelivedata.asLiveData
 import com.rud.fastjobs.data.model.User
 
+/***
+ * User data access object
+ */
 class UserDao(
     private val firestoreInstance: FirebaseFirestore
 ) {

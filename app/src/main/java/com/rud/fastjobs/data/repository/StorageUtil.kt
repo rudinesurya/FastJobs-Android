@@ -3,6 +3,9 @@ package com.rud.fastjobs.data.repository
 import com.google.firebase.storage.FirebaseStorage
 import java.util.UUID
 
+/***
+ * Class made for firestore storage access
+ */
 class StorageUtil(private val storageInstance: FirebaseStorage) {
     private val storageRef = storageInstance.reference.child("users")
 
