@@ -102,11 +102,11 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
                     if (user.avatarUrl.isNotBlank()) {
                         GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(user.avatarUrl))
                             .transforms(CenterCrop(), RoundedCorners(100))
-                            .into(imageView_avatar)
+                            .into(image_avatar)
                     }
 
-                    displayName.text = user.name
-                    email.text = user.email
+                    text_displayName.text = user.name
+                    text_email.text = user.email
                 }
             })
 

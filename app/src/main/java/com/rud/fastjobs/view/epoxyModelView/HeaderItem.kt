@@ -24,6 +24,6 @@ class HeaderItem @JvmOverloads constructor(
 
     @AfterPropsSet
     fun bindUI() {
-        title.text = headerTitle
+        text_title.text = headerTitle
     }
 }
