@@ -10,6 +10,7 @@ import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.rud.fastjobs.R
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.utils.toLocalDateTime
 import kotlinx.android.synthetic.main.job_item_card.view.*
 
@@ -23,8 +24,18 @@ class JobItem @JvmOverloads constructor(
         inflate(context, R.layout.job_item_card, this)
     }
 
+    var _user: User? = null
+
     @ModelProp
     lateinit var job: Job
+
+    var onFavChecked: View.OnClickListener? = null
+        @CallbackProp set
+
+    @ModelProp
+    fun setUser(user: User?) {
+        _user = user
+    }
 
     var onClick: View.OnClickListener? = null
         @CallbackProp set
@@ -39,6 +50,9 @@ class JobItem @JvmOverloads constructor(
             venue.text = it.venue?.name
             shortDescription.text = it.description
             payout.text = "$ ${it.payout}"
+
+            checkbox_fav.isChecked = _user?.favList?.contains(job.id) ?: false
+            checkbox_fav.setOnClickListener(onFavChecked)
 
             if (it.urgency)
                 chip_urgency.visibility = View.VISIBLE

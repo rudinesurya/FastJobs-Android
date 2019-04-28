@@ -15,12 +15,24 @@
         android:paddingTop="8dp"
         android:paddingRight="8dp">
 
-        <TextView
-            android:id="@+id/title"
-            style="@style/TextAppearance.MaterialComponents.Headline6"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Sales" />
+        <RelativeLayout android:layout_width="match_parent" android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/title"
+                android:layout_alignParentLeft="true"
+                style="@style/TextAppearance.MaterialComponents.Headline6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sales"/>
+
+            <CheckBox
+                android:layout_alignParentRight="true"
+                android:id="@+id/checkbox_fav"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:button="@drawable/fav_checkbox_selector"/>
+
+        </RelativeLayout>
+
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -31,20 +43,20 @@
                 android:id="@+id/time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="15:30" />
+                android:text="15:30"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
-                android:text="-" />
+                android:text="-"/>
 
             <TextView
                 android:id="@+id/venue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingLeft="8dp"
-                android:text="London Bridge" />
+                android:text="London Bridge"/>
 
         </LinearLayout>
 
@@ -53,14 +65,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="@string/short_description_sample" />
+            android:text="@string/short_description_sample"/>
 
         <TextView
             android:id="@+id/payout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
-            android:text="$100" />
+            android:text="$100"/>
 
 
         <com.google.android.material.chip.Chip

@@ -4,7 +4,7 @@ import com.airbnb.epoxy.CarouselModelBuilder
 import com.airbnb.epoxy.CarouselModel_
 import com.airbnb.epoxy.EpoxyController
 import com.airbnb.epoxy.EpoxyModel
-import com.airbnb.epoxy.Typed2EpoxyController
+import com.airbnb.epoxy.Typed3EpoxyController
 import com.google.android.gms.maps.model.LatLng
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.User
@@ -12,20 +12,22 @@ import com.rud.fastjobs.view.epoxyModelView.jobBodyInfo
 import com.rud.fastjobs.view.epoxyModelView.jobHeaderInfo
 import com.rud.fastjobs.view.epoxyModelView.liteMapItem
 
-class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed2EpoxyController<Job, User>() {
+class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3EpoxyController<Job, User?, Any?>() {
     interface AdapterCallbacks {
         fun onJoinBtnClick()
         fun onLeaveBtnClick()
         fun onShareBtnClick()
+        fun onFavChecked()
         fun onCarouselItemClick(id: String)
     }
 
-    override fun buildModels(job: Job, user: User) {
+    override fun buildModels(job: Job, user: User?, unused: Any?) {
 
         jobHeaderInfo {
-            id("jobHeaderInfo")
+            id("jobHeaderInfox")
             job(job)
             user(user)
+            onFavChecked { _ -> callbacks.onFavChecked() }
             onJoinBtnClick { _ -> callbacks.onJoinBtnClick() }
             onLeaveBtnClick { _ -> callbacks.onLeaveBtnClick() }
         }

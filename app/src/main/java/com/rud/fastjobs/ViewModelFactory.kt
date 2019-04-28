@@ -31,6 +31,7 @@ class ViewModelFactory(
 
             AccountViewModel::class.java -> AccountViewModel(myRepository, store, auth, app) as T
             JobListViewModel::class.java -> JobListViewModel(
+                myRepository,
                 store, auth,
                 app
             ) as T

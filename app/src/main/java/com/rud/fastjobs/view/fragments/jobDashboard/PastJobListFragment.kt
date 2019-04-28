@@ -1,7 +1,6 @@
 package com.rud.fastjobs.view.fragments.jobDashboard
 
 import android.content.Intent
-import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.toTimestamp
 import com.rud.fastjobs.view.activities.JobDetailActivity
 import java.time.LocalDateTime
@@ -11,11 +10,10 @@ class PastJobListFragment : JobListFragment() {
     }
 
     override fun onResumeFragment() {
-        updateUI()
-    }
-
-    override fun applyTransformation(jobs: List<Job>): List<Job> {
-        return jobs.filter { it.date!! <= LocalDateTime.now().toTimestamp() }.sortedBy { it.date }
+        controller.setData(
+            viewModel.jobs.value?.filter { it.date!! <= LocalDateTime.now().toTimestamp() }?.sortedBy { it.date },
+            viewModel.currentUser.value
+        )
     }
 
     override fun onItemClick(id: String) {

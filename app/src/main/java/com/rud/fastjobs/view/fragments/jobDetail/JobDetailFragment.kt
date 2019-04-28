@@ -19,6 +19,7 @@ import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.recyclerViewController.JobDetailEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.JobDetailViewModel
 import kotlinx.android.synthetic.main.fragment_job_detail.*
+import kotlinx.android.synthetic.main.job_header_info.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
@@ -64,7 +65,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle, OnMa
         val job = viewModel.currentJob
         Timber.d(job.toString())
 
-        controller.setData(job, viewModel.currentUser.value!!)
+        controller.setData(job, viewModel.currentUser.value!!, null)
         jobDetail_recyclerView.setController(controller)
 
         val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
@@ -117,6 +118,11 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle, OnMa
     }
 
     override fun onShareBtnClick() {
+    }
+
+    override fun onFavChecked() {
+        if (checkbox_fav.isChecked) viewModel.addFav(viewModel.currentJob.id!!)
+        else viewModel.deleteFav(viewModel.currentJob.id!!)
     }
 
     override fun onJoinBtnClick() {

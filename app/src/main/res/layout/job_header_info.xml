@@ -40,11 +40,12 @@
             android:layout_height="wrap_content"
             android:text="Leave"/>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_save"
+        <CheckBox
+            android:id="@+id/checkbox_fav"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Save" />
+            android:button="@drawable/fav_checkbox_selector"
+            android:textAppearance="?android:attr/textAppearanceLarge"/>
 
     </LinearLayout>
 

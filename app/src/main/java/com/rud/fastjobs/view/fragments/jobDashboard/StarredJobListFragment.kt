@@ -1,7 +1,6 @@
 package com.rud.fastjobs.view.fragments.jobDashboard
 
 import android.content.Intent
-import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.view.activities.JobDetailActivity
 
 class StarredJobListFragment : JobListFragment() {
@@ -9,12 +8,11 @@ class StarredJobListFragment : JobListFragment() {
     }
 
     override fun onResumeFragment() {
-        updateUI()
-    }
-
-    override fun applyTransformation(jobs: List<Job>): List<Job> {
         val list = viewModel.currentUser.value?.favList
-        return jobs.filter { list?.contains(it.id) ?: true }.sortedBy { it.date }
+        controller.setData(
+            viewModel.jobs.value?.filter { list?.contains(it.id) ?: true }?.sortedBy { it.date },
+            viewModel.currentUser.value
+        )
     }
 
     override fun onItemClick(id: String) {

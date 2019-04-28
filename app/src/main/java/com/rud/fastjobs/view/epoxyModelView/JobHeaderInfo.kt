@@ -24,11 +24,18 @@ class JobHeaderInfo @JvmOverloads constructor(
         inflate(context, R.layout.job_header_info, this)
     }
 
+    var _user: User? = null
+
     @ModelProp
     lateinit var job: Job
-    @ModelProp
-    lateinit var user: User
 
+    @ModelProp
+    fun setUser(user: User?) {
+        _user = user
+    }
+
+    var onFavChecked: View.OnClickListener? = null
+        @CallbackProp set
     var onJoinBtnClick: View.OnClickListener? = null
         @CallbackProp set
     var onLeaveBtnClick: View.OnClickListener? = null
@@ -36,17 +43,21 @@ class JobHeaderInfo @JvmOverloads constructor(
 
     @AfterPropsSet
     fun bindUI() {
-        val userIsHost = user.id == job.hostUid
-        val userCanJoin = !userIsHost && !user.joinedList.contains(job.id)
+        _user?.let { user ->
+            val userIsHost = user.id == job.hostUid
+            val userCanJoin = !userIsHost && !user.joinedList.contains(job.id)
 
-        btn_join.isVisible = userCanJoin
-        btn_leave.isVisible = !userCanJoin
+            btn_join.isVisible = userCanJoin
+            btn_leave.isVisible = !userCanJoin
 
-        text_hostName.text = job.hostName
-        text_updatedAt.text = "to be notified.."
-        text_urgency.text = job.urgency.toString()
+            text_hostName.text = job.hostName
+            text_updatedAt.text = "to be notified.."
+            text_urgency.text = job.urgency.toString()
+            checkbox_fav.isChecked = user.favList.contains(job.id)
 
-        btn_join.setOnClickListener(onJoinBtnClick)
-        btn_leave.setOnClickListener(onLeaveBtnClick)
+            btn_join.setOnClickListener(onJoinBtnClick)
+            btn_leave.setOnClickListener(onLeaveBtnClick)
+            checkbox_fav.setOnClickListener(onFavChecked)
+        }
     }
 }

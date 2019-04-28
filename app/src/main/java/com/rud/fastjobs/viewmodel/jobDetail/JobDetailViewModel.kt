@@ -34,4 +34,20 @@ class JobDetailViewModel(
     ) {
         myRepository.leaveJob(currentUser.value!!.id!!, jobId, onSuccess, onFailure)
     }
+
+    fun addFav(
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        myRepository.addFav(currentUser.value!!.id!!, jobId, onSuccess, onFailure)
+    }
+
+    fun deleteFav(
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        myRepository.deleteFav(currentUser.value!!.id!!, jobId, onSuccess, onFailure)
+    }
 }

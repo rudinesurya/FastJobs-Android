@@ -30,7 +30,7 @@ class ChatRoomFragment : Fragment(), KodeinAware, FragmentLifecycle, ChatRoomEpo
     }
 
     override fun onResumeFragment() {
-        app_bar_layout.setExpanded(false)
+        activity?.app_bar_layout?.setExpanded(false)
     }
 
     override fun onCreateView(
