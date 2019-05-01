@@ -13,5 +13,6 @@ data class Job(
     val urgency: Boolean = false,
     val venue: Venue? = null,
     val date: Timestamp? = null,
+    val status: Boolean = true,
     val photoUrls: MutableList<String> = mutableListOf()
 ) : FirestoreModel()

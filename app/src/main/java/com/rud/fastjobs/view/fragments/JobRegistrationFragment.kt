@@ -11,6 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.firestore.GeoPoint
@@ -81,7 +82,7 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
             // Start the autocomplete intent.
             val intent = Autocomplete.IntentBuilder(
                 AutocompleteActivityMode.FULLSCREEN, fields
-            ).build(this.context!!)
+            ).setTypeFilter(TypeFilter.ESTABLISHMENT).build(this.context!!)
             startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
         }
 

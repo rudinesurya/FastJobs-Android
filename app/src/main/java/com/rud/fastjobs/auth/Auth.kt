@@ -7,19 +7,27 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.model.User
+import timber.log.Timber
 
 class Auth(private val firebaseAuth: FirebaseAuth, private val userDao: UserDao) {
-    val currentUser = firebaseAuth.currentUser
-
     private val _currentUserProfile = MutableLiveData<User>()
     val currentUserProfile: LiveData<User?>
         get() = _currentUserProfile
 
     // Idealy to be called after logging in
-    fun fetchUserProfile() {
-        userDao.getUserByIdLiveData(currentUser?.uid!!) {
+    fun fetchUserProfile(id: String) {
+        userDao.getUserByIdLiveData(id) {
             it.observeForever {
                 _currentUserProfile.postValue(it.data)
+            }
+        }
+    }
+
+    init {
+        FirebaseAuth.getInstance().addAuthStateListener {
+            if (it.currentUser != null) {
+                Timber.d("firebase auth user changed. ${it.currentUser?.uid}")
+                fetchUserProfile(it.currentUser?.uid!!)
             }
         }
     }

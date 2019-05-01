@@ -16,14 +16,14 @@ class JobDetailViewModel(
     app: Application
 ) : AndroidViewModel(app) {
     val currentUser = auth.currentUserProfile
-    lateinit var currentJob: Job
+    var currentJob: Job? = null
 
-    fun getJobById(id: String, onSuccess: (Job?) -> Unit) {
-        myRepository.getJobById(id, onSuccess = {
-            currentJob = it!!
-            onSuccess(it)
-        })
-    }
+    // fun getJobById(id: String, onSuccess: (Job?) -> Unit) {
+    //     myRepository.getJobById(id, onSuccess = {
+    //         currentJob = it!!
+    //         onSuccess(it)
+    //     })
+    // }
 
     fun getJobByIdLiveData(id: String, onComplete: (LiveData<FirestoreResource<Job>>) -> Unit = {}) {
         myRepository.getJobByIdLiveData(id, onComplete)
@@ -39,6 +39,22 @@ class JobDetailViewModel(
         onFailure: (Exception) -> Unit = {}
     ) {
         myRepository.leaveJob(currentUser.value!!.id!!, jobId, onSuccess, onFailure)
+    }
+
+    fun cancelJob(
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        myRepository.cancelJob(jobId, onSuccess, onFailure)
+    }
+
+    fun resumeJob(
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        myRepository.resumeJob(jobId, onSuccess, onFailure)
     }
 
     fun addFav(

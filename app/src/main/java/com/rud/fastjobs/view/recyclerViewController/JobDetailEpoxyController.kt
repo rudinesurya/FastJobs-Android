@@ -17,6 +17,8 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
     interface AdapterCallbacks {
         fun onJoinBtnClick()
         fun onLeaveBtnClick()
+        fun onCancelBtnClick()
+        fun onResumeBtnClick()
         fun onFavChecked()
         fun onCarouselItemClick(id: String)
     }
@@ -30,6 +32,8 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
             onFavChecked { _ -> callbacks.onFavChecked() }
             onJoinBtnClick { _ -> callbacks.onJoinBtnClick() }
             onLeaveBtnClick { _ -> callbacks.onLeaveBtnClick() }
+            onCancelBtnClick { _ -> callbacks.onCancelBtnClick() }
+            onResumeBtnClick { _ -> callbacks.onResumeBtnClick() }
         }
 
         liteMapItem {

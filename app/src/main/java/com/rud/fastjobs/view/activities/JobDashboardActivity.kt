@@ -44,7 +44,7 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(JobDashboardActivityViewModel::class.java)
 
-        auth.fetchUserProfile()
+        // auth.fetchUserProfile()
 
         setSupportActionBar(dashboard_toolbar)
 

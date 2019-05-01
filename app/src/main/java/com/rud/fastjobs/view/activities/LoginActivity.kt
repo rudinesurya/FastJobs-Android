@@ -6,13 +6,11 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.facebook.AccessToken
-import com.facebook.FacebookCallback
-import com.facebook.FacebookException
-import com.facebook.login.LoginResult
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.auth.GoogleAuthProvider
 import com.rud.fastjobs.R
@@ -59,21 +57,21 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
 
         viewModel.initFacebookSignin()
 
-        btn_fbLogin.setReadPermissions("email", "public_profile")
-        btn_fbLogin.registerCallback(viewModel.callbackManager, object : FacebookCallback<LoginResult> {
-            override fun onSuccess(loginResult: LoginResult) {
-                Timber.d("facebook:onSuccess:$loginResult")
-                handleFacebookAccessToken(loginResult.accessToken)
-            }
-
-            override fun onCancel() {
-                Timber.d("facebook:onCancel")
-            }
-
-            override fun onError(error: FacebookException) {
-                Timber.e(error)
-            }
-        })
+        // btn_fbLogin.setReadPermissions("email", "public_profile")
+        // btn_fbLogin.registerCallback(viewModel.callbackManager, object : FacebookCallback<LoginResult> {
+        //     override fun onSuccess(loginResult: LoginResult) {
+        //         Timber.d("facebook:onSuccess:$loginResult")
+        //         handleFacebookAccessToken(loginResult.accessToken)
+        //     }
+        //
+        //     override fun onCancel() {
+        //         Timber.d("facebook:onCancel")
+        //     }
+        //
+        //     override fun onError(error: FacebookException) {
+        //         Timber.e(error)
+        //     }
+        // })
     }
 
     fun login() {
@@ -140,7 +138,7 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
             RC_SIGNUP -> {
                 if (resultCode == RESULT_OK) {
                     Timber.d("RESULT_OK")
-                    onLoginSuccess(auth.currentUser!!)
+                    onLoginSuccess(FirebaseAuth.getInstance().currentUser!!)
                 }
             }
 

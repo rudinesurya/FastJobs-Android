@@ -10,23 +10,31 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.TypeFilter
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.firebase.firestore.GeoPoint
 import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.view.glide.GlideApp
 import com.rud.fastjobs.viewmodel.AccountViewModel
 import kotlinx.android.synthetic.main.fragment_account.*
-import kotlinx.android.synthetic.main.fragment_account.view.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.x.closestKodein
 import org.kodein.di.generic.instance
+import timber.log.Timber
 import java.io.ByteArrayOutputStream
+import java.util.Arrays
 
 class AccountFragment : ScopedFragment(), KodeinAware {
     override val kodein: Kodein by closestKodein()
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: AccountViewModel
+    private val AUTOCOMPLETE_REQUEST_CODE = 1
     private val RC_SELECT_IMAGE = 2
 
     override fun onCreateView(
@@ -47,6 +55,7 @@ class AccountFragment : ScopedFragment(), KodeinAware {
                 // Timber.d("currentUser changes observed")
                 input_name.setText(user.name)
                 input_bio.setText(user.bio)
+                input_location.setText(user.location?.address)
 
                 if (!viewModel.pictureJustChanged && user.avatarUrl.isNotBlank()) {
                     GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
@@ -55,30 +64,62 @@ class AccountFragment : ScopedFragment(), KodeinAware {
             }
         })
 
-        view.apply {
-            input_avatar.setOnClickListener {
-                val intent = Intent().apply {
-                    type = "image/*"
-                    action = Intent.ACTION_GET_CONTENT
-                    putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
-                }
-                startActivityForResult(Intent.createChooser(intent, "Select Image"), RC_SELECT_IMAGE)
+        input_avatar.setOnClickListener {
+            val intent = Intent().apply {
+                type = "image/*"
+                action = Intent.ACTION_GET_CONTENT
+                putExtra(Intent.EXTRA_MIME_TYPES, arrayOf("image/jpeg", "image/png"))
             }
+            startActivityForResult(Intent.createChooser(intent, "Select Image"), RC_SELECT_IMAGE)
+        }
 
-            btn_save.setOnClickListener {
-                viewModel.handleSave(
-                    displayName = input_name.text.toString(),
-                    bio = input_bio.text.toString()
-                )
+        btn_save.setOnClickListener {
+            viewModel.handleSave(
+                displayName = input_name.text.toString(),
+                bio = input_bio.text.toString()
+            )
 
-                activity?.finish()
-            }
+            activity?.finish()
+        }
+
+        input_location.setOnClickListener {
+            // Set the fields to specify which types of place data to
+            // return after the user has made a selection.
+            val fields = Arrays.asList(
+                Place.Field.ID,
+                Place.Field.NAME,
+                Place.Field.LAT_LNG,
+                Place.Field.ADDRESS
+            )
+
+            // Start the autocomplete intent.
+            val intent = Autocomplete.IntentBuilder(
+                AutocompleteActivityMode.FULLSCREEN, fields
+            ).setTypeFilter(TypeFilter.CITIES).build(this.context!!)
+            startActivityForResult(intent, AUTOCOMPLETE_REQUEST_CODE)
         }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-        if (resultCode != Activity.RESULT_OK) return
+        if (resultCode != Activity.RESULT_OK) {
+            if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+                val status = Autocomplete.getStatusFromIntent(data!!)
+                Timber.d(status.statusMessage)
+            }
+
+            return
+        } else if (requestCode == AUTOCOMPLETE_REQUEST_CODE) {
+            val place = Autocomplete.getPlaceFromIntent(data!!)
+            viewModel.currentSelectedVenue =
+                Venue(
+                    name = place.name!!,
+                    address = place.address!!,
+                    geoPoint = GeoPoint(place.latLng?.latitude!!, place.latLng?.longitude!!)
+                )
+            input_location.setText(place.address)
+            Timber.d("Place: " + place.name + ", " + place.latLng)
+        }
 
         if (requestCode == RC_SELECT_IMAGE) {
             if (data != null && data.data != null) {

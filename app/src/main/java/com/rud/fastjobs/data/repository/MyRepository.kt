@@ -116,6 +116,22 @@ class MyRepository(
         userDao.deleteJob(userId, jobId)
     }
 
+    fun cancelJob(
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        jobDao.setJobStatus(jobId, false, onSuccess, onFailure)
+    }
+
+    fun resumeJob(
+        jobId: String,
+        onSuccess: () -> Unit = {},
+        onFailure: (Exception) -> Unit = {}
+    ) {
+        jobDao.setJobStatus(jobId, true, onSuccess, onFailure)
+    }
+
     fun addFav(
         userId: String,
         jobId: String,

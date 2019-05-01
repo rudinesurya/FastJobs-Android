@@ -83,6 +83,19 @@ class JobDao(private val firestoreInstance: FirebaseFirestore) {
             .document(userId).delete().addOnSuccessListener { onSuccess() }
     }
 
+    fun setJobStatus(
+        jobId: String,
+        active: Boolean,
+        onSuccess: () -> Unit,
+        onFailure: (Exception) -> Unit
+    ) {
+        val jobFieldMap = mutableMapOf<String, Any>()
+        jobFieldMap["status"] = active
+        jobsRef.document(jobId).update(jobFieldMap).addOnSuccessListener {
+            onSuccess()
+        }.addOnFailureListener(onFailure)
+    }
+
     fun postComment(
         user: User,
         jobId: String,

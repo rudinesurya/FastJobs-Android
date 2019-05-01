@@ -8,6 +8,7 @@ import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.MyApplication
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.User
+import com.rud.fastjobs.data.model.Venue
 import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.data.repository.Store
 
@@ -22,13 +23,14 @@ class AccountViewModel(
     val currentUser = auth.currentUserProfile
     var selectedImageBytes: ByteArray? = null
     var pictureJustChanged = false
+    var currentSelectedVenue: Venue? = null
 
     fun getCurrentUserLiveData(onComplete: (LiveData<FirestoreResource<User>>) -> Unit = {}) {
-        myRepository.getUserByIdLiveData(auth.currentUser?.uid!!, onComplete)
+        myRepository.getUserByIdLiveData(auth.currentUserProfile.value?.id!!, onComplete)
     }
 
     fun uploadAvatar(imageBytes: ByteArray, onSuccess: (String) -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
-        myRepository.uploadAvatar(auth.currentUser?.uid!!, imageBytes, onSuccess = {
+        myRepository.uploadAvatar(auth.currentUserProfile.value?.id!!, imageBytes, onSuccess = {
             onSuccess(it)
         }, onFailure = {
             onFailure(it)
@@ -38,7 +40,7 @@ class AccountViewModel(
     fun pathToReference(path: String) = myRepository.pathToReference(path)
 
     fun updateCurrentUser(userFieldMap: Map<String, Any>) {
-        myRepository.updateUser(auth.currentUser?.uid!!, userFieldMap, onSuccess = {
+        myRepository.updateUser(auth.currentUserProfile.value?.id!!, userFieldMap, onSuccess = {
             Toast.makeText(app, "Saved!", Toast.LENGTH_SHORT).show()
         })
     }
@@ -50,6 +52,8 @@ class AccountViewModel(
             userFieldMap["name"] = displayName
         if (bio != currentUser.value?.bio)
             userFieldMap["bio"] = bio
+        if (currentSelectedVenue != null)
+            userFieldMap["location"] = currentSelectedVenue!!
 
         // if no new image is selected, or
         // if image fails to be uploaded,

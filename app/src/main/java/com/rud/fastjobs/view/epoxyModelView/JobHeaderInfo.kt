@@ -36,6 +36,10 @@ class JobHeaderInfo @JvmOverloads constructor(
 
     var onFavChecked: View.OnClickListener? = null
         @CallbackProp set
+    var onCancelBtnClick: View.OnClickListener? = null
+        @CallbackProp set
+    var onResumeBtnClick: View.OnClickListener? = null
+        @CallbackProp set
     var onJoinBtnClick: View.OnClickListener? = null
         @CallbackProp set
     var onLeaveBtnClick: View.OnClickListener? = null
@@ -57,7 +61,17 @@ class JobHeaderInfo @JvmOverloads constructor(
                 btn_joinLeave.setOnClickListener(onLeaveBtnClick)
             }
 
-            btn_cancel.isVisible = userIsHost
+            btn_cancelResume.isVisible = userIsHost
+
+            if (userIsHost) {
+                if (job.status) {
+                    btn_cancelResume.text = "Cancel"
+                    btn_cancelResume.setOnClickListener(onCancelBtnClick)
+                } else {
+                    btn_cancelResume.text = "Resume"
+                    btn_cancelResume.setOnClickListener(onResumeBtnClick)
+                }
+            }
 
             text_hostName.text = job.hostName
             text_updatedAt.text = "to be notified.."

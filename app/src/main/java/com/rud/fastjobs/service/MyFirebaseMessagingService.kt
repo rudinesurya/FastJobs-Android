@@ -1,5 +1,8 @@
 package com.rud.fastjobs.service
 
+import android.content.Context
+import android.content.SharedPreferences
+import androidx.core.content.edit
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import timber.log.Timber
@@ -16,12 +19,12 @@ class MyFirebaseMessagingService : FirebaseMessagingService() {
         }
     }
 
-    override fun onNewToken(token: String?) {
-        super.onNewToken(token)
-        Timber.d("token: $token")
-        sendRegistrationToServer(token)
-    }
-
-    fun sendRegistrationToServer(token: String?) {
+    override fun onNewToken(newToken: String) {
+        super.onNewToken(newToken)
+        Timber.d("token: $newToken")
+        val sharedPref: SharedPreferences = getSharedPreferences("Global", Context.MODE_PRIVATE)
+        sharedPref.edit {
+            putString("registerationToken", newToken)
+        }
     }
 }

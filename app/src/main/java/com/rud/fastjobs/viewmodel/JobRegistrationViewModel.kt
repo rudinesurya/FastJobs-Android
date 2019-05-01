@@ -38,12 +38,15 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, private v
     }
 
     fun handleSave(title: String, payout: Double, description: String, urgency: Boolean) {
-        Timber.d(selectedImageBytesArray.toString())
-
         val urls = mutableListOf<String>()
+        if (selectedImageBytesArray.count() == 0) {
+            finaliseSave(title, payout, description, urgency, urls)
+            return
+        }
+
         var imagesUploaded = 0
         selectedImageBytesArray.forEach { ba ->
-            myRepository.uploadPhoto(auth.currentUser?.uid!!, ba, onSuccess = { imagePath ->
+            myRepository.uploadPhoto(auth.currentUserProfile.value?.id!!, ba, onSuccess = { imagePath ->
                 ++imagesUploaded
                 urls.add(imagePath)
 
