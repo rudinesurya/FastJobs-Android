@@ -11,6 +11,7 @@ class ChatRoomEpoxyController(private val callbacks: AdapterCallbacks) : TypedEp
     }
 
     override fun buildModels(data: List<Comment>) {
+        setFilterDuplicates(true)
         data.sortedBy { it.postDate }.forEach {
             val ld = it.postDate?.toLocalDateTime()!!.toLocalDate()
 

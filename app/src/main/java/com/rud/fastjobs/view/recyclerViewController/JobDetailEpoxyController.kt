@@ -8,6 +8,7 @@ import com.airbnb.epoxy.Typed3EpoxyController
 import com.google.android.gms.maps.model.LatLng
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.User
+import com.rud.fastjobs.view.epoxyModelView.PhotoItemModel_
 import com.rud.fastjobs.view.epoxyModelView.jobBodyInfo
 import com.rud.fastjobs.view.epoxyModelView.jobHeaderInfo
 import com.rud.fastjobs.view.epoxyModelView.liteMapItem
@@ -16,13 +17,12 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
     interface AdapterCallbacks {
         fun onJoinBtnClick()
         fun onLeaveBtnClick()
-        fun onShareBtnClick()
         fun onFavChecked()
         fun onCarouselItemClick(id: String)
     }
 
     override fun buildModels(job: Job, user: User?, unused: Any?) {
-
+        setFilterDuplicates(true)
         jobHeaderInfo {
             id("jobHeaderInfox")
             job(job)
@@ -41,18 +41,19 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
         jobBodyInfo {
             id("jobBodyInfo")
             job(job)
-            onShareBtnClick { _ -> callbacks.onShareBtnClick() }
         }
 
-        // carousel {
-        //     id("carousel")
-        //     numViewsToShowOnScreen(1.2f)
-        //
-        //     withModelsFrom(recommendations) {
-        //         RecItemModel_()
-        //             .id(it)
-        //     }
-        // }
+        carousel {
+            id("carousel")
+            numViewsToShowOnScreen(1.2f)
+
+            val photoUrls = job.photoUrls
+            withModelsFrom(photoUrls) {
+                PhotoItemModel_()
+                    .id(it)
+                    .photoUrl(it)
+            }
+        }
     }
 }
 

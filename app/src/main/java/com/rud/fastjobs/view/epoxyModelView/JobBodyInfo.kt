@@ -2,10 +2,8 @@ package com.rud.fastjobs.view.epoxyModelView
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.AfterPropsSet
-import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.rud.fastjobs.R
@@ -25,12 +23,8 @@ class JobBodyInfo @JvmOverloads constructor(
     @ModelProp
     lateinit var job: Job
 
-    var onShareBtnClick: View.OnClickListener? = null
-        @CallbackProp set
-
     @AfterPropsSet
     fun bindUI() {
         text_longDescription.text = job.description
-        btn_share.setOnClickListener(onShareBtnClick)
     }
 }

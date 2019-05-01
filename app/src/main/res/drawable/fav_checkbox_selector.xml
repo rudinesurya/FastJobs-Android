@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:drawable="@drawable/fav_checkbox"
+    <item android:drawable="@drawable/ic_baseline_star_border_24px"
           android:state_checked="false"/>
-    <item android:drawable="@drawable/fav_checkbox_selected"
+    <item android:drawable="@drawable/ic_baseline_star_24px"
           android:state_checked="true"/>
-    <item android:drawable="@drawable/fav_checkbox"/>
+    <item android:drawable="@drawable/ic_baseline_star_border_24px"/>
 </selector>

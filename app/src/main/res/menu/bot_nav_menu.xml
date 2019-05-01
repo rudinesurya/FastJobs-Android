@@ -2,13 +2,16 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/action_nearbyJobs"
+        android:icon="@drawable/ic_baseline_work_24px"
         android:title="Job"/>
 
     <item
         android:id="@+id/action_nearbyRestaurant"
+        android:icon="@drawable/ic_baseline_restaurant_24px"
         android:title="Restaurant"/>
 
     <item
         android:id="@+id/action_nearbyBar"
+        android:icon="@drawable/ic_baseline_local_bar_24px"
         android:title="Bar"/>
 </menu>

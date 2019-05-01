@@ -12,6 +12,7 @@ class ParticipantListEpoxyController(private val callbacks: AdapterCallbacks) :
     }
 
     override fun buildModels(data: List<Participant>) {
+        setFilterDuplicates(true)
         data.sortedBy { it.joinDate }.forEach {
             val ld = it.joinDate?.toLocalDateTime()!!.toLocalDate()
 

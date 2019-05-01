@@ -1,6 +1,9 @@
 package com.rud.fastjobs.view.activities
 
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.rud.fastjobs.R
@@ -47,5 +50,24 @@ class JobDetailActivity : AppCompatActivity() {
 
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {}
         })
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.job_detail_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+
+        R.id.action_share -> {
+            Toast.makeText(this, "Share", Toast.LENGTH_LONG).show()
+            true
+        }
+
+        else -> {
+            // If we got here, the user's action was not recognized.
+            // Invoke the superclass to handle it.
+            super.onOptionsItemSelected(item)
+        }
     }
 }

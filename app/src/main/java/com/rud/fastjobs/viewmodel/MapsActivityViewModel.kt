@@ -5,6 +5,7 @@ import android.location.Location
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.google.android.gms.maps.model.LatLng
 import com.rud.fastjobs.MyApplication
 import com.rud.fastjobs.data.model.Placemark
 import com.rud.fastjobs.data.repository.MyRepository
@@ -29,14 +30,14 @@ class MapsActivityViewModel(
         _nearbyPlaces.postValue(nearbyPlacemarks)
     }
 
-    fun fetchNearbyPlacesFromGoogle(type: String) {
-        val lat = myLastLocation.latitude
-        val lng = myLastLocation.longitude
-        val location = "$lat,$lng"
-        val radius = "2500"
+    fun fetchNearbyPlacesFromGoogle(location: LatLng, radius: Double, type: String) {
+        val lat = location.latitude
+        val lng = location.longitude
+        val locationStr = "$lat,$lng"
+        val radiusStr = radius.toString()
 
         // fetch the data. when it is ready, it will be populated to the livedata
-        myRepository.fetchNearbyPlaces(location = location, radius = radius, type = type, onSuccess = {
+        myRepository.fetchNearbyPlaces(location = locationStr, radius = radiusStr, type = type, onSuccess = {
             val nearbyPlacemarks = it.results.map {
                 val location = it.geometry.location
                 Placemark(it.name, location.lat, location.lng)

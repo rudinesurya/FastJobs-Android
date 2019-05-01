@@ -72,7 +72,7 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         android:clickable="true"
-        android:src="@drawable/quantum_ic_search_grey600_24"
+        android:src="@drawable/ic_baseline_border_color_24px"
         app:layout_anchor="@id/app_bar_layout"
         app:layout_anchorGravity="bottom|right|end"/>
 

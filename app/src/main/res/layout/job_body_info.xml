@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
 
     <TextView
         android:layout_width="match_parent"
+        android:textStyle="bold|italic"
         android:layout_height="wrap_content"
         android:text="Description"/>
 
@@ -14,31 +15,19 @@
         android:id="@+id/text_longDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/description_sample" />
+        android:text="@string/description_sample"/>
 
     <TextView
+        android:layout_marginTop="24sp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Requirements" />
+        android:textStyle="bold|italic"
+        android:text="Requirements"/>
 
     <TextView
         android:id="@+id/text_requirements"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/description_sample" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:gravity="center">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btn_share"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Share this" />
-
-    </LinearLayout>
+        android:text="@string/description_sample"/>
 
 </LinearLayout>

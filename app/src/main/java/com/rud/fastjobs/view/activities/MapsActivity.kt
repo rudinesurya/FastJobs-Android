@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.content.IntentSender
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Bundle
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
@@ -97,11 +98,35 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback {
         }
     }
 
+    private fun getVisibleRegion(): Pair<LatLng, Double> {
+        val visibleRegion = mMap.projection.visibleRegion
+        val distanceWidth = FloatArray(1)
+        val farLeft: LatLng = visibleRegion.farLeft
+        val farRight: LatLng = visibleRegion.farRight
+
+        Location.distanceBetween(
+            farLeft.latitude,
+            farLeft.longitude,
+            farRight.latitude,
+            farRight.longitude,
+            distanceWidth
+        )
+
+        val latLng = visibleRegion.latLngBounds.center
+        val radius = distanceWidth[0] / 2.0
+
+        return Pair(latLng, radius)
+    }
+
     private fun selectNearByPlaces(keyword: String): Boolean {
+        val result = getVisibleRegion()
+        val latLng = result.first
+        val radius = result.second
+
         when (keyword) {
             "job" -> viewModel.fetchNearbyJobs()
-            "restaurant" -> viewModel.fetchNearbyPlacesFromGoogle("restaurant")
-            "bar" -> viewModel.fetchNearbyPlacesFromGoogle("bar")
+            "restaurant" -> viewModel.fetchNearbyPlacesFromGoogle(latLng, radius, "restaurant")
+            "bar" -> viewModel.fetchNearbyPlacesFromGoogle(latLng, radius, "bar")
         }
 
         return true

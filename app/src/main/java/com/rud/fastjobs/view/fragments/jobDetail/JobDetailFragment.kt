@@ -129,9 +129,6 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle, OnMa
         // Timber.d("job [%s] clicked!", id)
     }
 
-    override fun onShareBtnClick() {
-    }
-
     override fun onFavChecked() {
         if (checkbox_fav.isChecked) viewModel.addFav(viewModel.currentJob.id!!)
         else viewModel.deleteFav(viewModel.currentJob.id!!)

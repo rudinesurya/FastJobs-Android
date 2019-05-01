@@ -26,7 +26,7 @@ class LiteMapItem @JvmOverloads constructor(
 
     init {
         inflate(context, R.layout.lite_google_map, this)
-        mapView.isClickable = false
+        mapView.isClickable = true
         mapView.isLongClickable = false
     }
 
