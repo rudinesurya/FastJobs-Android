@@ -1,5 +1,6 @@
 package com.rud.fastjobs.view.activities
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -61,6 +62,13 @@ class JobDetailActivity : AppCompatActivity() {
 
         R.id.action_share -> {
             Toast.makeText(this, "Share", Toast.LENGTH_LONG).show()
+
+            val shareIntent = Intent()
+            shareIntent.action = Intent.ACTION_SEND
+            shareIntent.type = "text/plain"
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+            startActivity(Intent.createChooser(shareIntent, "Share with..."))
+
             true
         }
 

@@ -13,6 +13,8 @@ import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.activities.JobRegistrationActivity
+import com.rud.fastjobs.view.activities.PhotoActivity
+import com.rud.fastjobs.view.glide.GlideApp
 import com.rud.fastjobs.view.recyclerViewController.JobDetailEpoxyController
 import com.rud.fastjobs.viewmodel.jobDetail.JobDetailViewModel
 import kotlinx.android.synthetic.main.activity_job_detail.*
@@ -81,6 +83,18 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
         controller.setData(job, viewModel.currentUser.value!!, null)
         jobDetail_recyclerView.setController(controller)
 
+
+        job?.photoUrls?.let {
+            if (it.count() > 0) {
+                // when there is attached images
+                val photoUrl = it[0]
+                activity?.image_backdrop?.let {
+                    GlideApp.with(this).load(viewModel.pathToReference(photoUrl))
+                        .into(it)
+                }
+            }
+        }
+
         val formatter = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.MEDIUM)
         val ldt = job?.date?.toLocalDateTime()!!
         val dateString = ldt.format(formatter)
@@ -106,8 +120,11 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
 //        mapFragment.getMapAsync(this)
     }
 
-    override fun onCarouselItemClick(id: String) {
+    override fun onCarouselItemClick(photoUrl: String) {
         // Timber.d("job [%s] clicked!", id)
+        val intent = Intent(this.context, PhotoActivity::class.java)
+        intent.putExtra("url", photoUrl)
+        startActivity(intent)
     }
 
     override fun onFavChecked() {

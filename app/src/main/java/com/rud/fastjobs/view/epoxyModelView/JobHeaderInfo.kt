@@ -73,9 +73,8 @@ class JobHeaderInfo @JvmOverloads constructor(
                 }
             }
 
-            text_hostName.text = job.hostName
-            text_updatedAt.text = "to be notified.."
-            text_urgency.text = job.urgency.toString()
+            text_hostName.text = "Hosted by: ${job.hostName}"
+            text_urgency.text = "Urgency: ${job.urgency}"
             checkbox_fav.isChecked = user.favList.contains(job.id)
 
             checkbox_fav.setOnClickListener(onFavChecked)

@@ -46,7 +46,7 @@ class ParticipantItem @JvmOverloads constructor(
             val lt = it.joinDate?.toLocalDateTime()
 
             text_joinDate.text = lt.toString()
-            text_userName.text = "John"
+            text_userName.text = participant.userName
 
             if (participant.userAvatarUrl.isNotBlank()) {
                 GlideApp.with(context).load(storageUtil.pathToReference(participant.userAvatarUrl))

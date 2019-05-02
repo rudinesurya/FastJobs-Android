@@ -20,7 +20,7 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
         fun onCancelBtnClick()
         fun onResumeBtnClick()
         fun onFavChecked()
-        fun onCarouselItemClick(id: String)
+        fun onCarouselItemClick(photoUrl: String)
     }
 
     override fun buildModels(job: Job, user: User?, unused: Any?) {
@@ -56,6 +56,7 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
                 PhotoItemModel_()
                     .id(it)
                     .photoUrl(it)
+                    .onClick { _, modelview, _, _ -> callbacks.onCarouselItemClick(modelview.photoUrl) }
             }
         }
     }

@@ -2,8 +2,10 @@ package com.rud.fastjobs.view.epoxyModelView
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.View
 import android.widget.FrameLayout
 import com.airbnb.epoxy.AfterPropsSet
+import com.airbnb.epoxy.CallbackProp
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.rud.fastjobs.R
@@ -31,11 +33,15 @@ class PhotoItem @JvmOverloads constructor(
     @ModelProp
     lateinit var photoUrl: String
 
+    var onClick: View.OnClickListener? = null
+        @CallbackProp set
+
     @AfterPropsSet
     fun bindUI() {
         if (photoUrl.isNotBlank()) {
             GlideApp.with(context).load(storageUtil.pathToReference(photoUrl))
                 .into(image_photo)
         }
+        setOnClickListener(onClick)
     }
 }

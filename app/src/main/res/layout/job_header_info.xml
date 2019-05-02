@@ -11,12 +11,6 @@
         android:text="Posted by: John" />
 
     <TextView
-        android:id="@+id/text_updatedAt"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Updated at 3/4/2019" />
-
-    <TextView
         android:id="@+id/text_urgency"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -25,9 +19,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
         android:gravity="center">
-
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancelResume"

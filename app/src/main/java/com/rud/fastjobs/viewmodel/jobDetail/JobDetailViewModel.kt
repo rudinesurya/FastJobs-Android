@@ -25,6 +25,8 @@ class JobDetailViewModel(
     //     })
     // }
 
+    fun pathToReference(path: String) = myRepository.pathToReference(path)
+
     fun getJobByIdLiveData(id: String, onComplete: (LiveData<FirestoreResource<Job>>) -> Unit = {}) {
         myRepository.getJobByIdLiveData(id, onComplete)
     }
