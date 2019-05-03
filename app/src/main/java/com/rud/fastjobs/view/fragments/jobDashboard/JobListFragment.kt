@@ -10,6 +10,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
+import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.view.activities.JobDetailActivity
 import com.rud.fastjobs.view.recyclerViewController.JobListEpoxyController
@@ -45,9 +46,22 @@ abstract class JobListFragment : ScopedFragment(), KodeinAware, FragmentLifecycl
 
         viewModel.jobs.observe(this, Observer { jobs ->
             jobs?.let { jobs ->
-                controller.setData(jobs, viewModel.currentUser.value)
+                setData(jobs)
             }
         })
+    }
+
+    override fun onPauseFragment() {
+    }
+
+    override fun onResumeFragment() {
+        viewModel.jobs.value?.let {
+            setData(it)
+        }
+    }
+
+    open fun setData(jobs: List<Job>) {
+        controller.setData(jobs, viewModel.currentUser.value)
     }
 
     private fun initRecyclerView(view: View) {

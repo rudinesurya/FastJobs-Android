@@ -1,10 +1,9 @@
 package com.rud.fastjobs.view.fragments.jobDashboard
 
-class DefaultJobListFragment : JobListFragment() {
-    override fun onPauseFragment() {
-    }
+import com.rud.fastjobs.data.model.Job
 
-    override fun onResumeFragment() {
-        controller.setData(viewModel.jobs.value?.sortedBy { it.date }, viewModel.currentUser.value)
+class DefaultJobListFragment : JobListFragment() {
+    override fun setData(jobs: List<Job>) {
+        controller.setData(jobs.sortedBy { it.date }, viewModel.currentUser.value)
     }
 }

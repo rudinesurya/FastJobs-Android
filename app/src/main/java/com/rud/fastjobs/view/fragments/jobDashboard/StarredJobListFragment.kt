@@ -1,13 +1,12 @@
 package com.rud.fastjobs.view.fragments.jobDashboard
 
-class StarredJobListFragment : JobListFragment() {
-    override fun onPauseFragment() {
-    }
+import com.rud.fastjobs.data.model.Job
 
-    override fun onResumeFragment() {
+class StarredJobListFragment : JobListFragment() {
+    override fun setData(jobs: List<Job>) {
         val list = viewModel.currentUser.value?.favList
         controller.setData(
-            viewModel.jobs.value?.filter { list?.contains(it.id) ?: true }?.sortedBy { it.date },
+            jobs.filter { list?.contains(it.id) ?: true }.sortedBy { it.date },
             viewModel.currentUser.value
         )
     }
