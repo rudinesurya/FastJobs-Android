@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <PreferenceCategory
+        android:title="@string/pref_title_location">
+        <SwitchPreference
+            android:key="@string/pref_use_device_location"
+            android:title="Use device location"
+            android:summary="Allow the app to get your location"
+            android:defaultValue="true"/>
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/pref_title_notifications">
+        <SwitchPreference
+            android:key="@string/pref_enable_all_notif"
+            android:title="Enable All Notifications"
+            android:summary="Allow the app to get all notifications"
+            android:defaultValue="true"
+            android:disableDependentsState="true"/>
+
+        <SwitchPreference
+            android:key="@string/pref_enable_jobs_notif"
+            android:dependency="@string/pref_enable_all_notif"
+            android:title="Enable Jobs Notifications"
+            android:summary="Allow the app to get jobs notifications"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="@string/pref_enable_admin_notif"
+            android:dependency="@string/pref_enable_all_notif"
+            android:title="Enable Admin Notifications"
+            android:summary="Allow the app to get notifications from fcm console"
+            android:defaultValue="true"/>
+
+    </PreferenceCategory>
+</PreferenceScreen>

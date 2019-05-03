@@ -14,6 +14,14 @@
             android:title="@string/title_mapActivity"/>
 
         <item
+            android:id="@+id/action_notifications"
+            android:title="@string/title_notifications"/>
+
+        <item
+            android:id="@+id/action_settings"
+            android:title="@string/title_settings"/>
+
+        <item
             android:id="@+id/action_signOut"
             android:title="@string/title_signOut" />
     </group>

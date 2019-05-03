@@ -21,8 +21,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".view.activities.PhotoActivity">
-        </activity>
+
 
         <service
             android:name=".service.MyFirebaseMessagingService"
@@ -84,6 +83,14 @@
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_mapActivity"
             android:parentActivityName=".view.activities.JobDashboardActivity">
+        </activity>
+        <activity android:name=".view.activities.NotificationsActivity"
+                  android:parentActivityName=".view.activities.JobDashboardActivity">
+        </activity>
+        <activity android:name=".view.activities.SettingsActivity"
+                  android:parentActivityName=".view.activities.JobDashboardActivity">
+        </activity>
+        <activity android:name=".view.activities.PhotoActivity">
         </activity>
     </application>
 

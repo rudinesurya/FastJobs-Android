@@ -2,9 +2,11 @@
 <resources>
     <color name="white">#FFFFFF</color>
     <color name="grey">#A9A9A9</color>
+    <color name="yellow">#FFEB3B</color>
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#D81B60</color>
+    <color name="colorMultiDelete">#b1c4d9</color>
 
     <color name="chip_urgent">#D54848</color>
 </resources>

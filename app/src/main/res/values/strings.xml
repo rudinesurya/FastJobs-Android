@@ -7,6 +7,8 @@
     <string name="title_jobRegistration">Register Job</string>
     <string name="title_jobDetailActivity">Job Detail</string>
     <string name="title_mapActivity">Map</string>
+    <string name="title_settings">Settings</string>
+    <string name="title_notifications">Notifications</string>
     <string name="short_description_sample">The Role Ensuring customer satisfaction is at the heart of all actions in
         store Interacting with the customer in a pleasant, friendly and helpful manner
     </string>
@@ -17,5 +19,11 @@
         displaying bakery products Ensuring all waste is managed correctly Assisting in the stock count process
         Complying with relevant legal obligations Complying with Company Guidelines and Procedures
     </string>
+    <string name="pref_use_device_location">USE_DEVICE_LOCATION</string>
+    <string name="pref_enable_all_notif">ENABLE_ALL_NOTIFICATIONS</string>
+    <string name="pref_enable_jobs_notif">ENABLE_JOB_NOTIFICATIONS</string>
+    <string name="pref_title_location">Location</string>
+    <string name="pref_title_notifications">Notifications</string>
+    <string name="pref_enable_admin_notif">ENABLE_ADMIN_NOTIFICATIONS</string>
 
 </resources>

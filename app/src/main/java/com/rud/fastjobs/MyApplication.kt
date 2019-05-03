@@ -7,6 +7,7 @@ import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.db.JobDao
+import com.rud.fastjobs.data.db.NotificationsDB
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.network.ConnectivityInterceptor
 import com.rud.fastjobs.data.network.NearbyPlacesApiService
@@ -35,6 +36,8 @@ class MyApplication : Application(), KodeinAware {
         import(androidXModule(this@MyApplication))
         val apiKey = getString(R.string.google_maps_key)
 
+        bind() from singleton { NotificationsDB(instance()) }
+        bind() from singleton { instance<NotificationsDB>().notificationDao() }
         bind() from singleton { FirebaseAuth.getInstance() }
         bind() from singleton { FirebaseFirestore.getInstance() }
         bind() from singleton { FirebaseStorage.getInstance() }
@@ -45,7 +48,7 @@ class MyApplication : Application(), KodeinAware {
         bind() from singleton { ConnectivityInterceptor(instance()) }
         bind() from singleton { NearbyPlacesApiService(apiKey, instance()) }
         bind() from singleton { NearbyPlacesDataSource(instance()) }
-        bind() from singleton { MyRepository(instance(), instance(), instance(), instance()) }
+        bind() from singleton { MyRepository(instance(), instance(), instance(), instance(), instance()) }
         bind() from singleton { Store(instance()) }
         bind() from provider { ViewModelFactory(instance(), instance(), instance(), instance()) }
     }

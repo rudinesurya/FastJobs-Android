@@ -3,6 +3,7 @@ package com.rud.fastjobs.data.repository
 import androidx.lifecycle.LiveData
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.data.db.JobDao
+import com.rud.fastjobs.data.db.NotificationDao
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.model.Comment
 import com.rud.fastjobs.data.model.Job
@@ -18,6 +19,7 @@ class MyRepository(
     private val userDao: UserDao,
     private val storageUtil: StorageUtil,
     private val jobDao: JobDao,
+    private val notificationDao: NotificationDao,
     private val nearbyPlacesDataSource: NearbyPlacesDataSource
 ) {
     // LiveData

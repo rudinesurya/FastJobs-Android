@@ -20,7 +20,6 @@ import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.utils.MyViewPagerAdapter
 import com.rud.fastjobs.view.fragments.jobDashboard.DefaultJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.JoinedJobListFragment
-import com.rud.fastjobs.view.fragments.jobDashboard.NotificationFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.PastJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.StarredJobListFragment
 import com.rud.fastjobs.view.glide.GlideApp
@@ -60,7 +59,6 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         adapter.addFragment(JoinedJobListFragment(), "Joined")
         adapter.addFragment(StarredJobListFragment(), "Starred")
         adapter.addFragment(PastJobListFragment(), "Past")
-        adapter.addFragment(NotificationFragment(), "Notifications")
 
         viewpager.adapter = adapter
         tabs.setupWithViewPager(viewpager)
@@ -141,6 +139,16 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
 
             R.id.action_mapActivity -> {
                 val intent = Intent(this@JobDashboardActivity, MapsActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.action_notifications -> {
+                val intent = Intent(this@JobDashboardActivity, NotificationsActivity::class.java)
+                startActivity(intent)
+            }
+
+            R.id.action_settings -> {
+                val intent = Intent(this@JobDashboardActivity, SettingsActivity::class.java)
                 startActivity(intent)
             }
 

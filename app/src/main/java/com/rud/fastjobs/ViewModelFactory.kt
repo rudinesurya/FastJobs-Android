@@ -10,6 +10,7 @@ import com.rud.fastjobs.viewmodel.AccountViewModel
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import com.rud.fastjobs.viewmodel.LoginActivityViewModel
 import com.rud.fastjobs.viewmodel.MapsActivityViewModel
+import com.rud.fastjobs.viewmodel.NotificationsActivityViewModel
 import com.rud.fastjobs.viewmodel.PhotoActivityViewModel
 import com.rud.fastjobs.viewmodel.SignUpActivityViewModel
 import com.rud.fastjobs.viewmodel.jobDashboard.JobDashboardActivityViewModel
@@ -61,6 +62,9 @@ class ViewModelFactory(
             ) as T
             PhotoActivityViewModel::class.java -> PhotoActivityViewModel(
                 myRepository
+            ) as T
+            NotificationsActivityViewModel::class.java -> NotificationsActivityViewModel(
+                myRepository, app
             ) as T
 
             else -> throw IllegalArgumentException("Unknown ViewModel class: ${modelClass.name}")
