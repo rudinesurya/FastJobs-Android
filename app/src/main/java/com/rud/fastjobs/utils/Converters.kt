@@ -1,4 +1,4 @@
-package com.rud.fastjobs.data.db
+package com.rud.fastjobs.utils
 
 // class Converters {
 //     companion object {

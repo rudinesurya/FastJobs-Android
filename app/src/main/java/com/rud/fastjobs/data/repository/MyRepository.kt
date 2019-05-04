@@ -7,6 +7,7 @@ import com.rud.fastjobs.data.db.NotificationDao
 import com.rud.fastjobs.data.db.UserDao
 import com.rud.fastjobs.data.model.Comment
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.data.model.Notification
 import com.rud.fastjobs.data.model.Participant
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.network.NearbyPlacesDataSource
@@ -46,6 +47,8 @@ class MyRepository(
     fun getAllParticipantsLiveData(id: String, onComplete: (LiveData<FirestoreResource<List<Participant>>>) -> Unit) {
         jobDao.getAllParticipantsLiveData(id, onComplete)
     }
+
+    fun getAllNotificationsLiveData() = notificationDao.getNotifications()
 
     // UserDao
     fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
@@ -169,6 +172,14 @@ class MyRepository(
         onFailure: (Exception) -> Unit
     ) {
         jobDao.deleteComment(jobId, commentId, onSuccess, onFailure)
+    }
+
+    suspend fun addNotification(notification: Notification) {
+        notificationDao.upsert(notification)
+    }
+
+    suspend fun removeNotification(id: Long) {
+        notificationDao.remove(id)
     }
 
     // Nearby Places Data Source

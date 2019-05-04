@@ -1,16 +1,16 @@
 package com.rud.fastjobs.utils
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlin.coroutines.CoroutineContext
 
 /***
- * Fragment class with included CoroutineScope
+ * Activity class with included CoroutineScope
  */
-abstract class ScopedFragment : Fragment(), CoroutineScope {
+abstract class ScopedActivity : AppCompatActivity(), CoroutineScope {
     private lateinit var job: Job
 
     override val coroutineContext: CoroutineContext

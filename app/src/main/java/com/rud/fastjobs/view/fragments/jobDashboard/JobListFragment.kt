@@ -7,11 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.utils.FragmentLifecycle
+import com.rud.fastjobs.utils.ScopedFragment
 import com.rud.fastjobs.view.activities.JobDetailActivity
 import com.rud.fastjobs.view.recyclerViewController.JobListEpoxyController
 import com.rud.fastjobs.viewmodel.jobDashboard.JobListViewModel

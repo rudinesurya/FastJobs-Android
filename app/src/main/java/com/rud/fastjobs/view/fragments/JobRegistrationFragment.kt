@@ -15,10 +15,10 @@ import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.google.firebase.firestore.GeoPoint
-import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.data.model.Venue
+import com.rud.fastjobs.utils.ScopedFragment
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.viewmodel.JobRegistrationViewModel
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog

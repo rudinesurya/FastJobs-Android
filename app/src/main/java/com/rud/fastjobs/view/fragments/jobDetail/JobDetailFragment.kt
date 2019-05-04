@@ -8,9 +8,9 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.rud.coffeemate.ui.fragments.ScopedFragment
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.utils.FragmentLifecycle
+import com.rud.fastjobs.utils.ScopedFragment
 import com.rud.fastjobs.utils.toLocalDateTime
 import com.rud.fastjobs.view.activities.JobRegistrationActivity
 import com.rud.fastjobs.view.activities.PhotoActivity
