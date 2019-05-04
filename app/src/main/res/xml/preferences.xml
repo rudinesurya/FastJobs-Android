@@ -26,9 +26,16 @@
             android:defaultValue="true"/>
 
         <SwitchPreference
-            android:key="@string/pref_enable_admin_notif"
+            android:key="@string/pref_enable_member_notif"
             android:dependency="@string/pref_enable_all_notif"
-            android:title="Enable Admin Notifications"
+            android:title="Enable Member Notifications"
+            android:summary="Allow the app to get member notifications"
+            android:defaultValue="true"/>
+
+        <SwitchPreference
+            android:key="@string/pref_enable_global_notif"
+            android:dependency="@string/pref_enable_all_notif"
+            android:title="Enable Global Notifications"
             android:summary="Allow the app to get notifications from fcm console"
             android:defaultValue="true"/>
 

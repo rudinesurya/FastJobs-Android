@@ -22,8 +22,9 @@
     <string name="pref_use_device_location">USE_DEVICE_LOCATION</string>
     <string name="pref_enable_all_notif">ENABLE_ALL_NOTIFICATIONS</string>
     <string name="pref_enable_jobs_notif">ENABLE_JOB_NOTIFICATIONS</string>
+    <string name="pref_enable_member_notif">ENABLE_MEMBER_NOTIFICATIONS</string>
     <string name="pref_title_location">Location</string>
     <string name="pref_title_notifications">Notifications</string>
-    <string name="pref_enable_admin_notif">ENABLE_ADMIN_NOTIFICATIONS</string>
+    <string name="pref_enable_global_notif">ENABLE_GLOBAL_NOTIFICATIONS</string>
 
 </resources>

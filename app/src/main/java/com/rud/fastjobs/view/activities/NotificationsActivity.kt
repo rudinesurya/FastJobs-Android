@@ -191,10 +191,6 @@ class NotificationsActivity : ScopedActivity(), KodeinAware, NotificationsEpoxyC
                         }
                     }.show()
                 }
-
-                override fun clearView(model: NotificationItemModel_?, itemView: View?) {
-                    itemView?.setBackgroundColor(Color.WHITE)
-                }
             })
     }
 
