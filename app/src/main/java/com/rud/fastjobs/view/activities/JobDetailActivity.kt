@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.viewpager.widget.ViewPager
 import com.rud.fastjobs.R
@@ -61,7 +60,7 @@ class JobDetailActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
 
         R.id.action_share -> {
-            Toast.makeText(this, "Share", Toast.LENGTH_LONG).show()
+            // Toast.makeText(this, "Share", Toast.LENGTH_LONG).show()
 
             val shareIntent = Intent()
             shareIntent.action = Intent.ACTION_SEND

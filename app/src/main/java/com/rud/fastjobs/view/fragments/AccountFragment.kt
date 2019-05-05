@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.android.libraries.places.widget.Autocomplete
@@ -59,6 +61,7 @@ class AccountFragment : ScopedFragment(), KodeinAware {
 
                 if (!viewModel.pictureJustChanged && user.avatarUrl.isNotBlank()) {
                     GlideApp.with(this@AccountFragment).load(viewModel.pathToReference(user.avatarUrl))
+                        .transforms(CenterCrop(), RoundedCorners(1000))
                         .into(input_avatar)
                 }
             }

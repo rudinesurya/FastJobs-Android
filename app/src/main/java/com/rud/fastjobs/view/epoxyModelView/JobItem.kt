@@ -46,12 +46,13 @@ class JobItem @JvmOverloads constructor(
         job.let {
             val lt = it.date?.toLocalDateTime()?.toLocalTime()!!
             val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+            val payout = String.format("%.2f", it.payout)
 
             text_title.text = it.title
             text_time.text = lt.format(formatter)
             text_venue.text = it.venue?.name
             text_shortDescription.text = it.description
-            text_payout.text = "$ ${it.payout}"
+            text_payout.text = "$ $payout"
 
             checkbox_fav.isChecked = _user?.favList?.contains(job.id) ?: false
             checkbox_fav.setOnClickListener(onFavChecked)

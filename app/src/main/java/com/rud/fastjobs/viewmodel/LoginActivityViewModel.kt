@@ -1,8 +1,8 @@
 package com.rud.fastjobs.viewmodel
 
 import android.app.Application
-import android.content.Context
 import androidx.lifecycle.AndroidViewModel
+import androidx.preference.PreferenceManager
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -12,7 +12,6 @@ import com.rud.fastjobs.MyApplication
 import com.rud.fastjobs.R
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
-import timber.log.Timber
 
 class LoginActivityViewModel(
     private val myRepository: MyRepository, app: Application
@@ -20,6 +19,7 @@ class LoginActivityViewModel(
     private val app = getApplication<MyApplication>()
     lateinit var googleSignInClient: GoogleSignInClient
     lateinit var callbackManager: CallbackManager // Facebook
+    val sharedPref by lazy { PreferenceManager.getDefaultSharedPreferences(app) }
 
     fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
         myRepository.getUserById(id, onSuccess)
@@ -30,8 +30,7 @@ class LoginActivityViewModel(
     }
 
     fun initUserIfNew(user: FirebaseUser) {
-        val token = app.getSharedPreferences("Global", Context.MODE_PRIVATE).getString("registerationToken", "")
-        Timber.d(token)
+        val token = sharedPref.getString("registerationToken", "")
         myRepository.getUserById(user.uid, onSuccess = {
             if (it == null) {
                 val newUser = User(

@@ -103,6 +103,10 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
                         GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(user.avatarUrl))
                             .transforms(CenterCrop(), RoundedCorners(1000))
                             .into(image_avatar)
+                    } else {
+                        GlideApp.with(this@JobDashboardActivity).load(R.drawable.ic_baseline_person_24px)
+                            .transforms(CenterCrop(), RoundedCorners(1000))
+                            .into(image_avatar)
                     }
 
                     text_displayName.text = user.name

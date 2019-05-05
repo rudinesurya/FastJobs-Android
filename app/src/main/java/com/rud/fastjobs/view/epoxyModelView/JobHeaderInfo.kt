@@ -72,6 +72,7 @@ class JobHeaderInfo @JvmOverloads constructor(
             btn_cancelResume.isVisible = userIsHost
 
             if (userIsHost) {
+                layout_cancelNotif.isVisible = false
                 if (job.status) {
                     btn_cancelResume.text = "Cancel"
                     btn_cancelResume.setOnClickListener(onCancelBtnClick)
@@ -79,6 +80,8 @@ class JobHeaderInfo @JvmOverloads constructor(
                     btn_cancelResume.text = "Resume"
                     btn_cancelResume.setOnClickListener(onResumeBtnClick)
                 }
+            } else {
+                layout_cancelNotif.isVisible = !job.status
             }
 
             val ld = job.date?.toLocalDateTime()?.toLocalDate()!!
@@ -86,10 +89,12 @@ class JobHeaderInfo @JvmOverloads constructor(
             val formatter = DateTimeFormatter.ofPattern("hh:mm a")
             val dateStr = ld.dayOfWeek.toString() + ", " + ld.dayOfMonth + " " + ld.month
             val timeStr = lt.format(formatter)
+            val payout = String.format("%.2f", job.payout)
 
             text_host.text = "Hosted by: ${job.hostName}"
             text_date.text = "$dateStr $timeStr"
             text_location.text = job.venue?.address.toString()
+            text_payout.text = "$ $payout"
 
             checkbox_fav.isChecked = user.favList.contains(job.id)
 

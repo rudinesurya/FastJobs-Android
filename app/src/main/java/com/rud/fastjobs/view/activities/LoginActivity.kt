@@ -143,13 +143,14 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
         when (requestCode) {
             RC_SIGNUP -> {
                 if (resultCode == RESULT_OK) {
-                    Timber.d("RESULT_OK")
+                    dialog.show()
                     onLoginSuccess(FirebaseAuth.getInstance().currentUser!!)
-                }
+                } else onLoginFailed()
             }
 
             RC_GOOGLE_SIGN_IN -> {
                 if (resultCode == RESULT_OK) {
+                    dialog.show()
                     val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                     try {
                         // Google Sign In was successful, authenticate with Firebase
@@ -158,8 +159,9 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
                     } catch (e: ApiException) {
                         // Google Sign In failed
                         Timber.e(e)
+                        onLoginFailed()
                     }
-                }
+                } else onLoginFailed()
             }
 
             else -> viewModel.callbackManager.onActivityResult(requestCode, resultCode, data)

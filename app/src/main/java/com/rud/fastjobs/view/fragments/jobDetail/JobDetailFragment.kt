@@ -52,7 +52,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(com.rud.fastjobs.R.layout.fragment_job_detail, container, false)
+        return inflater.inflate(R.layout.fragment_job_detail, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -61,6 +61,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
             .get(JobDetailViewModel::class.java)
 
         activity?.intent?.getStringExtra("id")?.let {
+            Timber.d("activity intent jobId: $it")
             viewModel.getJobByIdLiveData(it) {
                 it.observe(this, Observer {
                     it.data?.let {

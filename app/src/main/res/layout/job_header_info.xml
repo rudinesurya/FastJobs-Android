@@ -73,6 +73,50 @@
                 android:text="time" />
         </LinearLayout>
 
+        <LinearLayout
+            android:id="@+id/layout_payout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_attach_money_24px" />
+
+            <TextView
+                android:id="@+id/text_payout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="$100.00" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_cancelNotif"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:background="@color/grey"
+        android:gravity="center"
+        android:padding="8dp"
+        android:visibility="gone">
+
+        <ImageView
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:gravity="center"
+            android:src="@drawable/ic_baseline_cancel_24px" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="12dp"
+            android:gravity="center"
+            android:text="This job has been cancelled" />
     </LinearLayout>
 
 
@@ -90,16 +134,16 @@
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_joinLeave"
-            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="24dp"
             android:text="Join" />
 
         <CheckBox
             android:id="@+id/checkbox_fav"
-            android:layout_marginLeft="24dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="24dp"
             android:button="@drawable/fav_checkbox_selector"
             android:textAppearance="?android:attr/textAppearanceLarge" />
 
