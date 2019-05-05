@@ -30,6 +30,7 @@ Demo Video: https://www.youtube.com/watch?v=OeL6AN7Wkzc
   + [MVVM Architecture Adopted](#MVVM-Architecture-Adopted)
   + [Git Approach Adopted](#Git-approach-adopted)
   + [Complex Model Schema](#Complex-Model-Schema)
+  + [Persistence](#Persistence)
   + [Third Party Components](#Third-party-components)
   + [Third Party Api](#Third-party-Api)
   + [Folder Structure](#Folder-Structure)
@@ -245,6 +246,15 @@ Job entity creates sub-collection to hold users that have joined and another col
 
 <img src="readme_img/job_model.png" width="400">
 
+### Persistence
+
+#### Firestore
+For cloud persistence of user and job entities
+#### Room
+For local persistence of notification object
+#### SharedPreferences
+For settings preferences
+
 ### Third Party Components
 + Latest Android Architecture and Support Libraries
   + android arch
@@ -292,6 +302,8 @@ Job entity creates sub-collection to hold users that have joined and another col
 <img src="https://media.giphy.com/media/wt0eEPN2z5oRpWx2v6/giphy.gif" width="200">
 
 Google Maps, GPS, together with Google Places API are used for making REST requests with retrofit to get a list of nearby places of interest to display on the dynamic map view activity. 
+
+<img src="readme_img/cloud_functions.png" width="400">
 
 Firebase cloud function is used as event trigger for when a job gets cancelled or resumed by host. It will then notify all participants involved. 
 
