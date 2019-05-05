@@ -6,6 +6,7 @@ import androidx.lifecycle.LiveData
 import com.ptrbrynt.firestorelivedata.FirestoreResource
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.data.model.Job
+import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.data.repository.Store
 
@@ -24,6 +25,10 @@ class JobDetailViewModel(
     //         onSuccess(it)
     //     })
     // }
+
+    fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
+        myRepository.getUserById(id, onSuccess)
+    }
 
     fun pathToReference(path: String) = myRepository.pathToReference(path)
 

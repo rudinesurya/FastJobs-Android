@@ -82,16 +82,16 @@
         <activity
             android:name=".view.activities.MapsActivity"
             android:label="@string/title_mapActivity"
-            android:parentActivityName=".view.activities.JobDashboardActivity">
-        </activity>
+            android:parentActivityName=".view.activities.JobDashboardActivity" />
         <activity android:name=".view.activities.NotificationsActivity"
-                  android:parentActivityName=".view.activities.JobDashboardActivity">
-        </activity>
+            android:label="Notifications"
+            android:parentActivityName=".view.activities.JobDashboardActivity" />
         <activity android:name=".view.activities.SettingsActivity"
-                  android:parentActivityName=".view.activities.JobDashboardActivity">
-        </activity>
-        <activity android:name=".view.activities.PhotoActivity">
-        </activity>
+            android:label="Settings"
+            android:parentActivityName=".view.activities.JobDashboardActivity" />
+        <activity
+            android:name=".view.activities.PhotoActivity"
+            android:label="Photo Frame" />
     </application>
 
 </manifest>

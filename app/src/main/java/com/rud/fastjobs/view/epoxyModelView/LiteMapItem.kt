@@ -3,6 +3,7 @@ package com.rud.fastjobs.view.epoxyModelView
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.FrameLayout
+import com.airbnb.epoxy.AfterPropsSet
 import com.airbnb.epoxy.ModelProp
 import com.airbnb.epoxy.ModelView
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -48,6 +49,14 @@ class LiteMapItem @JvmOverloads constructor(
     fun setLocation(newLocation: LatLng?) =
         newLocation?.let {
             myLocation = it
-            startMap()
         }
+
+    @ModelProp
+    lateinit var address: String
+
+    @AfterPropsSet
+    fun bind() {
+        text_address.text = address
+        startMap()
+    }
 }

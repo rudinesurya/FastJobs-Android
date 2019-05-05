@@ -19,6 +19,7 @@ import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.utils.FragmentLifecycle
 import com.rud.fastjobs.utils.MyViewPagerAdapter
 import com.rud.fastjobs.view.fragments.jobDashboard.DefaultJobListFragment
+import com.rud.fastjobs.view.fragments.jobDashboard.HostedJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.JoinedJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.PastJobListFragment
 import com.rud.fastjobs.view.fragments.jobDashboard.StarredJobListFragment
@@ -59,6 +60,7 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
         adapter.addFragment(JoinedJobListFragment(), "Joined")
         adapter.addFragment(StarredJobListFragment(), "Starred")
         adapter.addFragment(PastJobListFragment(), "Past")
+        adapter.addFragment(HostedJobListFragment(), "Hosted")
 
         viewpager.adapter = adapter
         tabs.setupWithViewPager(viewpager)
@@ -99,7 +101,7 @@ class JobDashboardActivity : AppCompatActivity(), KodeinAware, NavigationView.On
                 user?.let { user ->
                     if (user.avatarUrl.isNotBlank()) {
                         GlideApp.with(this@JobDashboardActivity).load(viewModel.pathToReference(user.avatarUrl))
-                            .transforms(CenterCrop(), RoundedCorners(100))
+                            .transforms(CenterCrop(), RoundedCorners(1000))
                             .into(image_avatar)
                     }
 

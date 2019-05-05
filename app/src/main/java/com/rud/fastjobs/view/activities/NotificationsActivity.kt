@@ -82,20 +82,14 @@ class NotificationsActivity : ScopedActivity(), KodeinAware, NotificationsEpoxyC
                 private val iconHeight = icon.intrinsicHeight
                 private val iconWidth = icon.intrinsicWidth
 
-                private val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = Color.rgb(255, 0, 0)
-                }
-
-                private val foregroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
-                    color = Color.rgb(255, 128, 128)
-                }
-
                 override fun onSwipeProgressChanged(
                     model: NotificationItemModel_?,
                     itemView: View,
                     swipeProgress: Float,
                     canvas: Canvas
                 ) {
+                    val alpha = (Math.abs(swipeProgress) * 255).toInt()
+
                     rect.set(
                         itemView.left.toFloat(),
                         itemView.top.toFloat(),
@@ -157,6 +151,9 @@ class NotificationsActivity : ScopedActivity(), KodeinAware, NotificationsEpoxyC
                     }
 
                     // Draw the background color
+                    val backgroundPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                        color = Color.argb(alpha, 255, 64, 64)
+                    }
                     canvas.drawRect(rect, backgroundPaint)
 
                     if (radius > 0) {
@@ -164,7 +161,9 @@ class NotificationsActivity : ScopedActivity(), KodeinAware, NotificationsEpoxyC
                             iconBounds.centerX().toFloat(),
                             iconBounds.centerY().toFloat(),
                             radius,
-                            foregroundPaint
+                            Paint(Paint.ANTI_ALIAS_FLAG).apply {
+                                color = Color.argb(alpha, 255, 128, 128)
+                            }
                         )
                     }
 

@@ -12,14 +12,12 @@
                       android:layout_width="match_parent" android:layout_height="match_parent"
                       android:orientation="vertical"
                       android:paddingLeft="24dp"
-                      android:paddingTop="56dp"
                       android:paddingRight="24dp">
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="24dp"
                 android:hint="Job Title">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -33,7 +31,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:hint="Payout">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -47,7 +44,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:hint="Venue">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -61,7 +57,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:hint="Date">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -75,7 +70,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:hint="Description">
 
                 <com.google.android.material.textfield.TextInputEditText
@@ -90,7 +84,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
                 android:hint="Urgency"/>
 
             <com.google.android.material.button.MaterialButton
@@ -105,7 +98,7 @@
                 android:id="@+id/btn_save"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
+                android:layout_marginTop="24dp"
                 android:padding="12dp"
                 android:text="Register New Job"/>
         </LinearLayout>

@@ -4,41 +4,104 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_hostName"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Posted by: John" />
+        android:layout_marginLeft="24dp"
+        android:layout_marginTop="24dp"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/text_urgency"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Urgent" />
+        <LinearLayout
+            android:id="@+id/layout_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ic_date"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_access_time_24px" />
+
+            <TextView
+                android:id="@+id/text_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="time" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ic_location"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_location_on_24px" />
+
+            <TextView
+                android:id="@+id/text_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="time" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout_host"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/ic_host"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_baseline_person_24px" />
+
+            <TextView
+                android:id="@+id/text_host"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="time" />
+        </LinearLayout>
+
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
         android:gravity="center">
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_cancelResume"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Cancel"/>
+            android:text="Cancel" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btn_joinLeave"
+            android:layout_height="wrap_content"
             android:layout_width="wrap_content"
-            android:text="Join"
-            android:layout_height="wrap_content"/>
+            android:layout_marginLeft="24dp"
+            android:text="Join" />
 
         <CheckBox
             android:id="@+id/checkbox_fav"
+            android:layout_marginLeft="24dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:button="@drawable/fav_checkbox_selector"
-            android:textAppearance="?android:attr/textAppearanceLarge"/>
+            android:textAppearance="?android:attr/textAppearanceLarge" />
 
     </LinearLayout>
 

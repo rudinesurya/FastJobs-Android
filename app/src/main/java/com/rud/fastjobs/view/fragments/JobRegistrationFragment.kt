@@ -9,6 +9,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProviders
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.TypeFilter
@@ -57,6 +58,8 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
         activity?.intent?.getStringExtra("id")?.let {
             viewModel.getJobById(it) { job ->
                 job?.let {
+                    (activity as AppCompatActivity).supportActionBar?.title = job.title
+
                     viewModel.currentJob = job
                     input_title.setText(job.title)
                     input_payout.setText(job.payout.toString())

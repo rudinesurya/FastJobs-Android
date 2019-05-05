@@ -20,6 +20,9 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
         fun onCancelBtnClick()
         fun onResumeBtnClick()
         fun onFavChecked()
+        fun onDateBtnClick()
+        fun onLocationBtnClick()
+        fun onHostBtnClick()
         fun onCarouselItemClick(photoUrl: String)
     }
 
@@ -34,12 +37,9 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
             onLeaveBtnClick { _ -> callbacks.onLeaveBtnClick() }
             onCancelBtnClick { _ -> callbacks.onCancelBtnClick() }
             onResumeBtnClick { _ -> callbacks.onResumeBtnClick() }
-        }
-
-        liteMapItem {
-            id("liteMapItem")
-            val gp = job.venue?.geoPoint!!
-            location(LatLng(gp.latitude, gp.longitude))
+            onDateBtnClick { _ -> callbacks.onDateBtnClick() }
+            onLocationBtnClick { _ -> callbacks.onLocationBtnClick() }
+            onHostBtnClick { _ -> callbacks.onHostBtnClick() }
         }
 
         jobBodyInfo {
@@ -58,6 +58,13 @@ class JobDetailEpoxyController(private val callbacks: AdapterCallbacks) : Typed3
                     .photoUrl(it)
                     .onClick { _, modelview, _, _ -> callbacks.onCarouselItemClick(modelview.photoUrl) }
             }
+        }
+
+        liteMapItem {
+            id("liteMapItem")
+            val gp = job.venue?.geoPoint!!
+            location(LatLng(gp.latitude, gp.longitude))
+            address(job.venue.address)
         }
     }
 }

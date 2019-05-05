@@ -1,5 +1,6 @@
 package com.rud.fastjobs.view.activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -10,6 +11,7 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.viewmodel.SignUpActivityViewModel
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_signup.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -22,6 +24,7 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
     private val viewModelFactory: ViewModelFactory by instance()
     private lateinit var viewModel: SignUpActivityViewModel
     private val auth: Auth by instance()
+    private val dialog: AlertDialog by lazy { SpotsDialog.Builder().setContext(this).build() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -47,6 +50,7 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
             return
         }
 
+        dialog.show()
         btn_signup.isEnabled = false
 
         val email = input_email.text.toString()
@@ -64,6 +68,7 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
 
         viewModel.initUserIfNew(user, name = input_name.text.toString())
         btn_signup.isEnabled = true
+        dialog.dismiss()
         setResult(RESULT_OK, null)
         finish()
     }
@@ -72,6 +77,7 @@ class SignUpActivity : AppCompatActivity(), KodeinAware {
         Timber.d("onSignUpFailed")
         Toast.makeText(this, "SignUp failed", Toast.LENGTH_LONG).show()
         btn_signup.isEnabled = true
+        dialog.dismiss()
     }
 
     fun validate(): Boolean {

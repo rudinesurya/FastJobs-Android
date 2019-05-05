@@ -13,6 +13,7 @@ import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.utils.toLocalDateTime
 import kotlinx.android.synthetic.main.job_item_card.view.*
+import java.time.format.DateTimeFormatter
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class JobItem @JvmOverloads constructor(
@@ -44,9 +45,10 @@ class JobItem @JvmOverloads constructor(
     fun bindUI() {
         job.let {
             val lt = it.date?.toLocalDateTime()?.toLocalTime()!!
+            val formatter = DateTimeFormatter.ofPattern("hh:mm a")
 
             text_title.text = it.title
-            text_time.text = "${lt.hour}:${lt.minute}"
+            text_time.text = lt.format(formatter)
             text_venue.text = it.venue?.name
             text_shortDescription.text = it.description
             text_payout.text = "$ ${it.payout}"

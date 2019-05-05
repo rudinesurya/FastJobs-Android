@@ -12,7 +12,9 @@ import com.airbnb.epoxy.ModelView
 import com.rud.fastjobs.R
 import com.rud.fastjobs.data.model.Job
 import com.rud.fastjobs.data.model.User
+import com.rud.fastjobs.utils.toLocalDateTime
 import kotlinx.android.synthetic.main.job_header_info.view.*
+import java.time.format.DateTimeFormatter
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class JobHeaderInfo @JvmOverloads constructor(
@@ -44,6 +46,12 @@ class JobHeaderInfo @JvmOverloads constructor(
         @CallbackProp set
     var onLeaveBtnClick: View.OnClickListener? = null
         @CallbackProp set
+    var onDateBtnClick: View.OnClickListener? = null
+        @CallbackProp set
+    var onLocationBtnClick: View.OnClickListener? = null
+        @CallbackProp set
+    var onHostBtnClick: View.OnClickListener? = null
+        @CallbackProp set
 
     @AfterPropsSet
     fun bindUI() {
@@ -73,11 +81,23 @@ class JobHeaderInfo @JvmOverloads constructor(
                 }
             }
 
-            text_hostName.text = "Hosted by: ${job.hostName}"
-            text_urgency.text = "Urgency: ${job.urgency}"
+            val ld = job.date?.toLocalDateTime()?.toLocalDate()!!
+            val lt = job.date?.toLocalDateTime()?.toLocalTime()!!
+            val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+            val dateStr = ld.dayOfWeek.toString() + ", " + ld.dayOfMonth + " " + ld.month
+            val timeStr = lt.format(formatter)
+
+            text_host.text = "Hosted by: ${job.hostName}"
+            text_date.text = "$dateStr $timeStr"
+            text_location.text = job.venue?.address.toString()
+
             checkbox_fav.isChecked = user.favList.contains(job.id)
 
             checkbox_fav.setOnClickListener(onFavChecked)
+
+            layout_date.setOnClickListener(onDateBtnClick)
+            layout_location.setOnClickListener(onLocationBtnClick)
+            layout_host.setOnClickListener(onHostBtnClick)
         }
     }
 }

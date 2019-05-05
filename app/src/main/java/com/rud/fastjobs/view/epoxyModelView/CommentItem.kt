@@ -20,6 +20,7 @@ import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
 import org.kodein.di.android.closestKodein
 import org.kodein.di.generic.instance
+import java.time.format.DateTimeFormatter
 
 @ModelView(autoLayout = ModelView.Size.MATCH_WIDTH_WRAP_HEIGHT)
 class CommentItem @JvmOverloads constructor(
@@ -43,10 +44,14 @@ class CommentItem @JvmOverloads constructor(
     @AfterPropsSet
     fun bindUI() {
         comment.let {
-            val lt = it.postDate?.toLocalDateTime()?.toLocalTime()!!
+            val ld = it.postDate?.toLocalDateTime()?.toLocalDate()!!
+            val lt = it.postDate.toLocalDateTime()?.toLocalTime()!!
+            val formatter = DateTimeFormatter.ofPattern("hh:mm a")
+            val dateStr = ld.dayOfWeek.toString() + ", " + ld.dayOfMonth + " " + ld.month
+            val timeStr = lt.format(formatter)
 
             text_senderName.text = comment.userName
-            text_postDate.text = lt.toString()
+            text_postDate.text = "$dateStr $timeStr"
             text_comment.text = comment.text
 
             if (comment.userAvatarUrl.isNotBlank()) {

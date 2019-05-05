@@ -73,6 +73,8 @@ dependencies {
 
     //Facebook login
     implementation 'com.facebook.android:facebook-login:4.41.0'
+    // Progress dialog
+    implementation 'com.github.d-max:spots-dialog:1.1@aar'
 
     //Google Map
     implementation 'com.google.android.libraries.places:places:1.1.0'

@@ -1,5 +1,6 @@
 package com.rud.fastjobs.view.activities
 
+import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
@@ -17,6 +18,7 @@ import com.rud.fastjobs.R
 import com.rud.fastjobs.ViewModelFactory
 import com.rud.fastjobs.auth.Auth
 import com.rud.fastjobs.viewmodel.LoginActivityViewModel
+import dmax.dialog.SpotsDialog
 import kotlinx.android.synthetic.main.activity_login.*
 import org.kodein.di.Kodein
 import org.kodein.di.KodeinAware
@@ -31,6 +33,7 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
     private val auth: Auth by instance()
     private val RC_GOOGLE_SIGN_IN = 0
     private val RC_SIGNUP = 1
+    private val dialog: AlertDialog by lazy { SpotsDialog.Builder().setContext(this).build() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +83,7 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
             return
         }
 
+        dialog.show()
         btn_login.isEnabled = false
 
         val email = input_email.text.toString()
@@ -95,6 +99,7 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
     fun onLoginSuccess(user: FirebaseUser) {
         Timber.d("onLoginSuccess")
         btn_login.isEnabled = true
+        dialog.dismiss()
         viewModel.initUserIfNew(user)
 
         val intent = Intent(this, JobDashboardActivity::class.java)
@@ -107,6 +112,7 @@ class LoginActivity : AppCompatActivity(), KodeinAware {
         Timber.d("onLoginFailed")
         Toast.makeText(this, "Login failed", Toast.LENGTH_LONG).show()
         btn_login.isEnabled = true
+        dialog.dismiss()
     }
 
     fun validate(): Boolean {
