@@ -72,7 +72,7 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
 
             createNotificationChannel()
             val builder = NotificationCompat.Builder(this, CHANNEL_ID)
-                .setSmallIcon(R.drawable.ic_baseline_work_24px)
+                .setSmallIcon(R.drawable.ic_app_icon)
                 .setContentTitle(title)
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
@@ -94,7 +94,6 @@ class MyFirebaseMessagingService : FirebaseMessagingService(), KodeinAware {
     override fun onNewToken(newToken: String) {
         super.onNewToken(newToken)
         Timber.d("token: $newToken")
-
 
         sharedPref.edit {
             putString("registerationToken", newToken)

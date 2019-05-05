@@ -40,6 +40,10 @@ class AccountViewModel(
     fun pathToReference(path: String) = myRepository.pathToReference(path)
 
     fun updateCurrentUser(userFieldMap: Map<String, Any>) {
+        if (userFieldMap.count() == 0) {
+            return Toast.makeText(getApplication(), "Nothing changes", Toast.LENGTH_SHORT).show()
+        }
+
         myRepository.updateUser(auth.currentUserProfile.value?.id!!, userFieldMap, onSuccess = {
             Toast.makeText(app, "Saved!", Toast.LENGTH_SHORT).show()
         })
@@ -62,7 +66,9 @@ class AccountViewModel(
         if (selectedImageBytes != null) {
             uploadAvatar(selectedImageBytes!!,
                 onSuccess = { imagePath ->
-                    userFieldMap["avatarUrl"] = imagePath
+                    if (imagePath != currentUser.value?.avatarUrl)
+                        userFieldMap["avatarUrl"] = imagePath
+
                     updateCurrentUser(userFieldMap)
                 },
                 onFailure = {

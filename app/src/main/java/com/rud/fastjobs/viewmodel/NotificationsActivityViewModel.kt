@@ -7,7 +7,8 @@ import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.utils.lazyDeferred
 
 class NotificationsActivityViewModel(
-    private val myRepository: MyRepository, app: Application
+    private val myRepository: MyRepository,
+    app: Application
 ) : AndroidViewModel(app) {
     val notifications by lazyDeferred {
         myRepository.getAllNotificationsLiveData()

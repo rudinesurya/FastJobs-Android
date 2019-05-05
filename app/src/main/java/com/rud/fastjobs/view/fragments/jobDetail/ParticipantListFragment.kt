@@ -82,15 +82,14 @@ class ParticipantListFragment : Fragment(), KodeinAware, FragmentLifecycle,
                         .transforms(CenterCrop(), RoundedCorners(1000))
                         .into(view.image_avatar)
                 }
-                //set the bio
+                // set the bio
                 view.text_name.text = user.name
                 view.text_bio.text = user.bio
                 view.text_location.text = user.location?.address
             }
         }
 
-        with(builder)
-        {
+        with(builder) {
             setView(view)
             setMessage("")
             setPositiveButton("Ok", null)

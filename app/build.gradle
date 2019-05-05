@@ -107,8 +107,8 @@ dependencies {
 
     // Room
     implementation "androidx.room:room-runtime:2.1.0-alpha07"
-    kapt "androidx.room:room-compiler:2.1.0-alpha07"
     implementation "androidx.room:room-ktx:2.1.0-alpha07"
+    kapt "androidx.room:room-compiler:2.1.0-alpha07"
 
     // Navigation
     implementation 'android.arch.navigation:navigation-fragment-ktx:1.0.0'
@@ -166,8 +166,6 @@ dependencies {
     // Mockk
     testImplementation "io.mockk:mockk:1.9"
     androidTestImplementation "io.mockk:mockk-android:1.9"
-    implementation 'androidx.room:room-runtime:2.0.0'
-    annotationProcessor 'androidx.room:room-compiler:2.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

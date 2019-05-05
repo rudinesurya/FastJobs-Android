@@ -10,7 +10,10 @@ import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.data.repository.Store
 
 class JobDashboardActivityViewModel(
-    private val myRepository: MyRepository, private val store: Store, private val auth: Auth, app: Application
+    private val myRepository: MyRepository,
+    private val store: Store,
+    private val auth: Auth,
+    app: Application
 ) : AndroidViewModel(app) {
     private val app = getApplication<MyApplication>()
 

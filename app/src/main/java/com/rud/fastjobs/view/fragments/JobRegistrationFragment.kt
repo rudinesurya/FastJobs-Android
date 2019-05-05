@@ -106,15 +106,54 @@ class JobRegistrationFragment : ScopedFragment(), KodeinAware, DatePickerDialog.
         }
 
         btn_save.setOnClickListener {
-            viewModel.handleSave(
-                title = input_title.text.toString(),
-                description = input_description.text.toString(),
-                payout = input_payout.text.toString().toDouble(),
-                urgency = input_urgency.isChecked
-            )
+            if (validate()) {
+                viewModel.handleSave(
+                    title = input_title.text.toString(),
+                    description = input_description.text.toString(),
+                    payout = input_payout.text.toString().toDouble(),
+                    urgency = input_urgency.isChecked
+                )
 
-            activity?.finish()
+                activity?.finish()
+            }
         }
+    }
+
+    fun validate(): Boolean {
+        var valid = true
+
+        val title = input_title.text.toString()
+        val payout = input_payout.text.toString()
+        val venue = input_venue.text.toString()
+        val date = input_date.text.toString()
+        val description = input_description.text.toString()
+
+        if (title.isBlank() || title.length < 3) {
+            input_title.error = "enter a valid title at least 3 chars long"
+            valid = false
+        } else input_title.error = null
+
+        if (payout.isBlank()) {
+            input_payout.error = "enter a valid number"
+            valid = false
+        } else input_payout.error = null
+
+        if (venue.isBlank()) {
+            input_venue.error = "address cannot be blank"
+            valid = false
+        } else input_venue.error = null
+
+        if (date.isBlank()) {
+            input_date.error = "date cannot be blank"
+            valid = false
+        } else input_date.error = null
+
+        if (description.isBlank() || description.length < 3) {
+            input_description.error = "enter a valid description at least 3 chars long"
+            valid = false
+        } else input_description.error = null
+
+        return valid
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

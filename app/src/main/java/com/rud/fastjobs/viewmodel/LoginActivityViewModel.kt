@@ -14,7 +14,8 @@ import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 
 class LoginActivityViewModel(
-    private val myRepository: MyRepository, app: Application
+    private val myRepository: MyRepository,
+    app: Application
 ) : AndroidViewModel(app) {
     private val app = getApplication<MyApplication>()
     lateinit var googleSignInClient: GoogleSignInClient

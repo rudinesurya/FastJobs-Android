@@ -76,10 +76,13 @@ class JobRegistrationViewModel(private val myRepository: MyRepository, private v
                 jobFieldMap["venue"] = currentSelectedVenue!!
             if (currentSelectedDate != null)
                 jobFieldMap["date"] = currentSelectedDate!!.toTimestamp()
+            if (urls.count() > 0)
+                jobFieldMap["photoUrls"] = urls
 
-            jobFieldMap["photoUrls"] = urls
-
-            updateJob(currentJob!!.id!!, jobFieldMap)
+            if (jobFieldMap.count() > 0)
+                updateJob(currentJob!!.id!!, jobFieldMap)
+            else
+                Toast.makeText(getApplication(), "Nothing changes", Toast.LENGTH_SHORT).show()
         } else {
             val newJob = Job(
                 title = title,

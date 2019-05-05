@@ -60,6 +60,14 @@ The usage of the App is not limited to employer only. Anyone can create a job su
 
 ### Future Development and Possibilities
 At the current state, due to lack of time, some of the implementation and design pattern were rushed. This makes automated testings and maintainence difficult. Also, I am storing duplicate data in Firestore for most of the document referencing. It can be improved further by either storing user doc reference (Not sure if it might double the query), or by having a cloud function which periodically aggregate the data to sync. 
+
+#### What can be done better
++ Better seperation of concern between Activity/Fragment and ViewModels.
++ Add delete functionality to the user and job model.
++ Add cleanup functionality to remove orphaned files the deleted user/job leaves behind.
++ Move certain part of the backend codes to the cloud. This gives a few advantages. More security at the data layer. Cleaner code at the client App. It also can be re-used by other App that uses the same backend, eg. IOS/Web.
++ Pagination for loading a large collection.
+
  
 # Installation Requirements
 Must provide your own google-services.json with valid api key
@@ -81,6 +89,7 @@ Recommended version of android is Oreo
 + Custom Notifications
 
 ### UI Design
+<img src="readme_img/nav_drawer.png" width="200">
 
 Clean Design Concept
 + Use action bar and navigation drawer to place menu items instead of cluttering them on the activity fragment.
@@ -89,6 +98,10 @@ Clean Design Concept
 + User can sign out from anywhere in the app. (nav drawer)
 + Async loading enables seamless and smooth experience for the user.
 + Show loading bars when possible.
+
+<img src="https://media.giphy.com/media/24m4CIk5tIWIph6Dbk/giphy.gif" width="200">
+ 
+<img src="https://media.giphy.com/media/1yLEMdAy4VLeZAvn4h/giphy.gif" width="200">
 
 Adherence to the Android Material Design
 + CoordinatorLayout extends the ability to accomplish many of the Google's Material Design scrolling effects.
@@ -114,6 +127,10 @@ Adherence to the Android Material Design
 Uses cloud function event trigger to send notifications to devices. 
 + Notifications can be sent to topic, where only subscribed users will receive.
 + Notifications can also be sent to specific tokens. This is used when the notification only concern certain group of users.
+
+<img src="https://media.giphy.com/media/1SsvwHDU5AFK04V0wX/giphy.gif" width="200">
+
++ user can also choose to get or ignore certain notifications by going to the settings menu to opt.
 
 
 ### Integration With Android Ecosystem
@@ -195,8 +212,6 @@ cloud persistence database which also supports caching for offline data.
 For making REST API requests to the web.
 
 
-
-
 ### Advantages of MVVM with Clean Architecture
 + MVVM separates your view (i.e. Activities and Fragments) from your business logic.
 + Your code is further decoupled.
@@ -205,12 +220,18 @@ For making REST API requests to the web.
 + Your team can add new features more quickly.
 
 ### Git Approach Adopted
++ Nothing special as it is a one developer project.
++ Commits small improvements or bug fixes with useful comments to enable reverting back quickly when something goes wrong.
++ ignore unnecessary files from git
+
 
 ### Complex Model Schema
 User entity holds its own references to jobs that he/she has joined. This enables fast querying in the job dashboard, when we want to filter jobs that the current user has joined or has saved as favourite.
+
 <img src="readme_img/user_model.png" width="400">
 
 Job entity creates sub-collection to hold users that have joined and another collection for holding all the comments. This strategy can further be improved for large data as we can query sub-collection by pages. The advantage of not storing all these references in the job entity itself is that we dont bloat up the job entity size by irrelevant data. We also avoid hitting the size limit per document.
+
 <img src="readme_img/job_model.png" width="400">
 
 ### Third Party Components
@@ -257,6 +278,7 @@ Job entity creates sub-collection to hold users that have joined and another col
 + Firebase Messaging
 + Firebase cloud function
 
+<img src="https://media.giphy.com/media/wt0eEPN2z5oRpWx2v6/giphy.gif" width="200">
 
 Google Maps, GPS, together with Google Places API are used for making REST requests with retrofit to get a list of nearby places of interest to display on the dynamic map view activity. 
 

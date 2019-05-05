@@ -190,7 +190,6 @@ class MapsActivity : AppCompatActivity(), KodeinAware, OnMapReadyCallback {
             val latLng = LatLng(it.lat, it.lng)
             val markerOptions = MarkerOptions().position(latLng)
             markerOptions.apply {
-
             }
             val m = mMap.addMarker(markerOptions)
             m.tag = InfoWindowData(locationName = it.name, job = it.job)

@@ -91,7 +91,6 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
         controller.setData(job, viewModel.currentUser.value!!, null)
         jobDetail_recyclerView.setController(controller)
 
-
         job?.photoUrls?.let {
             if (it.count() > 0) {
                 // when there is attached images
@@ -133,8 +132,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
     override fun onCancelBtnClick() {
         val builder = AlertDialog.Builder(context)
 
-        with(builder)
-        {
+        with(builder) {
             setMessage("Cancel this job?")
             setPositiveButton("OK") { _, _ ->
                 viewModel.cancelJob(viewModel.currentJob?.id!!, onSuccess = {
@@ -149,8 +147,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
     override fun onResumeBtnClick() {
         val builder = AlertDialog.Builder(context)
 
-        with(builder)
-        {
+        with(builder) {
             setMessage("Resume this job?")
             setPositiveButton("OK") { _, _ ->
                 viewModel.resumeJob(viewModel.currentJob?.id!!, onSuccess = {
@@ -165,8 +162,7 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
     override fun onDateBtnClick() {
         val builder = AlertDialog.Builder(context)
 
-        with(builder)
-        {
+        with(builder) {
             setMessage("Do you want to add this job to Calendar?")
             setPositiveButton("OK") { _, _ ->
                 val job = viewModel.currentJob!!
@@ -205,15 +201,14 @@ class JobDetailFragment : ScopedFragment(), KodeinAware, FragmentLifecycle,
                         .transforms(CenterCrop(), RoundedCorners(1000))
                         .into(view.image_avatar)
                 }
-                //set the bio
+                // set the bio
                 view.text_name.text = user.name
                 view.text_bio.text = user.bio
                 view.text_location.text = user.location?.address
             }
         }
 
-        with(builder)
-        {
+        with(builder) {
             setView(view)
             setMessage("")
             setPositiveButton("Ok", null)

@@ -65,7 +65,7 @@ class JobDetailActivity : AppCompatActivity() {
             val shareIntent = Intent()
             shareIntent.action = Intent.ACTION_SEND
             shareIntent.type = "text/plain"
-            shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, "This is my text to send.")
             startActivity(Intent.createChooser(shareIntent, "Share with..."))
 
             true

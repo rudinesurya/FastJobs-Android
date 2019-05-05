@@ -12,7 +12,8 @@ import com.rud.fastjobs.data.repository.MyRepository
 import com.rud.fastjobs.data.repository.Store
 
 class MapsActivityViewModel(
-    private val myRepository: MyRepository, val store: Store,
+    private val myRepository: MyRepository,
+    val store: Store,
     app: Application
 ) : AndroidViewModel(app) {
     private val app = getApplication<MyApplication>()

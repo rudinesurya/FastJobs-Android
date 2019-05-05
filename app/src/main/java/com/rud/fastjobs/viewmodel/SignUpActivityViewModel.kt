@@ -7,7 +7,8 @@ import com.rud.fastjobs.data.model.User
 import com.rud.fastjobs.data.repository.MyRepository
 
 class SignUpActivityViewModel(
-    private val myRepository: MyRepository, app: Application
+    private val myRepository: MyRepository,
+    app: Application
 ) : AndroidViewModel(app) {
     fun initUserIfNew(user: FirebaseUser, name: String) {
         myRepository.getUserById(user.uid, onSuccess = {
