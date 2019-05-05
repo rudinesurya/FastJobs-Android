@@ -196,12 +196,14 @@ The view role in this pattern is to observe (or subscribe to) a ViewModel observ
 
 #### ViewModel: 
 ViewModel interacts with model and also prepares observable(s) that can be observed by a View. Acts as a communication center between the Repository and the UI. Hides where the data originates from the UI. ViewModel instances survive Activity/Fragment recreation.
+
 <img src="readme_img/viewmodel_lifecycle.png" width="400">
 
 #### Model: 
 Model represents the data and business logic of the app. One of the recommended implementation strategies of this layer, is to expose its data through observables to be decoupled completely from ViewModel or any other observer/consumer.
 
 The following diagram shows MVVM components and basic interactions.
+
 <img src="readme_img/observer_pattern.png" width="400">
 
 #### LiveData: 
@@ -421,11 +423,13 @@ class JobListFragment : KodeinAware {
 #### Unit Tests
 + Testing of Model data classes
 
+<img src="readme_img/unit_tests.png" width="400">
+
 #### Instrumentation Tests
 + Testing of network rest api services
 + Testing of Data Access Object (DAO)
 
-
+<img src="readme_img/int_tests.png" width="400">
 
 
 # References

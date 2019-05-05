@@ -12,6 +12,9 @@ interface NotificationDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun upsert(notification: Notification): Long
 
+    @Query("SELECT * FROM notifications where id = :id")
+    fun getNotification(id: Long): LiveData<Notification>
+
     @Query("SELECT * FROM notifications")
     fun getNotifications(): LiveData<List<Notification>>
 
