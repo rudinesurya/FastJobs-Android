@@ -108,6 +108,15 @@ Adherence to the Android Material Design
 + parallax scrolling effects animations for the action bars during scrolling effect.
 + expanding and collapsing action bar allows more screen real estate for displaying more important stuffs.
 
+#### Benefit of EpoxyRecyclerView from Airbnb
+
+<img src="https://media.giphy.com/media/9V8VRYUBLTpk3l7HCE/giphy.gif" width="200">
+
++ dynamic recyclerview made simpler. No need to deal with the hassle of defining multiple viewholders. In the above gif, the date headers are only generated when the date changes. This presents a pleasing ui for the end user.
+
+<img src="https://media.giphy.com/media/8UGoM7E8GCufNHheBM/giphy.gif" width="200">
+
++ recyclerview within recyclerview. In the above gif, the job detail page is created using epoxy recyclerview. Carousell is a child recyclerview inside of it.
 
  ### Validation
  <img src="https://media.giphy.com/media/xiYdlrZ8I9J9pz9Dpy/giphy.gif" width="200">
@@ -324,6 +333,51 @@ exports.notifyJobCancelled = functions.firestore
       .catch(err => console.log(err));
   });
 ```
+
+### Folder Structure
+The code is divided into three separate layers:
+
+<img src="readme_img/folder_structure.png" width="400">
+
+#### Presentation Layer
+This includes Activities, Fragments, RecyclerView Views. The sole responsibilities is to take user inputs and obtain data from the domain layer and display them to view. We can call async functions by using coroutine scope.
+
+#### Domain Layer
+This includes ViewModels. The domain layer contains all the use cases of the application. Codes in this layer are designed to look synchronous, but with asynchronous signature (to be called from the activity/fragment). Mediator between views and repository.
+
+#### Data Layer
+This includes Room's Database, Data Access Objects (Daos), restful api service, Repository and Models. The Repository is the single source of truth when it comes to accessing data from remote server or api services.
+
+```
+/***
+ * Single source of truth for database access
+ */
+class MyRepository(
+    private val userDao: UserDao,
+    private val jobDao: JobDao,
+    private val nearbyPlacesDataSource: NearbyPlacesDataSource
+) {
+    fun getUserById(id: String, onSuccess: (User?) -> Unit = {}) {
+        userDao.getUserById(id, onSuccess)
+    }
+
+    fun addJob(job: Job, onSuccess: () -> Unit = {}, onFailure: (Exception) -> Unit = {}) {
+        jobDao.addJob(job, onSuccess, onFailure)
+    }
+
+    fun fetchNearbyPlaces(
+        location: String,
+        radius: String,
+        type: String,
+        onSuccess: (NearbyPlacesResponse) -> Unit = {},
+        onFailure: (Throwable) -> Unit = {}
+    ) {
+        nearbyPlacesDataSource.fetchNearbyPlaces(location, radius, type, onSuccess, onFailure)
+    }
+}
+```
+
+
 
 ### Dependency Injection
 Dependency injection is an instrumental technique, used to decouple dependencies from the code.
